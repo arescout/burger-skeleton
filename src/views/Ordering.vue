@@ -4,7 +4,7 @@
     <button v-on:click="switchLang()">{{ uiLabels.language }}</button>
 
     <h1>{{ uiLabels.ingredients }}</h1>
-
+    <h1>testar bara om git funkar mandus </h1>
     <Ingredient
       ref="ingredient"
       v-for="item in ingredients"
@@ -105,7 +105,7 @@ export default {
 .ingredient {
   border: 1px solid #ccd;
   padding: 1em;
-  background-image: url('~@/assets/exampleImage.jpg');
+  background-image: url('../assets/exampleImage.jpg');
   color: white;
 }
 </style>
