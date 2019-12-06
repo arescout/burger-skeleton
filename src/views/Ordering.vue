@@ -2,7 +2,7 @@
   <div id="ordering">
     <img class="example-panel" src="@/assets/exampleImage.jpg">
     <button v-on:click="switchLang()">{{ uiLabels.language }}</button>
-    <button><router-link to="/startpage">Go home!</router-link></button>
+    <button><router-link to="/Startpage">Go home!</router-link></button>
 
     <h1>{{ uiLabels.ingredients }}</h1>
     <h1>testar bara om git funkar mandus </h1>

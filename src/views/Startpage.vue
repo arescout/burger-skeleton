@@ -1,8 +1,7 @@
 <template>
     <div class = "IntroText">
-        <h1>Welcome to Crafy Burgers</h1>
-
     <div class="welcomeText">Här är en hejtext</div>
+    <button><router-link to="/">Go to orderings</router-link></button>
     </div>
 </template>
 
