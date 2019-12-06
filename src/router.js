@@ -20,7 +20,7 @@ let router = new Router({
             meta: {
                 title: 'Startpage'
             },
-            name: 'homepage',
+            name: 'Startpage',
             component: Startpage
         },
         {
