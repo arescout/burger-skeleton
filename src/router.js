@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Ordering from './views/Ordering.vue'
+import Startpage from "./views/Startpage";
 
 Vue.use(Router);
 
@@ -13,6 +14,14 @@ let router = new Router({
             },
             name: 'ordering',
             component: Ordering
+        },
+        {
+            path: "/startpage",
+            meta: {
+                title: 'Startpage'
+            },
+            name: 'homepage',
+            component: Startpage
         },
         {
             path: '/kitchen',
