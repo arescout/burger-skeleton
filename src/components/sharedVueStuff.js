@@ -1,6 +1,8 @@
 'use strict';
 
 // Stuff that is used both in the ordering system and in the kitchen
+import Startpage from "../views/Startpage";
+
 var sharedVueStuff = {
   data: function () {
     return {
@@ -36,7 +38,8 @@ var sharedVueStuff = {
         this.lang = "en";
       }
       this.$store.state.socket.emit('switchLang', this.lang);
-    }
+    },
+
   }
 };
 
