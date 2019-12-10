@@ -5,10 +5,21 @@
     <button><router-link to="/Startpage">Go home!</router-link></button>
 
     <h1>{{ uiLabels.ingredients }}</h1>
+
+    <!-- Add buttons for navigating through categories -->
+    <button v-on:click="setCategory(1)">{{uiLabels.protein}}</button>
+    <button v-on:click="setCategory(2)">{{uiLabels.toppings}}</button>
+    <button v-on:click="setCategory(3)">{{uiLabels.sauce}}</button>
+    <button v-on:click="setCategory(4)">{{uiLabels.bread}}</button>
+    <button v-on:click="setCategory(5)">{{uiLabels.sides}}</button>
+    <button v-on:click="setCategory(6)">{{uiLabels.drinks}}</button>
+
+    <!-- Add list of ingredients -->
     <Ingredient
       ref="ingredient"
       v-for="item in ingredients"
-      v-on:increment="addToOrder(item)"  
+      v-if="item.category===currentCategory"
+      v-on:increment="addToOrder(item)"
       :item="item"
       :count="item.counter"
       :lang="lang"
@@ -60,6 +71,7 @@ export default {
       price: 0,
       orderNumber: "",
       count:0,
+      currentCategory: 1, // Category deciding what ingredients to show
     }
   },
   created: function () {
@@ -87,6 +99,11 @@ export default {
       }
       this.price = 0;
       this.chosenIngredients = [];
+    },
+
+    // Function for changing category. Called on at buttons in <Ingredient
+    setCategory: function(newCat) {
+        this.currentCategory = newCat;
     }
   }
 }

@@ -16,5 +16,12 @@
   "ingredients" : "Ingredienser",
   "ready" : "Klart",
   "order" : "Min burgare",
-  "language" : "English"
+  "language" : "English",
+  "protein" : "Protein",
+  "toppings" : "Extra innehåll",
+  "sauce" : "Såser",
+  "bread" : "Bröd",
+  "drinks" : "Dryck",
+  "sides" : "Tillbehör"
+
 }
