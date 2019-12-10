@@ -81,6 +81,11 @@ export default {
       // Makes the same thing as incrementCounter with difference that it remove instead of adding .  
       this.$emit('decrement');
     },
+    decrementCounter: function () {
+      this.counter -= 1;
+      // Makes the same thing as incrementCounter with difference that it remove instead of adding .  
+      this.$emit('decrement');
+    },
     resetCounter: function () {
       this.counter = 0;
     }
