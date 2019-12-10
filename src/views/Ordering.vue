@@ -5,12 +5,12 @@
     <button><router-link to="/Startpage">Go home!</router-link></button>
 
     <h1>{{ uiLabels.ingredients }}</h1>
-    <h1>testar bara om git funkar mandus </h1>
     <Ingredient
       ref="ingredient"
       v-for="item in ingredients"
       v-on:increment="addToOrder(item)"  
-      :item="item" 
+      :item="item"
+      :count="item.counter"
       :lang="lang"
       :key="item.ingredient_id">
     </Ingredient>
@@ -59,6 +59,7 @@ export default {
       chosenIngredients: [],
       price: 0,
       orderNumber: "",
+      count:0,
     }
   },
   created: function () {
