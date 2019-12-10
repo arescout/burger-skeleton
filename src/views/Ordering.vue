@@ -1,18 +1,20 @@
 <template>
   <div id="ordering">
-    <img class="example-panel" src="@/assets/exampleImage.jpg">
+    <img class="example-panel" src="https://rfclipart.com/image/big/18-1f-86/ornamental-batik-seamless-pattern-Download-Royalty-free-Vector-File-EPS-113870.jpg">
     <button v-on:click="switchLang()">{{ uiLabels.language }}</button>
     <button><router-link to="/Startpage">Go home!</router-link></button>
 
     <h1>{{ uiLabels.ingredients }}</h1>
 
     <!-- Add buttons for navigating through categories -->
-    <button v-on:click="setCategory(1)">{{uiLabels.protein}}</button>
-    <button v-on:click="setCategory(2)">{{uiLabels.toppings}}</button>
-    <button v-on:click="setCategory(3)">{{uiLabels.sauce}}</button>
-    <button v-on:click="setCategory(4)">{{uiLabels.bread}}</button>
-    <button v-on:click="setCategory(5)">{{uiLabels.sides}}</button>
-    <button v-on:click="setCategory(6)">{{uiLabels.drinks}}</button>
+      <div class = "categoryTabs">
+            <button v-on:click="setCategory(1)">{{uiLabels.protein}}</button>
+            <button v-on:click="setCategory(2)">{{uiLabels.toppings}}</button>
+            <button v-on:click="setCategory(3)">{{uiLabels.sauce}}</button>
+            <button v-on:click="setCategory(4)">{{uiLabels.bread}}</button>
+            <button v-on:click="setCategory(5)">{{uiLabels.sides}}</button>
+            <button v-on:click="setCategory(6)">{{uiLabels.drinks}}</button>
+      </div>
 
     <!-- Add list of ingredients -->
     <Ingredient
@@ -25,7 +27,7 @@
       :key="item.ingredient_id">
     </Ingredient>
 
-    <h1>{{ uiLabels.order }}</h1>
+    <h1 class = "ingredientHeader">{{ uiLabels.order }}</h1>
     {{ chosenIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr
     <button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
 
@@ -115,6 +117,7 @@ export default {
 
 .example-panel {
   position: fixed;
+    background-size: cover;
   left:0;
   top:0;
   z-index: -2;
@@ -125,4 +128,21 @@ export default {
   background-image: url('../assets/exampleImage.jpg');
   color: white;
 }
+.ingredientHeader{
+    text-align: center;
+}
+.categoryTabs{
+    background-color: beige;
+    border: black solid 2px;
+    border-radius: 5px;
+}
+.categoryTabs button {
+    background-color: chocolate;
+    border: solid black 2px;
+    border-radius: 15px;
+    font-size: 1.91em;
+    height: 3em;
+
+}
+
 </style>
