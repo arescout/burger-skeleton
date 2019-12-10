@@ -26,26 +26,26 @@
                 v-for="item in ingredients"
                 v-if="item.category===currentCategory"
                 v-on:increment="addToOrder(item)"
+                v-on:decrease="deleteFromOrder(item)"
                 :item="item"
                 :count="item.counter"
                 :lang="lang"
-                :key="item.ingredient_id">
-            </Ingredient>
-        </div>
-    <!-- Order information -->
-    <div class ="orderStatus">
-    <h1 class = "myBurger">{{ uiLabels.order }}</h1>
-    {{ chosenIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr
-    <button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
+                :key="item.ingredient_id"> <!--Nytt count with v-bind treates item.counter as a varible,
+      decrease when clicked on minus-button call on deleteFromOrder  -->
+        </Ingredient>
+
+        <h1>{{ uiLabels.order }}</h1>
+        {{ chosenIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr
+        <button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
 
 
         <h1>{{ uiLabels.ordersInQueue }}</h1>
     <div>
-      <OrderItem 
+      <OrderItem
         v-for="(order, key) in orders"
         v-if="order.status !== 'done'"
         :order-id="key"
-        :order="order" 
+        :order="order"
         :ui-labels="uiLabels"
         :lang="lang"
         :key="key">
@@ -95,6 +95,12 @@ export default {
       this.chosenIngredients.push(item);
       this.price += +item.selling_price;
     },
+      deleteFromOrder: function (item) { // Nytt hela functionen
+          // With splice remove one of the items that has been appending to the chosenIngredients array, is being called from minus-button,
+          // indexOf says where the removing should be done, the 1 is  that is being removed
+          this.chosenIngredients.splice(this.chosenIngredients.indexOf(item), 1);
+          this.price -= item.selling_price; // Adjust the total price
+      },
     placeOrder: function () {
       var i,
       //Wrap the order in an object
@@ -121,10 +127,10 @@ export default {
 </script>
 <style scoped>
 /* scoped in the style tag means that these rules will only apply to elements, classes and ids in this template and no other templates. */
-    #ordering {
-        margin:auto;
-        width: 40em;
-    }
+#ordering {
+  margin:auto;
+  width: 40em;
+}
 
     .example-panel {
         position: fixed;
