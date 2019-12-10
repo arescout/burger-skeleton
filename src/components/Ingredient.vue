@@ -31,6 +31,11 @@ export default {
       this.$emit('increment');
       this.$emit('counter', this.counter)  //nytt
     },
+    decrementCounter: function () {
+      this.counter -= 1;
+      // Makes the same thing as incrementCounter with difference that it remove instead of adding .  
+      this.$emit('decrement');
+    },
     resetCounter: function () {
       this.counter = 0;
     }

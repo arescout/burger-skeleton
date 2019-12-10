@@ -4,7 +4,7 @@
     <button v-on:click="switchLang()">{{ uiLabels.language }}</button>
     <button><router-link to="/Startpage">Go home!</router-link></button>
 
-    <h1 class = "pageHeader">{{ uiLabels.ingredients }}</h1>
+    <h1>{{ uiLabels.ingredients }}</h1>
 
     <!-- Add buttons for navigating through categories -->
     <div class = "menuWrapper">
@@ -19,6 +19,7 @@
 
     <!-- Add list of ingredients -->
         <div class = "ingredientBox">
+
             <Ingredient
                 ref="ingredient"
                 v-for="item in ingredients"
@@ -133,7 +134,7 @@ export default {
 
     .example-panel {
         position: fixed;
-        width: 120%;
+        background-size: cover;
         left:0;
         top:0;
         z-index: -2;
@@ -141,11 +142,9 @@ export default {
     .ingredient {
         border: 1px solid #ccd;
         padding: 1em;
-        background: bisque;
-        /*background-image: url('../assets/exampleImage.jpg');*/
-        color: black;
+        background-image: url('../assets/exampleImage.jpg');
+        color: white;
     }
-
     .menuWrapper {
         display: grid;
         grid-gap: 5px;
