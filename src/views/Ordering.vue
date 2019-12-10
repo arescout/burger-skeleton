@@ -25,6 +25,7 @@
                 v-for="item in ingredients"
                 v-if="item.category===currentCategory"
                 v-on:increment="addToOrder(item)"
+                v-on:decrease="deleteFromOrder(item)"
                 :item="item"
                 :count="item.counter"
                 :lang="lang"
@@ -93,6 +94,12 @@ export default {
       this.chosenIngredients.push(item);
       this.price += +item.selling_price;
     },
+      deleteFromOrder: function (item) { // Nytt hela functionen
+          // With splice remove one of the items that has been appending to the chosenIngredients array, is being called from minus-button,
+          // indexOf says where the removing should be done, the 1 is  that is being removed
+          this.chosenIngredients.splice(this.chosenIngredients.indexOf(item), 1);
+          this.price -= item.selling_price; // Adjust the total price
+      },
     placeOrder: function () {
       var i,
       //Wrap the order in an object
