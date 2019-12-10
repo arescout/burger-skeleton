@@ -16,7 +16,6 @@ export default {
   props: {
     item: Object,
     lang: String,
-    cunt:0,  //nytt
   },
     data: function () {
     return {
