@@ -152,8 +152,11 @@ export default {
     .ingredient {
         border: 1px solid #ccd;
         padding: 1em;
-        background-image: url('../assets/exampleImage.jpg');
-        color: white;
+        background-color: antiquewhite;
+        border: solid 3px #ffc74a;
+        border-radius: 10px;
+        color: black;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
     .menuWrapper {
         display: grid;
@@ -162,6 +165,7 @@ export default {
     .ingredientHeader {
         background: bisque;
         border: solid black 2px;
+        border-radius: 10px;
         text-align: center;
         grid-row: 1;
         grid-column: 1 / span 3;
@@ -182,6 +186,7 @@ export default {
         height: 100%;
         /*padding-bottom: 2px;*/
         width: calc(100% /6);
+
     }
     .categoryTabs button:hover {
         background-color: saddlebrown;
@@ -196,14 +201,26 @@ export default {
         padding-bottom: 1em;
         padding-left: 1em;
     }
+    .orderedItems {
+        background: beige;
+        border-radius: 5px;
+        border: solid black 3px;
+        margin-right: 1em;
+    }
+    .orderQueue {
+        text-align: center;
+    }
     .myBurger{
         text-align: center;
         background-color: beige;
         border: solid black 3px;
+        border-radius: 10px;
         margin-right: 2em;
         margin-left: 2em;
         padding-bottom: 0.5em;
         padding-top: 0.5em;
+        padding-right: 1em;
+        padding-left: 1em;
     }
     .ingredientBox {
         grid-column: 1 / span 3;
