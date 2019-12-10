@@ -1,7 +1,7 @@
 <template>
     <div class = "IntroText">
-    <div class="welcomeText">Här är en hejtext</div>
-    <button><router-link to="/">Go to orderings</router-link></button>
+    <div class="welcomeText">Welcome to Indie Burgers</div>
+    <button id = "firstButton"><router-link to="/">Go to orderings</router-link></button>
     </div>
 </template>
 
@@ -12,7 +12,24 @@
 </script>
 
 <style scoped>
+    .welcomeText{
+        text-align: center;
+        font-size: 3em;
+        font-family: ".SF NS Display", "sans-serif";
+        padding-top: 5em;
+    }
     .IntroText {
         background-image: url("https://i.pinimg.com/originals/ec/7c/99/ec7c9939f38e474f1050d59e0fc87a95.jpg");
+        overflow: hidden;
+        background-size: cover;
+        height: 50em;
+        border: 5px solid black;
     }
+    #firstButton {
+        text-align: center;
+        margin-top: 5%;
+        margin-left: 45%;
+        margin-right: 45%;
+    }
+
 </style>
