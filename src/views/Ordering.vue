@@ -21,8 +21,9 @@
       ref="ingredient"
       v-for="item in ingredients"
       v-if="item.category===currentCategory"
-      v-on:increment="addToOrder(item)"  
+      v-on:increment="addToOrder(item)"
       :item="item"
+      :count="item.counter"
       :lang="lang"
       :key="item.ingredient_id">
     </Ingredient>
@@ -71,6 +72,7 @@ export default {
       chosenIngredients: [],
       price: 0,
       orderNumber: "",
+      count:0,
       currentCategory: 1, // Category deciding what ingredients to show
     }
   },
