@@ -16,5 +16,11 @@
   "ingredients" : "Ingredients",
   "ready" : "Done",
   "order" : "My burger",
-  "language" : "Svenska"
+  "language" : "Svenska",
+  "protein" : "Protein",
+  "toppings" : "Toppings",
+  "sauce" : "Sauce",
+  "bread" : "Bread",
+  "drinks" : "Drinks",
+  "sides" : "Sides"
 }

@@ -1,14 +1,23 @@
 <template>
-    <div class = "IntroText">
-    <div class="welcomeText">Här är en hejtext</div>
-    <button><router-link to="/">Go to orderings</router-link></button>
+    <div class="IntroText">
+        <button v-on:click="switchLang()">{{uiLabels.language}}</button>
+        <div class="welcomeText">Här är en hejtext</div>
+        <button><router-link to="/">Go to orderings</router-link></button>
     </div>
 </template>
 
 <script>
-    export default {
-        name: "Startpage"
-    }
+
+    //import methods and data that are shared between ordering and kitchen views
+    import sharedVueStuff from '@/components/sharedVueStuff.js'
+
+    /* instead of defining a Vue instance, export default allows the only
+    necessary Vue insta */
+
+        export default {
+            name: "Startpage"
+        }
+        mixins: [sharedVueStuff]
 </script>
 
 <style scoped>
