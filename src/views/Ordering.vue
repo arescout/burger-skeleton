@@ -4,7 +4,7 @@
     <button v-on:click="switchLang()"><img src = https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width = 20px>{{ uiLabels.language }}</button>
     <button><router-link to="/Startpage">Go home!</router-link></button>
 
-    <h1 class = "ingredientHeader">{{ uiLabels.ingredients }}</h1>
+
 
     <!-- Add buttons for navigating through categories -->
     <div class = "menuWrapper">
@@ -18,7 +18,9 @@
       </div>
 
     <!-- Add list of ingredients -->
+        <h1 class = "ingredientHeader">{{ uiLabels.ingredients }}</h1>
         <div class = "ingredientBox">
+
             <div class = "ingredientWrapper">
 
             <Ingredient
@@ -36,13 +38,13 @@
         </div>
     <!-- Order information -->
     <div class ="orderStatus">
-    <h1 class = "myBurger">{{ uiLabels.order }}</h1>
+    <h1 class = "myBurger">{{ uiLabels.order }}:</h1>
     {{ chosenIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr
     <br><button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
 
-    <h1>{{ uiLabels.ordersInQueue }}</h1>
-    <div>
-      <OrderItem 
+    <h1 class = "orderQueue">{{ uiLabels.ordersInQueue }}:</h1>
+    <div class = "orderedItems">
+      <OrderItem
         v-for="(order, key) in orders"
         v-if="order.status !== 'done'"
         :order-id="key"
@@ -144,26 +146,32 @@ export default {
     .example-panel {
         position: fixed;
         background-size: cover;
+        width: 100%;
         left:0;
         top:0;
         z-index: -2;
     }
     .ingredient {
-        border: 1px solid #ccd;
+        border: 2px solid #ffc74a;
+        border-radius: 15px;
         padding: 1em;
-        background-image: url('../assets/exampleImage.jpg');
-        color: white;
+        background-color: antiquewhite;
+        color: black;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
     .menuWrapper {
+
         display: grid;
         grid-gap: 5px;
     }
     .ingredientHeader {
         background: bisque;
         border: solid black 2px;
+        border-radius: 10px;
         text-align: center;
-        grid-row: 1;
+        size: auto;
         grid-column: 1 / span 3;
+        grid-row: 1;
     }
     .categoryTabs{
         background-color: beige;
@@ -191,9 +199,18 @@ export default {
         border: black solid 3px;
         border-radius: 10px;
         grid-column: 4;
-        grid-row: 2 / span 3;
+        grid-row: 1 / span 4;
         padding-bottom: 1em;
         padding-left: 1em;
+    }
+    .orderQueue {
+        text-align: center;
+    }
+    .orderedItems {
+        background-color: beige;
+        border: black solid 3px;
+        border-radius: 5px;
+        margin-right: 1em;
     }
     .myBurger{
         text-align: center;
@@ -203,19 +220,25 @@ export default {
         margin-left: 2em;
         padding-bottom: 0.5em;
         padding-top: 0.5em;
+        padding-left: 1em;
+        padding-right: 1em;
     }
     .ingredientBox {
         grid-column: 1 / span 3;
-        grid-row: 3 / span 4;
+        grid-row: 3 / span 2;
         background-color: bisque;
         border: solid black 3px;
         padding: 2px;
         border-radius: 10px;
     }
+    /* inner grid of ingredients*/
     .ingredientWrapper {
         display: grid;
         grid-template-columns: repeat(3,1fr);
         grid-gap: 5px;
+    }
+    .ingredientWrapper label button:hover{
+        background-color: blue;
     }
 
 </style>
