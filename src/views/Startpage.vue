@@ -12,7 +12,6 @@
             </div>
         </section>
     </div>
-
 </template>
 
 <script>
@@ -33,7 +32,7 @@
     .welcomeText{
         text-align: center;
         font-size: 3em;
-        font-family: ".SF NS Display", "sans-serif";
+        font-family: ".SF NS Display", "serif";
         padding-top: 5em;
         padding-bottom: 1em;
 
