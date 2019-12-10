@@ -18,19 +18,22 @@
       </div>
 
     <!-- Add list of ingredients -->
-    <Ingredient class = "ingredientBox"
-      ref="ingredient"
-      v-for="item in ingredients"
-      v-if="item.category===currentCategory"
-      v-on:increment="addToOrder(item)"
-      :item="item"
-      :count="item.counter"
-      :lang="lang"
-      :key="item.ingredient_id">
-    </Ingredient>
+        <div class = "ingredientBox">
+
+            <Ingredient
+                ref="ingredient"
+                v-for="item in ingredients"
+                v-if="item.category===currentCategory"
+                v-on:increment="addToOrder(item)"
+                :item="item"
+                :count="item.counter"
+                :lang="lang"
+                :key="item.ingredient_id">
+            </Ingredient>
+        </div>
     <!-- Order information -->
     <div class ="orderStatus">
-    <h1>{{ uiLabels.order }}</h1>
+    <h1 class = "myBurger">{{ uiLabels.order }}</h1>
     {{ chosenIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr
     <button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
 
@@ -116,46 +119,56 @@ export default {
 </script>
 <style scoped>
 /* scoped in the style tag means that these rules will only apply to elements, classes and ids in this template and no other templates. */
-#ordering {
-  margin:auto;
-  width: 40em;
-}
+    #ordering {
+        margin:auto;
+        width: 40em;
+    }
 
-.example-panel {
-  position: fixed;
-    background-size: cover;
-  left:0;
-  top:0;
-  z-index: -2;
-}
-.ingredient {
-  border: 1px solid #ccd;
-  padding: 1em;
-  background-image: url('../assets/exampleImage.jpg');
-  color: white;
-}
-.ingredientHeader{
-    text-align: center;
-}
-.categoryTabs{
-    background-color: beige;
-    border: black solid 2px;
-    border-radius: 5px;
-}
-.categoryTabs button {
-    background-color: chocolate;
-    border: solid black 2px;
-    border-radius: 15px;
-    font-size: 1.91em;
-    height: 3em;
+    .example-panel {
+        position: fixed;
+        background-size: cover;
+        left:0;
+        top:0;
+        z-index: -2;
+    }
+    .ingredient {
+        border: 1px solid #ccd;
+        padding: 1em;
+        background-image: url('../assets/exampleImage.jpg');
+        color: white;
+    }
+    .menuWrapper {
+        display: grid;
+        grid-gap: 5px;
+    }
+    .categoryTabs{
+        background-color: beige;
+        border: black solid 2px;
+        border-radius: 5px;
+        grid-column: 1 / span 3;
+        grid-row: 1;
+    }
+    .categoryTabs button {
+        background-color: chocolate;
+        border: solid black 2px;
+        /*border-radius: 15px;*/
+        font-size: 1.1em;
+        height: 3em;
 
-}
-
-.orderStatus {
-    background-color: bisque;
-    border: black solid 3px;
-}
-
-
+    }
+    .orderStatus {
+        background-color: bisque;
+        border: black solid 3px;
+        grid-column: 4;
+        grid-row: 1 / span 5;
+    }
+    .myBurger{
+        background-color: beige;
+        border: solid black 3px;
+    }
+    .ingredientBox {
+        grid-column: 1 / span 3;
+        grid-row: 2 / span 4;
+    }
 
 </style>
