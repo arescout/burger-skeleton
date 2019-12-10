@@ -7,6 +7,7 @@
     <h1>{{ uiLabels.ingredients }}</h1>
 
     <!-- Add buttons for navigating through categories -->
+    <div class = "menuWrapper">
       <div class = "categoryTabs">
             <button v-on:click="setCategory(1)">{{uiLabels.protein}}</button>
             <button v-on:click="setCategory(2)">{{uiLabels.toppings}}</button>
@@ -17,7 +18,7 @@
       </div>
 
     <!-- Add list of ingredients -->
-    <Ingredient
+    <Ingredient class = "ingredientBox"
       ref="ingredient"
       v-for="item in ingredients"
       v-if="item.category===currentCategory"
@@ -26,8 +27,9 @@
       :lang="lang"
       :key="item.ingredient_id">
     </Ingredient>
-
-    <h1 class = "ingredientHeader">{{ uiLabels.order }}</h1>
+    <!-- Order information -->
+    <div class ="orderStatus">
+    <h1>{{ uiLabels.order }}</h1>
     {{ chosenIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr
     <button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
 
@@ -43,6 +45,8 @@
         :key="key">
       </OrderItem>
     </div>
+  </div>
+  </div>
   </div>
 </template>
 <script>
@@ -144,5 +148,12 @@ export default {
     height: 3em;
 
 }
+
+.orderStatus {
+    background-color: bisque;
+    border: black solid 3px;
+}
+
+
 
 </style>
