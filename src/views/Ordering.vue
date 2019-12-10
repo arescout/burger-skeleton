@@ -4,7 +4,7 @@
     <button v-on:click="switchLang()">{{ uiLabels.language }}</button>
     <button><router-link to="/Startpage">Go home!</router-link></button>
 
-    <h1>{{ uiLabels.ingredients }}</h1>
+    <h1 class = "pageHeader">{{ uiLabels.ingredients }}</h1>
 
     <!-- Add buttons for navigating through categories -->
     <div class = "menuWrapper">
@@ -19,7 +19,6 @@
 
     <!-- Add list of ingredients -->
         <div class = "ingredientBox">
-
             <Ingredient
                 ref="ingredient"
                 v-for="item in ingredients"
@@ -119,6 +118,14 @@ export default {
 </script>
 <style scoped>
 /* scoped in the style tag means that these rules will only apply to elements, classes and ids in this template and no other templates. */
+    .pageHeader {
+        background-color: beige;
+        border: solid black 3px;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        text-align: center;
+    }
+
     #ordering {
         margin:auto;
         width: 40em;
@@ -126,7 +133,7 @@ export default {
 
     .example-panel {
         position: fixed;
-        background-size: cover;
+        width: 120%;
         left:0;
         top:0;
         z-index: -2;
@@ -134,9 +141,11 @@ export default {
     .ingredient {
         border: 1px solid #ccd;
         padding: 1em;
-        background-image: url('../assets/exampleImage.jpg');
-        color: white;
+        background: bisque;
+        /*background-image: url('../assets/exampleImage.jpg');*/
+        color: black;
     }
+
     .menuWrapper {
         display: grid;
         grid-gap: 5px;
