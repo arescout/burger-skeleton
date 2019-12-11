@@ -37,14 +37,18 @@
     <!-- Order information -->
             <div class="orderStatus">
                 <h1 class="myBurger">{{ uiLabels.order }}</h1>
-                {{ chosenIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr
-
+               <!-- {{ chosenIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr-->
+                <div v-for="countIng in countAllIngredients"
+                     v-if="countIng.count>0"
+                     :key="countAllIngredients.indexOf(countIng)">
+                    {{countIng.name}}: {{countIng.count}}
+                </div>
                 <br><button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
 
                 <h1>{{ uiLabels.ordersInQueue }}</h1>
                 <div>
                     <OrderItem
-                            v-for="(order, key) in orders"
+                            v-for="(order, key) in this.orders"
                             v-if="order.status !== 'done'"
                             :order-id="key"
                             :order="order"
@@ -101,7 +105,16 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
                     ingredientTuples[i].name = this.chosenIngredients[i]['ingredient_' + this.lang];
                     ingredientTuples[i].count = this.countNumberOfIngredients(this.chosenIngredients[i].ingredient_id);
                 }
-                return ingredientTuples;
+                //Create an array difIngredients where
+                // Array.from creates a new shallow-copied array
+                // set is being used to remove duplicates/store unique values
+                var difIngredients = Array.from(new Set(ingredientTuples.map(arrayName => arrayName.name))).map(name => {
+                        return {
+                            name: name,
+                            count: ingredientTuples.find(arrayName => arrayName.name === name).count
+                        };
+                    });
+                return difIngredients;
             }
         },
         methods: {
@@ -116,9 +129,8 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
                 this.price -= item.selling_price; // Adjust the total price
             },
             placeOrder: function () {
-                var i,
                     //Wrap the order in an object
-                    order = {
+                    let order = {
                         ingredients: this.chosenIngredients,
                         price: this.price
                     };
@@ -138,21 +150,21 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
             },
             countNumberOfIngredients: function (id) {
                 //Nytt Taken from burger-skeleton/severalBurgers/src/views/Kitchen.vue
-                // let counter = 0; ta bort
-                for (let order in this.chosenIngredients) {
+                let counter = 0;
+                for (let ingredIndex in this.chosenIngredients) {
                     //Now we have an array of ingredients in an order which is checked with the id that being sent from countAllIngredients in the call
-                    if (this.chosenIngredients[order].ingredient_id === id) {
+                    if (this.chosenIngredients[ingredIndex].ingredient_id === id) {
                         counter += 1;
                     }
-
-                    return counter;
                 }
+                return counter;
             }
         }
     }
 </script>
 <style scoped>
     /* scoped in the style tag means that these rules will only apply to elements, classes and ids in this template and no other templates. */
+    /*Denna css koden verkar inte användas Ta Bort?*/
     .pageHeader {
         background-color: beige;
         border: solid black 3px;
@@ -173,7 +185,7 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
         top: 0;
         z-index: -2;
     }
-
+    /*Denna css koden verkar inte användas Ta Bort?*/
     .ingredient {
         border: 1px solid #ccd;
         padding: 1em;
