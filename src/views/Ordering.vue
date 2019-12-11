@@ -21,17 +21,17 @@
         <div class = "ingredientBox">
             <div class = "ingredientWrapper">
 
-                <Ingredient
-                        ref="ingredient"
-                        v-for="item in ingredients"
-                        v-if="item.category===currentCategory"
-                        v-on:increment="addToOrder(item)"
-                        v-on:decrease="deleteFromOrder(item)"
-                        :item="item"
-                        :count="item.counter"
-                        :lang="lang"
-                        :key="item.ingredient_id">
-                </Ingredient>
+            <Ingredient
+                ref="ingredient"
+                v-for="item in ingredients"
+                v-if="item.category===currentCategory"
+                v-on:increment="addToOrder(item)"
+                v-on:decrease="deleteFromOrder(item)"
+                :item="item"
+                :count="item.counter"
+                :lang="lang"
+                :key="item.ingredient_id">
+            </Ingredient>
             </div>
             </div>
     <!-- Order information -->
@@ -181,16 +181,20 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
     .example-panel {
         position: fixed;
         background-size: cover;
-        left: 0;
-        top: 0;
+        width: 100%;
+        left:0;
+        top:0;
         z-index: -2;
     }
     /*Denna css koden verkar inte användas Ta Bort?*/
     .ingredient {
         border: 1px solid #ccd;
         padding: 1em;
-        background-image: url('../assets/exampleImage.jpg');
-        color: white;
+        background-color: antiquewhite;
+        border: solid 3px #ffc74a;
+        border-radius: 10px;
+        color: black;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
 
     .menuWrapper {
@@ -200,6 +204,7 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
     .ingredientHeader {
         background: bisque;
         border: solid black 2px;
+        border-radius: 10px;
         text-align: center;
         grid-row: 1;
         grid-column: 1 / span 3;
@@ -212,7 +217,6 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
         grid-column: 1 / span 3;
         grid-row: 2;
     }
-
     .categoryTabs button {
         background-color: chocolate;
         border: solid black 2px;
@@ -235,14 +239,26 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
         padding-bottom: 1em;
         padding-left: 1em;
     }
+    .orderedItems {
+        background: beige;
+        border-radius: 5px;
+        border: solid black 3px;
+        margin-right: 1em;
+    }
+    .orderQueue {
+        text-align: center;
+    }
     .myBurger{
         text-align: center;
         background-color: beige;
         border: solid black 3px;
+        border-radius: 10px;
         margin-right: 2em;
         margin-left: 2em;
         padding-bottom: 0.5em;
         padding-top: 0.5em;
+        padding-right: 1em;
+        padding-left: 1em;
     }
     .ingredientBox {
         grid-column: 1 / span 3;
