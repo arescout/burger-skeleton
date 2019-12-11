@@ -4,11 +4,10 @@
     <div class="welcomeText">Welcome to Indie Burgers</div>
 
         <section class = "welcomeSection">
-            <div>
+            <div >
                 <h1>Welcome to Krafty Burgers</h1>
-                We are a restaurant dedicated to providing exactly the burger that you want<br>
-                Here, we love cows <3
-                <button id = "firstButton"><router-link class="routerButton" to="/ordering">Go to orderings</router-link></button>
+                {{uiLabels.welcomeTextBox}}
+                <button id = "firstButton"></button>
             </div>
         </section>
     </div>
@@ -17,17 +16,15 @@
 <script>
 
 
-    //import methods and data that are shared between ordering and kitchen views
-    import sharedVueStuff from '@/components/sharedVueStuff.js'
+    import Ordering from '@/views/Ordering.vue'
+    import {sharedVueStuff} from '@/components/sharedVueStuff.js'
 
-    /* instead of defining a Vue instance, export default allows the only
-    necessary Vue insta */
+    export default {
+        name: 'Startpage',
 
-        export default {
-            name: "Startpage",
-
-        }
-    mixins: [sharedVueStuff]
+        mixins: [sharedVueStuff], // include stuff that is used in both
+                                  // the ordering system and the kitchen
+        };
 
 </script>
 

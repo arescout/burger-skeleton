@@ -13,7 +13,7 @@ let router = new Router({
             meta: {
                 title: 'Startpage'
             },
-            name: 'Startpage',
+            name: 'Krafty Burgers',
             component: Startpage
         },
         {

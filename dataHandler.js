@@ -81,7 +81,7 @@ Data.prototype.addOrder = function (order) {
     transId += 1;
     transactions.push({transaction_id: transId,
                        ingredient_id: i[k].ingredient_id,
-                       change: - 1});
+                       change: - 1}); // Used to be - 2 but that meant double amount got removed
   }
     return orderId;
 };
