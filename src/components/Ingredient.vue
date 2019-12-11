@@ -4,8 +4,9 @@
      <!-- <button v-on:click="incrementCounter">{{ counter }}</button>  Nytt La den nedanför -->
       {{item["ingredient_"+ lang]}}, {{item.selling_price}}:-, {{item.stock}} pcs
 
-      <br><button v-on:click="incrementCounter">+</button> <!-- Nytt */-->
+
     </label>
+      <button class="plusButton" v-on:click="incrementCounter">+</button> <!-- Nytt */-->
     {{ counter }} <!-- Nytt */-->
     <button class = "minusButton" v-if="counter > 0" v-on:click="decrementCounter">-</button> <!-- Nytt */-->
   </div>
@@ -44,7 +45,7 @@ export default {
 <style scoped>
 
 
-    .ingredient label button {
+    .plusButton {
         background-color: rgba(124,255,96,0.36);
         border-radius: 50%;
         -webkit-transition-duration: 0.4s;  /* transition to color */
