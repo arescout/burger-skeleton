@@ -6,8 +6,6 @@
 
     <h1 class = "ingredientHeader">{{ uiLabels.ingredients }}</h1>
 
-
-
     <!-- Add buttons for navigating through categories -->
     <div class = "menuWrapper">
       <div class = "categoryTabs">
@@ -37,26 +35,31 @@
             </div>
         </div>
     <!-- Order information -->
-    <div class ="orderStatus">
-    <h1 class = "myBurger">{{ uiLabels.order }}:</h1>
-    {{ chosenIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr
-    <br><button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
+            <div class="orderStatus">
+                <h1 class="myBurger">{{ uiLabels.order }}</h1>
+               <!-- {{ chosenIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr-->
+                <div v-for="countIng in countAllIngredients"
+                     v-if="countIng.count>0"
+                     :key="countAllIngredients.indexOf(countIng)">
+                    {{countIng.name}}: {{countIng.count}}
+                </div>
+                <br><button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
 
-    <h1 class = "orderQueue">{{ uiLabels.ordersInQueue }}:</h1>
-    <div class = "orderedItems">
-      <OrderItem
-        v-for="(order, key) in orders"
-        v-if="order.status !== 'done'"
-        :order-id="key"
-        :order="order" 
-        :ui-labels="uiLabels"
-        :lang="lang"
-        :key="key">
-      </OrderItem>
+                <h1>{{ uiLabels.ordersInQueue }}</h1>
+                <div>
+                    <OrderItem
+                            v-for="(order, key) in this.orders"
+                            v-if="order.status !== 'done'"
+                            :order-id="key"
+                            :order="order"
+                            :ui-labels="uiLabels"
+                            :lang="lang"
+                            :key="key">
+                    </OrderItem>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-  </div>
-  </div>
 </template>
 <script>
 
@@ -69,64 +72,95 @@ import OrderItem from '@/components/OrderItem.vue'
 //import methods and data that are shared between ordering and kitchen views
 import sharedVueStuff from '@/components/sharedVueStuff.js'
 
-/* instead of defining a Vue instance, export default allows the only 
-necessary Vue instance (found in main.js) to import your data and methods */
-export default {
-  name: 'Ordering',
-  components: {
-    Ingredient,
-    OrderItem
-  },
-  mixins: [sharedVueStuff], // include stuff that is used in both 
-                            // the ordering system and the kitchen
-  data: function() { //Not that data is a function!
-    return {
-      chosenIngredients: [],
-      price: 0,
-      orderNumber: "",
-      count:0,
-      currentCategory: 1, // Category deciding what ingredients to show
-    }
-  },
-  created: function () {
-    this.$store.state.socket.on('orderNumber', function (data) {
-      this.orderNumber = data;
-    }.bind(this));
-  },
-  methods: {
-    addToOrder: function (item) {
-      this.chosenIngredients.push(item);
-      this.price += +item.selling_price;
-    },
-      deleteFromOrder: function (item) { // Nytt hela functionen
-          // With splice remove one of the items that has been appending to the chosenIngredients array, is being called from minus-button,
-          // indexOf says where the removing should be done, the 1 is  that is being removed
-          this.chosenIngredients.splice(this.chosenIngredients.indexOf(item), 1);
-          this.price -= item.selling_price; // Adjust the total price
-      },
-    placeOrder: function () {
-      var i,
-      //Wrap the order in an object
-        order = {
-          ingredients: this.chosenIngredients,
-          price: this.price
-        };
-      // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
-      this.$store.state.socket.emit('order', {order: order});
-      //set all counters to 0. Notice the use of $refs
-      for (i = 0; i < this.$refs.ingredient.length; i += 1) {
-        this.$refs.ingredient[i].resetCounter();
-      }
-      this.price = 0;
-      this.chosenIngredients = [];
-    },
+    /* instead of defining a Vue instance, export default allows the only
+    necessary Vue instance (found in main.js) to import your data and methods */
+    export default {
+        name: 'Ordering',
+        components: {
+            Ingredient,
+            OrderItem
+        },
+        mixins: [sharedVueStuff], // include stuff that is used in both
+                                  // the ordering system and the kitchen
+        data: function () { //Not that data is a function!
+            return {
+                chosenIngredients: [],
+                price: 0,
+                orderNumber: "",
+                count: 0,
+                currentCategory: 1, // Category deciding what ingredients to show
+            }
+        },
+        created: function () {
+            this.$store.state.socket.on('orderNumber', function (data) {
+                this.orderNumber = data;
+            }.bind(this));
+        },
+        computed: {
+            //Nytt Taken from burger-skeleton/severalBurgers/src/views/Kitchen.vue and changed ingredients to our array chosenIngredients
+            countAllIngredients: function () {
+                let ingredientTuples = []
+                for (let i = 0; i < this.chosenIngredients.length; i += 1) {
+                    ingredientTuples[i] = {};
+                    ingredientTuples[i].name = this.chosenIngredients[i]['ingredient_' + this.lang];
+                    ingredientTuples[i].count = this.countNumberOfIngredients(this.chosenIngredients[i].ingredient_id);
+                }
+                //Create an array difIngredients where
+                // Array.from creates a new shallow-copied array
+                // set is being used to remove duplicates/store unique values
+                var difIngredients = Array.from(new Set(ingredientTuples.map(arrayName => arrayName.name))).map(name => {
+                        return {
+                            name: name,
+                            count: ingredientTuples.find(arrayName => arrayName.name === name).count
+                        };
+                    });
+                return difIngredients;
+            }
+        },
+        methods: {
+            addToOrder: function (item) {
+                this.chosenIngredients.push(item);
+                this.price += +item.selling_price;
+            },
+            deleteFromOrder: function (item) { // Nytt hela functionen
+                // With splice remove one of the items that has been appending to the chosenIngredients array, is being called from minus-button,
+                // indexOf says where the removing should be done, the 1 is  that is being removed
+                this.chosenIngredients.splice(this.chosenIngredients.indexOf(item), 1);
+                this.price -= item.selling_price; // Adjust the total price
+            },
+            placeOrder: function () {
+                    //Wrap the order in an object
+                    let order = {
+                        ingredients: this.chosenIngredients,
+                        price: this.price
+                    };
+                // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
+                this.$store.state.socket.emit('order', {order: order});
+                //set all counters to 0. Notice the use of $refs
+                for (i = 0; i < this.$refs.ingredient.length; i += 1) {
+                    this.$refs.ingredient[i].resetCounter();
+                }
+                this.price = 0;
+                this.chosenIngredients = [];
+            },
 
-    // Function for changing category. Called on at buttons in <Ingredient
-    setCategory: function(newCat) {
-        this.currentCategory = newCat;
+            // Function for changing category. Called on at buttons in <Ingredient
+            setCategory: function (newCat) {
+                this.currentCategory = newCat;
+            },
+            countNumberOfIngredients: function (id) {
+                //Nytt Taken from burger-skeleton/severalBurgers/src/views/Kitchen.vue
+                let counter = 0;
+                for (let ingredIndex in this.chosenIngredients) {
+                    //Now we have an array of ingredients in an order which is checked with the id that being sent from countAllIngredients in the call
+                    if (this.chosenIngredients[ingredIndex].ingredient_id === id) {
+                        counter += 1;
+                    }
+                }
+                return counter;
+            }
+        }
     }
-  }
-}
 </script>
 <style scoped>
 /* scoped in the style tag means that these rules will only apply to elements, classes and ids in this template and no other templates. */
@@ -160,11 +194,6 @@ export default {
         color: black;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
-
-    .ingredient label button:hover {
-        background-color: bisque;
-        color:black;
-    }
     .menuWrapper {
         display: grid;
         grid-gap: 5px;
@@ -186,7 +215,7 @@ export default {
         grid-row: 2;
     }
     .categoryTabs button {
-        background-color: sandybrown;
+        background-color: chocolate;
         border: solid black 2px;
         /*border-radius: 15px;*/
         font-size: 1em;
@@ -196,7 +225,7 @@ export default {
 
     }
     .categoryTabs button:hover {
-        background-color: chocolate;
+        background-color: saddlebrown;
         color:black;
     }
     .orderStatus {
