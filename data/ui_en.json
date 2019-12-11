@@ -22,5 +22,10 @@
   "sauce" : "Sauce",
   "bread" : "Bread",
   "drinks" : "Drinks",
-  "sides" : "Sides"
+  "sides" : "Sides",
+  "tally" : "Total price",
+  "proceedToCO" : "Proceed to checkout",
+  "backToOrd" : "Back to ordering page",
+  "startpage" : "To startpage",
+  "unit" : "pcs"
 }
