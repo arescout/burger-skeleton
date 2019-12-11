@@ -41,6 +41,9 @@
 </script>
 
 <style scoped>
+    .checkout {
+        background-color: #ffc74a;
+    }
     .routerButton {
         text-decoration: none;
         color: black;
