@@ -16,6 +16,7 @@
 
 <script>
 
+
     //import methods and data that are shared between ordering and kitchen views
     import sharedVueStuff from '@/components/sharedVueStuff.js'
 
@@ -32,7 +33,7 @@
     .welcomeText{
         text-align: center;
         font-size: 3em;
-        font-family: ".SF NS Display", "serif";
+        font-family: AppleGothic;
         padding-top: 5em;
         padding-bottom: 1em;
 
@@ -45,6 +46,7 @@
         border: 5px solid black;
         padding-left: 20em;
         padding-right: 20em;
+        font-family: "Marker Felt";
 
     }
     .welcomeSection {
