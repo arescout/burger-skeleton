@@ -22,6 +22,10 @@
   "sauce" : "Såser",
   "bread" : "Bröd",
   "drinks" : "Dryck",
-  "sides" : "Tillbehör"
-
+  "sides" : "Tillbehör",
+  "tally" : "Totalt pris",
+  "proceedToCO" : "Fortsätt till utcheckning",
+  "backToOrd" : "Gå tillbaks till ordern",
+  "startpage" : "Till startsidan",
+  "unit" : "stk"
 }
