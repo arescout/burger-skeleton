@@ -71,7 +71,6 @@ import OrderItem from '@/components/OrderItem.vue'
 
 //import methods and data that are shared between ordering and kitchen views
 import sharedVueStuff from '@/components/sharedVueStuff.js'
-
     /* instead of defining a Vue instance, export default allows the only
     necessary Vue instance (found in main.js) to import your data and methods */
     export default {
@@ -115,6 +114,7 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
                         };
                     });
                 return difIngredients;
+                console.log(difIngredients);
             }
         },
         methods: {
@@ -142,6 +142,8 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
                 }
                 this.price = 0;
                 this.chosenIngredients = [];
+                //this.difIngredients;
+                this.countNumberOfIngredients(0);
             },
 
             // Function for changing category. Called on at buttons in <Ingredient
