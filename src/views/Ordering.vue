@@ -1,7 +1,9 @@
 <template>
   <div id="ordering">
     <img class="example-panel" src="https://rfclipart.com/image/big/18-1f-86/ornamental-batik-seamless-pattern-Download-Royalty-free-Vector-File-EPS-113870.jpg">
-    <button v-on:click="switchLang()"><img src = https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width = 20px>{{ uiLabels.language }}</button>
+      <button v-on:click="switchLang()">
+          <img src = https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width = 20px>{{ uiLabels.language }}
+      </button>
     <button><router-link to="/" class="routerButton">{{uiLabels.startpage}}</router-link></button>
 
     <h1 class = "ingredientHeader">{{ uiLabels.ingredients }}</h1>
@@ -46,10 +48,10 @@
                 </div>
                 {{uiLabels.tally}}: {{price}} kr
                 <br><button class = "placeOrderButton" v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
-                <button><router-link class="routerButton" to="/checkout">{{uiLabels.proceedToCO}}</router-link></button>
+                <br>
 
-                <h1>{{ uiLabels.ordersInQueue }}</h1>
-                <div>
+                <h1 class  = "orderQueue">{{ uiLabels.ordersInQueue }}:</h1>
+                <div class = "orderedItems">
                     <OrderItem
                             v-for="(order, key) in this.orders"
                             v-if="order.status !== 'done'"
@@ -60,9 +62,11 @@
                             :key="key">
                     </OrderItem>
                 </div>
+                <button class = "checkOutButton"><router-link class="routerButton" to="/checkout">{{uiLabels.proceedToCO}}</router-link></button>
             </div>
         </div>
-    </div>
+  </div>
+
 </template>
 <script>
 
@@ -145,7 +149,7 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
                 }
                 this.price = 0;
                 this.chosenIngredients = [];
-                this.difIngredients.clear
+                /*this.difIngredients.clear*/
             },
 
             // Function for changing category. Called on at buttons in <Ingredient
@@ -191,9 +195,6 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
         border-radius: 10px;
         color: black;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    }
-    .milkFree {
-
     }
     .menuWrapper {
         display: grid;
@@ -254,6 +255,17 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
         background-color: rgba(255,223,26,0.36);
 
     }
+    .checkOutButton {
+        text-align: center;
+        background-color: yellow;
+        border-radius: 15px;
+        border:solid black 3px;
+        font-style: oblique;
+        margin: 0 auto;
+        margin-top: 1em;
+        display: block;
+
+    }
     .myBurger{
         text-align: center;
         background-color: beige;
@@ -284,5 +296,4 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
         text-decoration: none;
         color: black;
     }
-
 </style>
