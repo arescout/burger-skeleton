@@ -8,13 +8,14 @@
                 <h1>Welcome to Krafty Burgers</h1>
                 We are a restaurant dedicated to providing exactly the burger that you want<br>
                 Here, we love cows <3
-                <button id = "firstButton"><router-link to="/">Go to orderings</router-link></button>
+                <button id = "firstButton"><router-link class="routerButton" to="/ordering">Go to orderings</router-link></button>
             </div>
         </section>
     </div>
 </template>
 
 <script>
+
 
     //import methods and data that are shared between ordering and kitchen views
     import sharedVueStuff from '@/components/sharedVueStuff.js'
@@ -23,16 +24,18 @@
     necessary Vue insta */
 
         export default {
-            name: "Startpage"
+            name: "Startpage",
+
         }
-        mixins: [sharedVueStuff]
+    mixins: [sharedVueStuff]
+
 </script>
 
 <style scoped>
     .welcomeText{
         text-align: center;
         font-size: 3em;
-        font-family: ".SF NS Display", "serif";
+        font-family: AppleGothic;
         padding-top: 5em;
         padding-bottom: 1em;
 
@@ -45,6 +48,7 @@
         border: 5px solid black;
         padding-left: 20em;
         padding-right: 20em;
+        font-family: "Marker Felt";
 
     }
     .welcomeSection {
@@ -72,6 +76,11 @@
     #firstButton:hover{
         background-color: chocolate;
         color:white
+    }
+
+    .routerButton {
+        text-decoration: none;
+        color: black;
     }
 
 </style>

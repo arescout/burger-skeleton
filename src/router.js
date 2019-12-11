@@ -1,14 +1,23 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Ordering from './views/Ordering.vue'
+import Ordering from './views/Ordering'
 import Startpage from "./views/Startpage";
+import Checkout from "./views/Checkout";
 
 Vue.use(Router);
 
 let router = new Router({
     routes: [
         {
-            path: '/',
+            path: "/",
+            meta: {
+                title: 'Startpage'
+            },
+            name: 'Startpage',
+            component: Startpage
+        },
+        {
+            path: '/ordering',
             meta: {
                 title: 'Kraft Burgers',
             },
@@ -16,12 +25,12 @@ let router = new Router({
             component: Ordering
         },
         {
-            path: "/startpage",
+            path: "/checkout",
             meta: {
-                title: 'Startpage'
+                title: Checkout
             },
-            name: 'Startpage',
-            component: Startpage
+            name: "Checkout",
+            component: Checkout
         },
         {
             path: '/kitchen',

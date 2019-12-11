@@ -4,10 +4,11 @@
      <!-- <button v-on:click="incrementCounter">{{ counter }}</button>  Nytt La den nedanför -->
       {{item["ingredient_"+ lang]}}, {{item.selling_price}}:-, {{item.stock}} pcs
 
-      <button v-on:click="incrementCounter">+</button> <!-- Nytt */-->
+
     </label>
+      <button class="plusButton" v-on:click="incrementCounter">+</button> <!-- Nytt */-->
     {{ counter }} <!-- Nytt */-->
-    <button v-if="counter > 0" v-on:click="decrementCounter">-</button> <!-- Nytt */-->
+    <button class = "minusButton" v-if="counter > 0" v-on:click="decrementCounter">-</button> <!-- Nytt */-->
   </div>
 </template>
 <script>
@@ -42,5 +43,24 @@ export default {
 }
 </script>
 <style scoped>
-  
+
+
+    .plusButton {
+        background-color: rgba(124,255,96,0.36);
+        border-radius: 50%;
+        -webkit-transition-duration: 0.4s;  /* transition to color */
+        transition-duration: 0.4s;
+        font-size: 1.5em;
+    }
+    .minusButton {
+        background-color: rgba(255,28,31,0.36);
+        -webkit-transition-duration: 0.4s;  /* transition to color */
+        transition-duration: 0.4s;
+        border-radius: 50%;
+        font-size: 1.5em;
+    }
+    .ingredient button:hover {
+        background-color: rgba(255,223,26,0.36);
+        color: black;
+    }
 </style>

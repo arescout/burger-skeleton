@@ -2,7 +2,7 @@
   <div id="ordering">
     <img class="example-panel" src="https://rfclipart.com/image/big/18-1f-86/ornamental-batik-seamless-pattern-Download-Royalty-free-Vector-File-EPS-113870.jpg">
     <button v-on:click="switchLang()"><img src = https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width = 20px>{{ uiLabels.language }}</button>
-    <button><router-link to="/Startpage">Go home!</router-link></button>
+    <button><router-link to="/" class="routerButton">{{uiLabels.startpage}}</router-link></button>
 
     <h1 class = "ingredientHeader">{{ uiLabels.ingredients }}</h1>
 
@@ -33,7 +33,7 @@
                 :key="item.ingredient_id">
             </Ingredient>
             </div>
-            </div>
+        </div>
     <!-- Order information -->
             <div class="orderStatus">
                 <h1 class="myBurger">{{ uiLabels.order }}</h1>
@@ -41,9 +41,11 @@
                 <div v-for="countIng in countAllIngredients"
                      v-if="countIng.count>0"
                      :key="countAllIngredients.indexOf(countIng)">
-                    {{countIng.name}}: {{countIng.count}}
+                    {{countIng.name}}: {{countIng.count}} {{uiLabels.unit}},
                 </div>
-                <br><button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
+                {{uiLabels.tally}}: {{price}} kr
+                <br><button class = "placeOrderButton" v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
+                <button><router-link class="routerButton" to="/checkout">{{uiLabels.proceedToCO}}</router-link></button>
 
                 <h1>{{ uiLabels.ordersInQueue }}</h1>
                 <div>
@@ -122,7 +124,7 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
                 this.chosenIngredients.push(item);
                 this.price += +item.selling_price;
             },
-            deleteFromOrder: function (item) { // Nytt hela functionen
+            deleteFromOrder: function (item) { // Nytt hela funktionen
                 // With splice remove one of the items that has been appending to the chosenIngredients array, is being called from minus-button,
                 // indexOf says where the removing should be done, the 1 is  that is being removed
                 this.chosenIngredients.splice(this.chosenIngredients.indexOf(item), 1);
@@ -165,15 +167,8 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
     }
 </script>
 <style scoped>
-    /* scoped in the style tag means that these rules will only apply to elements, classes and ids in this template and no other templates. */
-    /*Denna css koden verkar inte användas Ta Bort?*/
-    .pageHeader {
-        background-color: beige;
-        border: solid black 3px;
-        padding-top: 1em;
-        padding-bottom: 1em;
-        text-align: center;
-    }
+/* scoped in the style tag means that these rules will only apply to elements, classes and ids in this template and no other templates. */
+
 
     #ordering {
         margin:auto;
@@ -188,7 +183,6 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
         top:0;
         z-index: -2;
     }
-    /*Denna css koden verkar inte användas Ta Bort?*/
     .ingredient {
         border: 1px solid #ccd;
         padding: 1em;
@@ -198,7 +192,6 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
         color: black;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
-
     .menuWrapper {
         display: grid;
         grid-gap: 5px;
@@ -227,6 +220,7 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
         height: 100%;
         /*padding-bottom: 2px;*/
         width: calc(100% /6);
+
     }
     .categoryTabs button:hover {
         background-color: saddlebrown;
@@ -249,6 +243,13 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
     }
     .orderQueue {
         text-align: center;
+    }
+    .placeOrderButton {
+        border: 3px black solid;
+        border-radius: 15px;
+        font-size: 1em;
+        background-color: rgba(255,223,26,0.36);
+
     }
     .myBurger{
         text-align: center;
@@ -274,6 +275,11 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
         display: grid;
         grid-template-columns: repeat(3,1fr);
         grid-gap: 5px;
+    }
+
+    .routerButton {
+        text-decoration: none;
+        color: black;
     }
 
 </style>
