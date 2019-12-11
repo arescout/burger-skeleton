@@ -44,7 +44,7 @@
                     {{countIng.name}}: {{countIng.count}} {{uiLabels.unit}},
                 </div>
                 {{uiLabels.tally}}: {{price}} kr
-                <br><button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
+                <br><button class = "placeOrderButton" v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
                 <button><router-link class="routerButton" to="/checkout">{{uiLabels.proceedToCO}}</router-link></button>
 
                 <h1>{{ uiLabels.ordersInQueue }}</h1>
@@ -241,6 +241,13 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
     }
     .orderQueue {
         text-align: center;
+    }
+    .placeOrderButton {
+        border: 3px black solid;
+        border-radius: 15px;
+        font-size: 1em;
+        background-color: rgba(255,223,26,0.36);
+
     }
     .myBurger{
         text-align: center;
