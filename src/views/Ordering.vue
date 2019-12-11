@@ -110,7 +110,7 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
                 //Create an array difIngredients where
                 // Array.from creates a new shallow-copied array
                 // set is being used to remove duplicates/store unique values
-                var difIngredients = Array.from(new Set(ingredientTuples.map(arrayName => arrayName.name))).map(name => {
+                let difIngredients = Array.from(new Set(ingredientTuples.map(arrayName => arrayName.name))).map(name => {
                         return {
                             name: name,
                             count: ingredientTuples.find(arrayName => arrayName.name === name).count
@@ -145,8 +145,7 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
                 }
                 this.price = 0;
                 this.chosenIngredients = [];
-                //this.difIngredients;
-                this.countNumberOfIngredients(0);
+                this.difIngredients.clear
             },
 
             // Function for changing category. Called on at buttons in <Ingredient
