@@ -6,9 +6,14 @@
 
 
     </label>
-      <button class="plusButton" v-on:click="incrementCounter">+</button> <!-- Nytt */-->
-    {{ counter }} <!-- Nytt */-->
-    <button class = "minusButton" v-if="counter > 0" v-on:click="decrementCounter">-</button> <!-- Nytt */-->
+      <div class = "pMButtons">
+        <br><button class="plusButton" v-on:click="incrementCounter">+</button> <!-- Nytt */-->
+        {{ counter }} <!-- Nytt */-->
+        <button class = "minusButton" v-if="counter > 0" v-on:click="decrementCounter">-</button> <!-- Nytt */-->
+          <div class="lactose" v-if = "">
+
+          </div>
+      </div>
   </div>
 </template>
 <script>
@@ -62,5 +67,8 @@ export default {
     .ingredient button:hover {
         background-color: rgba(255,223,26,0.36);
         color: black;
+    }
+    .pMButtons {
+        text-align: center;
     }
 </style>
