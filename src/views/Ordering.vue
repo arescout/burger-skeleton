@@ -6,6 +6,8 @@
 
     <h1 class = "ingredientHeader">{{ uiLabels.ingredients }}</h1>
 
+
+
     <!-- Add buttons for navigating through categories -->
     <div class = "menuWrapper">
       <div class = "categoryTabs">
@@ -158,6 +160,11 @@ export default {
         color: black;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
+
+    .ingredient label button:hover {
+        background-color: bisque;
+        color:black;
+    }
     .menuWrapper {
         display: grid;
         grid-gap: 5px;
@@ -179,7 +186,7 @@ export default {
         grid-row: 2;
     }
     .categoryTabs button {
-        background-color: chocolate;
+        background-color: sandybrown;
         border: solid black 2px;
         /*border-radius: 15px;*/
         font-size: 1em;
@@ -189,7 +196,7 @@ export default {
 
     }
     .categoryTabs button:hover {
-        background-color: saddlebrown;
+        background-color: chocolate;
         color:black;
     }
     .orderStatus {
