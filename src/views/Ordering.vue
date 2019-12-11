@@ -32,6 +32,7 @@
                 :lang="lang"
                 :key="item.ingredient_id">
             </Ingredient>
+
             </div>
         </div>
     <!-- Order information -->
@@ -139,7 +140,7 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
                 // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
                 this.$store.state.socket.emit('order', {order: order});
                 //set all counters to 0. Notice the use of $refs
-                for (i = 0; i < this.$refs.ingredient.length; i += 1) {
+                for (let i = 0; i < this.$refs.ingredient.length; i += 1) {
                     this.$refs.ingredient[i].resetCounter();
                 }
                 this.price = 0;
@@ -189,6 +190,9 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
         border-radius: 10px;
         color: black;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+    .milkFree {
+
     }
     .menuWrapper {
         display: grid;
