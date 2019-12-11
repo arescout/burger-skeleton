@@ -4,11 +4,10 @@
     <div class="welcomeText">Welcome to Indie Burgers</div>
 
         <section class = "welcomeSection">
-            <div>
+            <div >
                 <h1>Welcome to Krafty Burgers</h1>
-                We are a restaurant dedicated to providing exactly the burger that you want<br>
-                Here, we love cows <3
-                <button id = "firstButton"><router-link class="routerButton" to="/ordering">Go to orderings</router-link></button>
+
+                <button id = "firstButton"><router-link to="/orderings"></router-link></button>
             </div>
         </section>
     </div>
@@ -17,17 +16,16 @@
 <script>
 
 
-    //import methods and data that are shared between ordering and kitchen views
-    import sharedVueStuff from '@/components/sharedVueStuff.js'
 
-    /* instead of defining a Vue instance, export default allows the only
-    necessary Vue insta */
+    import Ordering from '@/views/Ordering.vue'
+    import {sharedVueStuff} from '@/components/sharedVueStuff.js'
+
 
         export default {
             name: "Startpage",
-
+            mixins: {sharedVueStuff}
         }
-    mixins: [sharedVueStuff]
+
 
 </script>
 
@@ -84,3 +82,11 @@
     }
 
 </style>
+
+WARNING in ./src/views/Startpage.vue?vue&type=script&lang=js& (./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/views/Startpage.vue?vue&type=script&lang=js&) 27:11-25
+"export 'sharedVueStuff' was not found in '@/components/sharedVueStuff.js'
+@ ./src/views/Startpage.vue?vue&type=script&lang=js&
+@ ./src/views/Startpage.vue
+@ ./src/router.js
+@ ./src/main.js
+@ multi webpack-hot-middleware/client ./src/main.js
