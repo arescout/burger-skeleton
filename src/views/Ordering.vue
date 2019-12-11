@@ -164,13 +164,7 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
 </script>
 <style scoped>
 /* scoped in the style tag means that these rules will only apply to elements, classes and ids in this template and no other templates. */
-    .pageHeader {
-        background-color: beige;
-        border: solid black 3px;
-        padding-top: 1em;
-        padding-bottom: 1em;
-        text-align: center;
-    }
+
 
     #ordering {
         margin:auto;
