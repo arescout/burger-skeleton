@@ -6,8 +6,8 @@
         <section class = "welcomeSection">
             <div >
                 <h1>Welcome to Krafty Burgers</h1>
-                {{uiLabels.welcomeTextBox}}
-                <button id = "firstButton"></button>
+
+                <button id = "firstButton"><router-link to="/orderings"></router-link></button>
             </div>
         </section>
     </div>
@@ -16,15 +16,16 @@
 <script>
 
 
+
     import Ordering from '@/views/Ordering.vue'
     import {sharedVueStuff} from '@/components/sharedVueStuff.js'
 
-    export default {
-        name: 'Startpage',
 
-        mixins: [sharedVueStuff], // include stuff that is used in both
-                                  // the ordering system and the kitchen
-        };
+        export default {
+            name: "Startpage",
+            mixins: {sharedVueStuff}
+        }
+
 
 </script>
 
@@ -81,3 +82,11 @@
     }
 
 </style>
+
+WARNING in ./src/views/Startpage.vue?vue&type=script&lang=js& (./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/views/Startpage.vue?vue&type=script&lang=js&) 27:11-25
+"export 'sharedVueStuff' was not found in '@/components/sharedVueStuff.js'
+@ ./src/views/Startpage.vue?vue&type=script&lang=js&
+@ ./src/views/Startpage.vue
+@ ./src/router.js
+@ ./src/main.js
+@ multi webpack-hot-middleware/client ./src/main.js
