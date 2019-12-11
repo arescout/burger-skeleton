@@ -27,5 +27,6 @@
   "proceedToCO" : "Fortsätt till utcheckning",
   "backToOrd" : "Gå tillbaks till ordern",
   "startpage" : "Till startsidan",
-  "unit" : "stk"
+  "unit" : "stk",
+  "welcomeTextBox" : "DSf"
 }
