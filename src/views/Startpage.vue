@@ -8,7 +8,7 @@
                 <h1>Welcome to Krafty Burgers</h1>
                 We are a restaurant dedicated to providing exactly the burger that you want<br>
                 Here, we love cows <3
-                <button id = "firstButton"><router-link to="/">Go to orderings</router-link></button>
+                <button id = "firstButton"><router-link class="routerButton" to="/ordering">Go to orderings</router-link></button>
             </div>
         </section>
     </div>
@@ -23,9 +23,11 @@
     necessary Vue insta */
 
         export default {
-            name: "Startpage"
+            name: "Startpage",
+
         }
-        mixins: [sharedVueStuff]
+    mixins: [sharedVueStuff]
+
 </script>
 
 <style scoped>
@@ -72,6 +74,11 @@
     #firstButton:hover{
         background-color: chocolate;
         color:white
+    }
+
+    .routerButton {
+        text-decoration: none;
+        color: black;
     }
 
 </style>

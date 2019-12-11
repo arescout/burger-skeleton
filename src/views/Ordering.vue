@@ -2,7 +2,7 @@
   <div id="ordering">
     <img class="example-panel" src="https://rfclipart.com/image/big/18-1f-86/ornamental-batik-seamless-pattern-Download-Royalty-free-Vector-File-EPS-113870.jpg">
     <button v-on:click="switchLang()"><img src = https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width = 20px>{{ uiLabels.language }}</button>
-    <button><router-link to="/Startpage">Go home!</router-link></button>
+    <button><router-link to="/" class="routerButton">{{uiLabels.startpage}}</router-link></button>
 
     <h1 class = "ingredientHeader">{{ uiLabels.ingredients }}</h1>
 
@@ -41,9 +41,11 @@
                 <div v-for="countIng in countAllIngredients"
                      v-if="countIng.count>0"
                      :key="countAllIngredients.indexOf(countIng)">
-                    {{countIng.name}}: {{countIng.count}}
+                    {{countIng.name}}: {{countIng.count}} {{uiLabels.unit}},
                 </div>
+                {{uiLabels.tally}}: {{price}} kr
                 <br><button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
+                <button><router-link class="routerButton" to="/checkout">{{uiLabels.proceedToCO}}</router-link></button>
 
                 <h1>{{ uiLabels.ordersInQueue }}</h1>
                 <div>
@@ -122,7 +124,7 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
                 this.chosenIngredients.push(item);
                 this.price += +item.selling_price;
             },
-            deleteFromOrder: function (item) { // Nytt hela functionen
+            deleteFromOrder: function (item) { // Nytt hela funktionen
                 // With splice remove one of the items that has been appending to the chosenIngredients array, is being called from minus-button,
                 // indexOf says where the removing should be done, the 1 is  that is being removed
                 this.chosenIngredients.splice(this.chosenIngredients.indexOf(item), 1);
@@ -272,6 +274,11 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
         display: grid;
         grid-template-columns: repeat(3,1fr);
         grid-gap: 5px;
+    }
+
+    .routerButton {
+        text-decoration: none;
+        color: black;
     }
 
 </style>
