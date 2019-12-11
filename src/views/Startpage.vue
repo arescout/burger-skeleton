@@ -18,16 +18,16 @@
 
 
     //import methods and data that are shared between ordering and kitchen views
-    import sharedVueStuff from '@/components/sharedVueStuff.js'
+    import Orderings from '@/views/Ordering.vue'
+    import { sharedVueStuff } from '@/components/sharedVueStuff.js'
 
     /* instead of defining a Vue instance, export default allows the only
     necessary Vue insta */
 
         export default {
             name: "Startpage",
-
+            mixins: {sharedVueStuff}
         }
-    mixins: [sharedVueStuff]
 
 </script>
 
@@ -84,3 +84,11 @@
     }
 
 </style>
+
+WARNING in ./src/views/Startpage.vue?vue&type=script&lang=js& (./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/views/Startpage.vue?vue&type=script&lang=js&) 27:11-25
+"export 'sharedVueStuff' was not found in '@/components/sharedVueStuff.js'
+@ ./src/views/Startpage.vue?vue&type=script&lang=js&
+@ ./src/views/Startpage.vue
+@ ./src/router.js
+@ ./src/main.js
+@ multi webpack-hot-middleware/client ./src/main.js
