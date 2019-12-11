@@ -33,7 +33,7 @@
                 :key="item.ingredient_id">
             </Ingredient>
             </div>
-            </div>
+        </div>
     <!-- Order information -->
             <div class="orderStatus">
                 <h1 class="myBurger">{{ uiLabels.order }}</h1>
@@ -165,8 +165,7 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
     }
 </script>
 <style scoped>
-    /* scoped in the style tag means that these rules will only apply to elements, classes and ids in this template and no other templates. */
-    /*Denna css koden verkar inte användas Ta Bort?*/
+/* scoped in the style tag means that these rules will only apply to elements, classes and ids in this template and no other templates. */
     .pageHeader {
         background-color: beige;
         border: solid black 3px;
@@ -188,7 +187,6 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
         top:0;
         z-index: -2;
     }
-    /*Denna css koden verkar inte användas Ta Bort?*/
     .ingredient {
         border: 1px solid #ccd;
         padding: 1em;
@@ -198,7 +196,6 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
         color: black;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
-
     .menuWrapper {
         display: grid;
         grid-gap: 5px;
@@ -227,6 +224,7 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
         height: 100%;
         /*padding-bottom: 2px;*/
         width: calc(100% /6);
+
     }
     .categoryTabs button:hover {
         background-color: saddlebrown;
