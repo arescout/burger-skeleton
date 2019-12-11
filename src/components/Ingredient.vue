@@ -6,15 +6,17 @@
 
 
     </label>
+    <div class = "buttonWrapper">
       <div class = "pMButtons">
         <br><button class="plusButton" v-on:click="incrementCounter">+</button> <!-- Nytt */-->
         {{ counter }} <!-- Nytt */-->
         <button class = "minusButton" v-if="counter > 0" v-on:click="decrementCounter">-</button> <!-- Nytt */-->
-          <div class="lactose" v-if = "">
-
-          </div>
+          <span class="lactose" v-if = "!item.milk_free">L</span>
+          <span class="gluten" v-if = "!item.gluten_free">G</span>
       </div>
+    </div>
   </div>
+
 </template>
 <script>
 export default {
@@ -48,16 +50,25 @@ export default {
 }
 </script>
 <style scoped>
+    .buttonWrapper{
+      display: grid;
 
+    }
 
     .plusButton {
-        background-color: rgba(124,255,96,0.36);
-        border-radius: 50%;
-        -webkit-transition-duration: 0.4s;  /* transition to color */
-        transition-duration: 0.4s;
-        font-size: 1.5em;
+      grid-row: 1;
+      grid-column: 1;
+
+      background-color: rgba(124,255,96,0.36);
+      border-radius: 50%;
+      -webkit-transition-duration: 0.4s;  /* transition to color */
+      transition-duration: 0.4s;
+      font-size: 1.5em;
     }
     .minusButton {
+      grid-row: 1;
+        grid-column: 2;
+
         background-color: rgba(255,28,31,0.36);
         -webkit-transition-duration: 0.4s;  /* transition to color */
         transition-duration: 0.4s;
@@ -71,4 +82,31 @@ export default {
     .pMButtons {
         text-align: center;
     }
+    .lactose {
+      grid-row: 1;
+      grid-column: 3;
+
+      display: inline-block;
+      background-color: rgba(51,233,255,0.36);
+      border: black solid 1px;
+      color: black;
+      padding-left: 5px;
+      padding-right: 5px;
+      border-radius: 50%;
+    }
+    .gluten {
+      grid-row: 1;
+      grid-column: 4;
+
+      display: inline-block;
+      background-color: rgba(251,255,50,0.36);
+      border: black solid 1px;
+      color: black;
+      margin-left: 2px;
+      padding-left: 5px;
+      padding-right: 5px;
+      border-radius: 50%;
+    }
+
+
 </style>
