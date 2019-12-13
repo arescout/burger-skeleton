@@ -25,15 +25,15 @@
             <div class = "ingredientWrapper">
 
             <Ingredient
-                ref="ingredient"
-                v-for="item in ingredients"
-                v-if="item.category===currentCategory"
-                v-on:increment="addToOrder(item)"
-                v-on:decrease="deleteFromOrder(item)"
-                :item="item"
-                :count="item.counter"
-                :lang="lang"
-                :key="item.ingredient_id">
+                    ref="ingredient"
+                    v-for="item in ingredients"
+                    v-if="item.category===currentCategory"
+                    v-on:increment="addToBurger(item)"
+                    v-on:decrease="removeFromBurger(item)"
+                    :item="item"
+                    :count="item.counter"
+                    :lang="lang"
+                    :key="item.ingredient_id">
             </Ingredient>
 
             </div>
@@ -47,8 +47,18 @@
                      :key="countAllIngredients.indexOf(countIng)">
                     {{countIng.name}}: {{countIng.count}} {{uiLabels.unit}},
                 </div>
+                <!-- Mickaels utskrift av burgarena i ordering-->
+                <div v-for="(burger, key) in currentOrder.burgers" :key="key">
+                    Burger number {{key}}:
+                    <span v-for="(item, key2) in burger.ingredients" :key="key2">
+          {{ item['ingredient_' + lang] }}
+        </span>
+                    {{burger.price}}
+                </div>
                 {{uiLabels.tally}}: {{price}} kr
-                <br><button class = "placeOrderButton" v-if = "chosenIngredients.length > 0" v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
+                <br>
+                <button class="newBurgerButton" v-on:click="addToOrder()">{{ uiLabels.newBurger }}</button>
+                <!--<br><button class = "placeOrderButton" v-if = "chosenIngredients.length > 0" v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>-->
                 <br>
 
                 <h1 class  = "orderQueue">{{ uiLabels.ordersInQueue }}:</h1>
@@ -63,7 +73,9 @@
                             :key="key">
                     </OrderItem>
                 </div>
-                <button class = "checkOutButton"><router-link class="routerButton" to="/checkout">{{uiLabels.proceedToCO}}</router-link></button>
+                <button class="checkOutButton">
+                    <router-link class="routerButton" to="/checkout" v>{{uiLabels.proceedToCO}}</router-link>
+                </button>
             </div>
         </div>
   </div>
@@ -96,6 +108,9 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
                 orderNumber: "",
                 count: 0,
                 currentCategory: 1, // Category deciding what ingredients to show
+                currentOrder: {
+                    burgers: []
+                }
             }
         },
         created: function () {
@@ -121,38 +136,72 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
                             count: ingredientTuples.find(arrayName => arrayName.name === name).count
                         };
                     });
-                console.log(difIngredients);
+                //console.log(difIngredients);
                 return difIngredients;
             }
         },
         methods: {
-            addToOrder: function (item) {
+            /*            addToOrder: function (item) {
+                            this.chosenIngredients.push(item);
+                            this.price += +item.selling_price;
+                        },
+                        deleteFromOrder: function (item) { // Nytt hela funktionen
+                            // With splice remove one of the items that has been appending to the chosenIngredients array, is being called from minus-button,
+                            // indexOf says where the removing should be done, the 1 is  that is being removed
+                            this.chosenIngredients.splice(this.chosenIngredients.indexOf(item), 1);
+                            this.price -= item.selling_price; // Adjust the total price
+                        },
+                        placeOrder: function () {
+                                //Wrap the order in an object
+                                let order = {
+                                    ingredients: this.chosenIngredients,
+                                    price: this.price
+                                };
+                            // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
+                            this.$store.state.socket.emit('order', {order: order});
+                            //set all counters to 0. Notice the use of $refs
+                            for (let i = 0; i < this.$refs.ingredient.length; i += 1) {
+                                this.$refs.ingredient[i].resetCounter();
+                            }
+                            this.price = 0;
+                            this.chosenIngredients = [];
+                            /!*this.difIngredients.clear*!/
+                        },*/
+            addToBurger: function (item) {
                 this.chosenIngredients.push(item);
                 this.price += +item.selling_price;
             },
-            deleteFromOrder: function (item) { // Nytt hela funktionen
-                // With splice remove one of the items that has been appending to the chosenIngredients array, is being called from minus-button,
-                // indexOf says where the removing should be done, the 1 is  that is being removed
-                this.chosenIngredients.splice(this.chosenIngredients.indexOf(item), 1);
-                this.price -= item.selling_price; // Adjust the total price
+            removeFromBurger: function (item) {
+                let removeIndex = 0;
+                for (let i = 0; i < this.chosenIngredients.length; i += 1) {
+                    if (this.chosenIngredients[i] === item) {
+                        removeIndex = i;
+                        break;
+                    }
+                }
+                this.chosenIngredients.splice(removeIndex, 1);
+                this.price -= +item.selling_price;
             },
-            placeOrder: function () {
-                    //Wrap the order in an object
-                    let order = {
-                        ingredients: this.chosenIngredients,
-                        price: this.price
-                    };
-                // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
-                this.$store.state.socket.emit('order', {order: order});
+            addToOrder: function () {
+                // Add the burger to an order array
+                this.currentOrder.burgers.push({
+                    /*ingredients: this.chosenIngredients.splice(0),*/
+                    ingredients: this.chosenIngredients.splice(0),
+                    price: this.price
+                });
                 //set all counters to 0. Notice the use of $refs
                 for (let i = 0; i < this.$refs.ingredient.length; i += 1) {
                     this.$refs.ingredient[i].resetCounter();
                 }
-                this.price = 0;
                 this.chosenIngredients = [];
-                /*this.difIngredients.clear*/
+                this.price = 0;
             },
-
+            placeOrder: function () {
+                // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
+                this.$store.state.socket.emit('order', this.currentOrder);
+                this.currentOrder = [];
+                this.category = 1;
+            },
             // Function for changing category. Called on at buttons in <Ingredient
             setCategory: function (newCat) {
                 this.currentCategory = newCat;
@@ -249,7 +298,9 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
     .orderQueue {
         text-align: center;
     }
-    .placeOrderButton {
+
+/*Bytte från placeorderButton till make a new burger */
+.newBurgerButton {
         border: 3px black solid;
         border-radius: 15px;
         font-size: 1em;
