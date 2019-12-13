@@ -6,10 +6,11 @@
       </button>
     <button><router-link to="/" class="routerButton">{{uiLabels.startpage}}</router-link></button>
 
-    <h1 class = "ingredientHeader">{{ uiLabels.ingredients }}</h1>
+
 
     <!-- Add buttons for navigating through categories -->
     <div class = "menuWrapper">
+        <h1 class = "ingredientHeader">{{ uiLabels.ingredients }}</h1>
       <div class = "categoryTabs">
             <button v-on:click="setCategory(1)">{{uiLabels.protein}}</button>
             <button v-on:click="setCategory(2)">{{uiLabels.toppings}}</button>
@@ -47,7 +48,7 @@
                     {{countIng.name}}: {{countIng.count}} {{uiLabels.unit}},
                 </div>
                 {{uiLabels.tally}}: {{price}} kr
-                <br><button class = "placeOrderButton" v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
+                <br><button class = "placeOrderButton" v-if = "chosenIngredients.length > 0" v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
                 <br>
 
                 <h1 class  = "orderQueue">{{ uiLabels.ordersInQueue }}:</h1>
@@ -235,7 +236,7 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
         border: black solid 3px;
         border-radius: 10px;
         grid-column: 4;
-        grid-row: 2 / span 3;
+        grid-row: 1 / span 3;
         padding-bottom: 1em;
         padding-left: 1em;
     }
@@ -275,8 +276,8 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
         margin-left: 2em;
         padding-bottom: 0.5em;
         padding-top: 0.5em;
-        padding-right: 1em;
-        padding-left: 1em;
+        padding-right: 1.5em;
+        padding-left: 1.5em;
     }
     .ingredientBox {
         grid-column: 1 / span 3;
@@ -289,7 +290,7 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
     .ingredientWrapper {
         display: grid;
         grid-template-columns: repeat(3,1fr);
-        grid-gap: 5px;
+        grid-gap: 10px;
     }
 
     .routerButton {
