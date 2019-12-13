@@ -30,5 +30,6 @@
   "startpage" : "Till startsidan",
   "unit" : "stk",
   "welcomeTextBox" : "DSf",
-  "begin" : "Börja beställa!"
+  "begin": "Börja beställa!",
+  "newBurger": "Gör en till burgare"
 }
