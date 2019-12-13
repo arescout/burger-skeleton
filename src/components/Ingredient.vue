@@ -11,8 +11,9 @@
         <br><button class="plusButton" v-on:click="incrementCounter">+</button> <!-- Nytt */-->
         {{ counter }} <!-- Nytt */-->
         <button class = "minusButton" v-if="counter > 0" v-on:click="decrementCounter">-</button> <!-- Nytt */-->
-          <span class="lactose" v-if = "!item.milk_free">L</span>
-          <span class="gluten" v-if = "!item.gluten_free">G</span>
+        <div class="lactose" v-if = "!item.milk_free">L</div>
+        <div class="gluten" v-if = "!item.gluten_free">G</div>
+        <div class = "vegan" v-if = "item.vegan">V</div>
       </div>
     </div>
   </div>
@@ -52,12 +53,13 @@ export default {
 <style scoped>
     .buttonWrapper{
       display: grid;
+      grid-gap: 5px;
 
     }
 
     .plusButton {
-      grid-row: 1;
-      grid-column: 1;
+      /*grid-row: 1;
+      grid-column: 1;*/
 
       background-color: rgba(124,255,96,0.36);
       border-radius: 50%;
@@ -66,8 +68,8 @@ export default {
       font-size: 1.5em;
     }
     .minusButton {
-      grid-row: 1;
-        grid-column: 2;
+      /*grid-row: 1;
+        grid-column: 2;*/
 
         background-color: rgba(255,28,31,0.36);
         -webkit-transition-duration: 0.4s;  /* transition to color */
@@ -80,11 +82,11 @@ export default {
         color: black;
     }
     .pMButtons {
-        text-align: center;
+        /*text-align: center;*/
     }
     .lactose {
-      grid-row: 1;
-      grid-column: 3;
+      /*grid-row: 1;
+      grid-column: 3;*/
 
       display: inline-block;
       background-color: rgba(51,233,255,0.36);
@@ -95,8 +97,8 @@ export default {
       border-radius: 50%;
     }
     .gluten {
-      grid-row: 1;
-      grid-column: 4;
+      /*grid-row: 1;
+      grid-column: 4;*/
 
       display: inline-block;
       background-color: rgba(251,255,50,0.36);
@@ -107,6 +109,20 @@ export default {
       padding-right: 5px;
       border-radius: 50%;
     }
+    .vegan {
+      /*grid-row: 1;
+      grid-column: 4;*/
+
+      display: inline-block;
+      background-color:rgba(55,255,57,0.47);
+      border: black solid 1px;
+      color: black;
+      margin-left: 2px;
+      padding-left: 5px;
+      padding-right: 5px;
+      border-radius: 50%;
+    }
+
 
 
 </style>
