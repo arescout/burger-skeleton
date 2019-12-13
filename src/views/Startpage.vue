@@ -7,7 +7,7 @@
             <div >
                 <h1>Welcome to Krafty Burgers</h1>
 
-                <button id = "firstButton"><router-link to="/orderings"></router-link></button>
+                <button id = "firstButton"><router-link to="/ordering">Start creating your burger</router-link></button>
             </div>
         </section>
     </div>
