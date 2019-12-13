@@ -35,13 +35,12 @@
                     :lang="lang"
                     :key="item.ingredient_id">
             </Ingredient>
-
             </div>
         </div>
+
     <!-- Order information -->
             <div class="orderStatus">
                 <h1 class="myBurger">{{ uiLabels.order }}</h1>
-               <!-- {{ chosenIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr-->
                 <div v-for="countIng in countAllIngredients"
                      v-if="countIng.count>0"
                      :key="countAllIngredients.indexOf(countIng)">
