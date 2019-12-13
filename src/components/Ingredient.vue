@@ -6,16 +6,17 @@
 
 
     </label>
-    <div class = "buttonWrapper">
       <div class = "pMButtons">
         <br><button class="plusButton" v-on:click="incrementCounter">+</button> <!-- Nytt */-->
         {{ counter }} <!-- Nytt */-->
         <button class = "minusButton" v-if="counter > 0" v-on:click="decrementCounter">-</button> <!-- Nytt */-->
-        <div class="lactose" v-if = "!item.milk_free">L</div>
-        <div class="gluten" v-if = "!item.gluten_free">G</div>
-        <div class = "vegan" v-if = "item.vegan">V</div>
+        <br>
+        <div class = "allergies">
+          <div class="lactose" v-if = "!item.milk_free">L</div>
+          <div class="gluten" v-if = "!item.gluten_free">G</div>
+          <div class = "vegan" v-if = "item.vegan">V</div>
+        </div>
       </div>
-    </div>
   </div>
 
 </template>
@@ -122,6 +123,13 @@ export default {
       padding-right: 5px;
       border-radius: 50%;
     }
+  .allergies {
+    text-align: center;
+  }
+
+  .pMButtons button {
+    text-align: center;
+  }
 
 
 
