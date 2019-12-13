@@ -14,11 +14,7 @@
 </template>
 
 <script>
-
-
-
-    import Ordering from '@/views/Ordering.vue'
-    import {sharedVueStuff} from '@/components/sharedVueStuff.js'
+    import sharedVueStuff from '@/components/sharedVueStuff.js'
 
 
         export default {
