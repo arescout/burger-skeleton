@@ -28,5 +28,6 @@
   "backToOrd" : "Back to ordering page",
   "startpage" : "To startpage",
   "unit" : "pcs",
-  "welcomeTextBox" : "We are a restaurant dedicated to providing exactly the burger that you want<br>\n                Here, we love cows <3"
+  "welcomeTextBox" : "We are a restaurant dedicated to providing exactly the burger that you want<br>\n                Here, we love cows <3",
+  "begin" : "Begin order!"
 }

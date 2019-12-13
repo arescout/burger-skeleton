@@ -73,7 +73,14 @@ io.on('connection', function (socket) {
     data.changeStock(item, saldo);
     io.emit('currentQueue', {ingredients: data.getIngredients() });
   });
+  socket.on('fetchData', function() {
+      socket.emit('initialize', { orders: data.getAllOrders(),
+          uiLabels: data.getUILabels(),
+          ingredients: data.getIngredients() })
+  });
 });
+
+
 
 const port = 8080;
 http.listen(port, function() {
