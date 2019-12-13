@@ -6,8 +6,8 @@
         <section class = "welcomeSection">
             <div >
                 <h1>Welcome to Krafty Burgers</h1>
-
-                <button id = "firstButton"><router-link to="/ordering">Start creating your burger</router-link></button>
+                {{uiLabels.welcomeTextBox}}
+                <button id = "firstButton"><router-link to="/ordering" class="routerButton">{{uiLabels.begin}}</router-link></button>
             </div>
         </section>
     </div>
@@ -15,7 +15,6 @@
 
 <script>
     import sharedVueStuff from '@/components/sharedVueStuff.js'
-
 
         export default {
             name: "Startpage",
