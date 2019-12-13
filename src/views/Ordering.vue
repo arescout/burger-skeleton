@@ -121,8 +121,8 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
                             count: ingredientTuples.find(arrayName => arrayName.name === name).count
                         };
                     });
-                return difIngredients;
                 console.log(difIngredients);
+                return difIngredients;
             }
         },
         methods: {
