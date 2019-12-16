@@ -24,11 +24,11 @@
   "drinks" : "Dryck",
   "sides" : "Tillbehör",
   "tally" : "Totalt pris",
-  "proceedToCO" : "Fortsätt till utcheckning",
+  "proceedToCO" : "Fortsätt till kassan",
   "backToOrd" : "Gå tillbaka till din order",
   "startpage" : "Till startsidan",
   "unit" : "stk",
   "welcomeTextBox" : "DSf",
-  "begin": "Börja beställa!",
+  "begin": "Starta beställningen!",
   "newBurger": "Välj en till burgare"
 }
