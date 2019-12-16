@@ -46,13 +46,19 @@
                      :key="countAllIngredients.indexOf(countIng)">
                     {{countIng.name}}: {{countIng.count}} {{uiLabels.unit}},
                 </div>
-                <!-- Mickaels utskrift av burgarena i ordering-->
-                <div v-for="(burger, key) in currentOrder.burgers" :key="key">
-                    Burger number {{key}}:
+                <!-- Mikaels utskrift av burgarna i ordering-->
+                <p>Dina burgare</p>
+                <div v-for="(burger, key) in aggregatedOrders.burgers" :key="key">
+                    {{burger}}
+                    {{uiLabels.burgNr}} {{key + 1}}:    <!-- Key + 1 so it doesn't say "burger 0" on customers page -->
                     <span v-for="(item, key2) in burger.ingredients" :key="key2">
-          {{ item['ingredient_' + lang] }}
+                        <br/>{{ item["ingredient_" + lang]}}: {{ item["count"] }} stk
+                        <!--<span v-for="item in countPlacedIngredients(burger.ingredients)"
+                              v-if="item.count > 0 "
+                              :key="countPlacedIngredients.indexOf(item)">
+          {{ item.name }}: {{item.count}} {{uiLabels.unit}} -->
         </span>
-                    {{burger.price}}
+
                 </div>
                 {{uiLabels.tally}}: {{price}} kr
                 <br>
@@ -63,13 +69,13 @@
                 <h1 class  = "orderQueue">{{ uiLabels.ordersInQueue }}:</h1>
                 <div class = "orderedItems">
                     <OrderItem
-                            v-for="(order, key) in this.orders"
+                            v-for="(order, key3) in this.orders"
                             v-if="order.status !== 'done'"
-                            :order-id="key"
+                            :order-id="key3"
                             :order="order"
                             :ui-labels="uiLabels"
                             :lang="lang"
-                            :key="key">
+                            :key="key3">
                     </OrderItem>
                 </div>
                 <button class="checkOutButton">
@@ -109,6 +115,9 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
                 currentCategory: 1, // Category deciding what ingredients to show
                 currentOrder: {
                     burgers: []
+                },
+                aggregatedOrders: {
+                    burgers: []
                 }
             }
         },
@@ -120,7 +129,7 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
         computed: {
             //Nytt Taken from burger-skeleton/severalBurgers/src/views/Kitchen.vue and changed ingredients to our array chosenIngredients
             countAllIngredients: function () {
-                let ingredientTuples = []
+                let ingredientTuples = [];
                 for (let i = 0; i < this.chosenIngredients.length; i += 1) {
                     ingredientTuples[i] = {};
                     ingredientTuples[i].name = this.chosenIngredients[i]['ingredient_' + this.lang];
@@ -130,11 +139,11 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
                 // Array.from creates a new shallow-copied array
                 // set is being used to remove duplicates/store unique values
                 let difIngredients = Array.from(new Set(ingredientTuples.map(arrayName => arrayName.name))).map(name => {
-                        return {
-                            name: name,
-                            count: ingredientTuples.find(arrayName => arrayName.name === name).count
-                        };
-                    });
+                    return {
+                        name: name,
+                        count: ingredientTuples.find(arrayName => arrayName.name === name).count
+                    };
+                });
                 //console.log(difIngredients);
                 return difIngredients;
             }
@@ -184,10 +193,14 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
             addToOrder: function () {
                 // Add the burger to an order array
                 this.currentOrder.burgers.push({
-                    /*ingredients: this.chosenIngredients.splice(0),*/
                     ingredients: this.chosenIngredients.splice(0),
                     price: this.price
                 });
+                this.aggregatedOrders.burgers.push({
+                    ingredients: this.countPlacedIngredients(this.currentOrder.burgers).id
+                });
+                console.log("aggregatedOrders.burgers")
+                console.log(this.aggregatedOrders.burgers);
                 //set all counters to 0. Notice the use of $refs
                 for (let i = 0; i < this.$refs.ingredient.length; i += 1) {
                     this.$refs.ingredient[i].resetCounter();
@@ -215,6 +228,32 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
                     }
                 }
                 return counter;
+            },
+            // Function for counting number of same ingredients in ingredient list
+            countPlacedIngredients: function (ingredientList) {
+                console.log("Ingredientlist")
+                console.log(ingredientList)
+
+                // Create new object for collecting the unique ingredients
+                let ingredientTuples = {
+                    id: [],
+                };
+
+                let indexCount = 0;
+
+                // Go through input list
+                for (let index = 0; index < ingredientList[0].ingredients.length; index++){
+                    console.log(ingredientList[0].ingredients[index].ingredient_id);
+                    if (!ingredientTuples.id.includes(ingredientList[0].ingredients[index])){
+                        ingredientTuples.id[indexCount] = ingredientList[0].ingredients[index];
+                        ingredientTuples.id[indexCount].count = 1;
+                        indexCount += 1;
+                    }
+                else {
+                        ingredientTuples.id[ingredientTuples.id.indexOf(ingredientList[0].ingredients[index])].count += 1;
+                    }
+                }
+                return ingredientTuples;
             }
         }
     }
