@@ -9,7 +9,7 @@
   "pay" : "Betala",
   "sum" :"Summa",
   "ordersFinished" : "Färdiga beställningar",
-  "ordersInQueue" : "Beställningar att förbereda",
+  "ordersInQueue" : "Beställningskö",
   "ordersTrending" : "Populära beställningar",
   "placeOrder" : "Beställ",
   "sideorders" : "Tillbehör",
@@ -30,7 +30,7 @@
   "startpage" : "Till startsidan",
   "unit" : "stk",
   "welcomeTextBox" : "DSf",
-  "begin": "Börja beställa!",
-  "newBurger": "Gör en till burgare",
-  "burgNr" : "Burgare nummer"
+  "begin": "Starta beställning!",
+  "newBurger": "Skapa en till burgare",
+  "burgNr" : "Burgarnummer"
 }
