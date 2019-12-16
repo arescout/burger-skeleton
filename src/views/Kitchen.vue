@@ -62,14 +62,13 @@
     }
 </script>
 <style scoped>
-
+    /*MAIN MENU*/
     .menuTabs {
         background: #2860c3;
         display: flex;
         flex-flow: row wrap;
         width: 100%;
     }
-
     .menuTabs button {
         background: transparent;
         border: 0;
@@ -81,37 +80,27 @@
         order: 1;
         padding: 1em 0.6em 1em 0.6em;
     }
-
     .menuTabs button:hover {
         background-color: #347cff;
     }
-
+    /*ORDER SECTION*/
     .ordersWrapped {
         flex-wrap: wrap;
     }
-
     .flexContainer {
         padding: 5px;
         margin: 0;
     }
-
     .orderItems {
         border: solid black 3px;
         border-radius: 3px;
-        /*margin: 1em;*/
         padding: 0.5em;
         margin: 5px;
         width: 10em;
     }
-
+    /*GENERAL*/
     #orders {
         font-size: 24pt;
         font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
     }
-
-    h1 {
-        text-transform: uppercase;
-        font-size: 1.4em;
-    }
-
 </style>
