@@ -4,8 +4,9 @@
             <button v-on:click="setSection(1)">{{uiLabels.ordersInQueue}}</button>
             <button v-on:click="setSection(2)">{{uiLabels.ordersFinished}}</button>
         </div>
-        <div>
+        <ul class="flexContainer ordersWrapped">
             <OrderItemToPrepare
+                    li class="orderItems"
                     v-for="(order, key) in orders"
                     v-if="order.status !== 'done' && currentSection===1"
                     v-on:done="markDone(key)"
@@ -15,9 +16,8 @@
                     :lang="lang"
                     :key="key">
             </OrderItemToPrepare>
-        </div>
-        <div>
             <OrderItem
+                    li class="orderItems"
                     v-for="(order, key) in orders"
                     v-if="order.status === 'done' && currentSection===2"
                     :order-id="key"
@@ -26,7 +26,7 @@
                     :ui-labels="uiLabels"
                     :key="key">
             </OrderItem>
-        </div>
+        </ul>
     </div>
 </template>
 <script>
@@ -84,6 +84,24 @@
 
     .menuTabs button:hover {
         background-color: #347cff;
+    }
+
+    .ordersWrapped {
+        flex-wrap: wrap;
+    }
+
+    .flexContainer {
+        padding: 5px;
+        margin: 0;
+    }
+
+    .orderItems {
+        border: solid black 3px;
+        border-radius: 3px;
+        /*margin: 1em;*/
+        padding: 0.5em;
+        margin: 5px;
+        width: 10em;
     }
 
     #orders {
