@@ -4,9 +4,9 @@
             <button v-on:click="setSection(1)">{{uiLabels.ordersInQueue}}</button>
             <button v-on:click="setSection(2)">{{uiLabels.ordersFinished}}</button>
         </div>
-        <ul class="flexContainer ordersWrapped">
+        <ul class="ordersContainer ordersWrapped">
             <OrderItemToPrepare
-                    li class="orderItems"
+                    li class="ordersItem"
                     v-for="(order, key) in orders"
                     v-if="order.status !== 'done' && currentSection===1"
                     v-on:done="markDone(key)"
@@ -17,7 +17,7 @@
                     :key="key">
             </OrderItemToPrepare>
             <OrderItem
-                    li class="orderItems"
+                    li class="ordersItem"
                     v-for="(order, key) in orders"
                     v-if="order.status === 'done' && currentSection===2"
                     :order-id="key"
@@ -32,10 +32,7 @@
 <script>
     import OrderItem from '@/components/OrderItem.vue'
     import OrderItemToPrepare from '@/components/OrderItemToPrepare.vue'
-
-    //import methods and data that are shared between ordering and kitchen views
     import sharedVueStuff from '@/components/sharedVueStuff.js'
-
     export default {
         name: 'Ordering',
         components: {
@@ -87,11 +84,11 @@
     .ordersWrapped {
         flex-wrap: wrap;
     }
-    .flexContainer {
+    .ordersContainer {
         padding: 5px;
         margin: 0;
     }
-    .orderItems {
+    .ordersItem {
         border: solid black 3px;
         border-radius: 3px;
         padding: 0.5em;
