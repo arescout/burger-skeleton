@@ -26,9 +26,9 @@
   "tally" : "Total price",
   "proceedToCO" : "Proceed to checkout",
   "backToOrd" : "Back to ordering page",
-  "startpage" : "To startpage",
+  "startpage" : "To start page",
   "unit" : "pcs",
-  "welcomeTextBox" : "We are a restaurant dedicated to providing exactly the burger that you want<br>\n                Here, we love cows <3",
+  "welcomeTextBox" : "We are a restaurant dedicated to provide exactly the burger that you want<br>\n                Here, we love cows <3",
   "begin": "Begin order!",
   "newBurger": "Make one more burger",
   "burgNr" : "Burger number"
