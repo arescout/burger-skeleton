@@ -1,11 +1,8 @@
 <template>
     <div id="orders">
         <div class="menuTabs">
-            <button v-on:click="setSection(1)">Active orders</button>
-            <button v-on:click="setSection(2)">Finished orders</button>
-            <!--            <h3 class="activeOrders">Active orders</h3>-->
-            <!--            <h3 class="finishedOrders">Finished orders</h3>-->
-            <!--            <h3 class="fontSize">Change text size</h3>-->
+            <button v-on:click="setSection(1)">{{uiLabels.ordersInQueue}}</button>
+            <button v-on:click="setSection(2)">{{uiLabels.ordersFinished}}</button>
         </div>
         <div>
             <OrderItemToPrepare
@@ -89,25 +86,6 @@
         background-color: #347cff;
     }
 
-    .activeOrders {
-        text-align: center;
-        order: 1;
-        padding: 0.6em;
-    }
-
-    .finishedOrders {
-        text-align: center;
-        order: 1;
-        padding: 0.6em;
-    }
-
-    .fontSize {
-        /*border: solid black 1px;*/
-        text-align: center;
-        align-self: flex-end;
-        order: 1;
-    }
-
     #orders {
         font-size: 24pt;
         font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
@@ -118,10 +96,4 @@
         font-size: 1.4em;
     }
 
-    h3 {
-        text-transform: uppercase;
-        font-weight: normal;
-        font-size: 0.5em;
-        color: white;
-    }
 </style>
