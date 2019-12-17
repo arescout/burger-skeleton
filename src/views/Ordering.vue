@@ -7,9 +7,9 @@
         <button>
             <router-link to="/" class="routerButton">{{uiLabels.startpage}}</router-link>
         </button>
-        
+
         <!-- Add buttons for navigating through categories -->
-        <div class="menuWrapper">
+        <div class="wrapper">
             <div class="ingredientHeader"><h1>{{ uiLabels.ingredients }}</h1></div>
             <div class="categoryTabs">
                 <button v-on:click="setCategory(1)">{{uiLabels.protein}}</button>
@@ -252,6 +252,8 @@
 </script>
 <style scoped>
 
+    /*GENERAL*/
+
     html {
         scroll-behavior: smooth;
     }
@@ -266,19 +268,21 @@
         height: 100vh;
     }
 
-    .ingredient {
-        padding: 1em;
-        background-color: antiquewhite;
-        border: solid 3px #ffc74a;
-        border-radius: 10px;
+    /*LANGUAGE AND BACK BUTTON*/
+
+    .routerButton {
+        text-decoration: none;
         color: black;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
 
-    .menuWrapper {
+    /*MAIN*/
+
+    .wrapper {
         display: grid;
         grid-gap: 0.25rem;
     }
+
+    /*HEADER*/
 
     .ingredientHeader {
         background: bisque;
@@ -288,6 +292,8 @@
         grid-row: 1;
         grid-column: 1 / span 3;
     }
+
+    /*MENU*/
 
     .categoryTabs {
         background-color: chocolate;
@@ -314,6 +320,34 @@
         background-color: saddlebrown;
         color: black;
     }
+
+    /*LIST OF INGREDIENTS*/
+
+    .ingredient {
+        padding: 1em;
+        background-color: antiquewhite;
+        border: solid 3px #ffc74a;
+        border-radius: 10px;
+        color: black;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .ingredientWrapper {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
+        grid-gap: 0.5rem;
+    }
+
+    .ingredientBox {
+        grid-column: 1 / span 3;
+        grid-row: 3 / span 4;
+        background-color: bisque;
+        border: solid black 3px;
+        padding: 0.25rem;
+        border-radius: 10px;
+    }
+
+    /*ORDER INFORMATION*/
 
     .orderStatus {
         background-color: bisque;
@@ -365,23 +399,4 @@
         padding: 0.5rem 1.5rem;
     }
 
-    .ingredientBox {
-        grid-column: 1 / span 3;
-        grid-row: 3 / span 4;
-        background-color: bisque;
-        border: solid black 3px;
-        padding: 0.25rem;
-        border-radius: 10px;
-    }
-
-    .ingredientWrapper {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
-        grid-gap: 0.5rem;
-    }
-
-    .routerButton {
-        text-decoration: none;
-        color: black;
-    }
 </style>
