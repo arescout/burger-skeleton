@@ -30,6 +30,6 @@
   "unit" : "stk",
   "welcomeTextBox" : "DSf",
   "begin": "Starta beställning!",
-  "newBurger": "Skapa en till burgare",
+  "newBurger": "Lägg till burgare i varukorgen",
   "burgNr" : "Burgarnummer"
 }
