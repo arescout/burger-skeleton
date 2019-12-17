@@ -22,7 +22,6 @@
             <!-- Add list of ingredients -->
             <div class="ingredientBox">
                 <div class="ingredientWrapper">
-
                     <Ingredient
                             ref="ingredient"
                             v-for="item in ingredients"

@@ -28,7 +28,6 @@
     .welcomeText{
         text-align: center;
         font-size: 3em;
-        font-family: AppleGothic;
         padding-top: 5em;
         padding-bottom: 1em;
 
@@ -41,7 +40,7 @@
         border: 5px solid black;
         padding-left: 20em;
         padding-right: 20em;
-        font-family: "Marker Felt";
+        font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 
     }
     .welcomeSection {
