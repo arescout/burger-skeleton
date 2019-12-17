@@ -10,7 +10,7 @@
 
         <!-- Add buttons for navigating through categories -->
         <div class="wrapper">
-            <div class="ingredientHeader"><h1>{{ uiLabels.ingredients }}</h1></div>
+            <div class="ingredientHeader"><h1>{{ uiLabels.companyName }}</h1></div>
             <div class="categoryTabs">
                 <button v-on:click="setCategory(1)">{{uiLabels.protein}}</button>
                 <button v-on:click="setCategory(2)">{{uiLabels.toppings}}</button>
