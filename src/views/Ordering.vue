@@ -234,23 +234,22 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
                 console.log("Ingredientlist")
                 console.log(ingredientList)
 
-                // Create new object for collecting the unique ingredients
-                let ingredientTuples = {
-                    id: [],
-                };
+                // Create new array for collecting the unique ingredients
+                let ingredientTuples = [];
 
                 let indexCount = 0;
 
                 // Go through input list
                 for (let index = 0; index < ingredientList[0].ingredients.length; index++){
-                    console.log(ingredientList[0].ingredients[index].ingredient_id);
-                    if (!ingredientTuples.id.includes(ingredientList[0].ingredients[index])){
-                        ingredientTuples.id[indexCount] = ingredientList[0].ingredients[index];
-                        ingredientTuples.id[indexCount].count = 1;
+                    console.log(ingredientList[0].ingredients[index])
+                    // Check if ingredientTuples has an instance of this ingredient
+                    if (!ingredientTuples.includes(ingredientList[0].ingredients[index])){
+                        ingredientTuples[indexCount] = ingredientList[0].ingredients[index];
+                        ingredientTuples[indexCount].count = 1;
                         indexCount += 1;
                     }
                 else {
-                        ingredientTuples.id[ingredientTuples.id.indexOf(ingredientList[0].ingredients[index])].count += 1;
+                        ingredientTuples[ingredientTuples.indexOf(ingredientList[0].ingredients[index])].count += 1;
                     }
                 }
                 return ingredientTuples;
