@@ -334,7 +334,6 @@
     /*LIST OF INGREDIENTS*/
 
     .ingredient {
-        padding: 1em;
         background-color: antiquewhite;
         border: solid 3px #ffc74a;
         border-radius: 10px;
