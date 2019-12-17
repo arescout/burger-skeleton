@@ -1,10 +1,11 @@
 <template>
     <div id="orders">
         <div class="menuTabs">
-            <button v-on:click="setSection(1)">{{uiLabels.ordersInQueue}}</button>
-            <button v-on:click="setSection(2)">{{uiLabels.ordersFinished}}</button>
+            <button class="buttonRight" v-on:click="setSection(1)">{{uiLabels.ordersInQueue}}</button>
+            <button class="buttonRight" v-on:click="setSection(2)">{{uiLabels.ordersFinished}}</button>
+            <button class="buttonLeft" v-on:click="switchLang()">{{uiLabels.language}}</button>
         </div>
-        <ul class="ordersContainer ordersWrapped">
+        <ul class="ordersContainer wrap">
             <OrderItemToPrepare
                     li class="ordersItem"
                     v-for="(order, key) in orders"
@@ -33,6 +34,7 @@
     import OrderItem from '@/components/OrderItem.vue'
     import OrderItemToPrepare from '@/components/OrderItemToPrepare.vue'
     import sharedVueStuff from '@/components/sharedVueStuff.js'
+
     export default {
         name: 'Ordering',
         components: {
@@ -66,6 +68,7 @@
         flex-flow: row wrap;
         width: 100%;
     }
+
     .menuTabs button {
         background: transparent;
         border: 0;
@@ -77,24 +80,48 @@
         order: 1;
         padding: 1em 0.6em 1em 0.6em;
     }
+
     .menuTabs button:hover {
         background-color: #347cff;
     }
+
+    .buttonRight {
+        justify-content: flex-start;
+    }
+
+    .buttonLeft {
+        justify-content: flex-end;
+        margin-left: auto;
+    }
+
     /*ORDER SECTION*/
-    .ordersWrapped {
+    .wrap {
+        -webkit-flex-wrap: wrap;
         flex-wrap: wrap;
     }
+
     .ordersContainer {
         padding: 5px;
         margin: 0;
+        list-style: none;
+        -ms-box-orient: horizontal;
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -moz-flex;
+        display: -webkit-flex;
+        display: flex;
     }
+
     .ordersItem {
         border: solid black 3px;
         border-radius: 3px;
         padding: 0.5em;
         margin: 5px;
         width: 10em;
+        height: 100%;
     }
+
     /*GENERAL*/
     #orders {
         font-size: 24pt;

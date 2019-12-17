@@ -1,44 +1,44 @@
 <template>
-  <div id="ordering">
-    <img class="example-panel" src="https://rfclipart.com/image/big/18-1f-86/ornamental-batik-seamless-pattern-Download-Royalty-free-Vector-File-EPS-113870.jpg">
-      <button v-on:click="switchLang()">
-          <img src = https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width = 20px>{{ uiLabels.language }}
-      </button>
-    <button><router-link to="/" class="routerButton">{{uiLabels.startpage}}</router-link></button>
+    <div id="ordering">
+        <button v-on:click="switchLang()">
+            <img src=https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width=20px>{{
+            uiLabels.language }}
+        </button>
+        <button>
+            <router-link to="/" class="routerButton">{{uiLabels.startpage}}</router-link>
+        </button>
 
-
-
-    <!-- Add buttons for navigating through categories -->
-    <div class = "menuWrapper">
-        <h1 class = "ingredientHeader">{{ uiLabels.ingredients }}</h1>
-      <div class = "categoryTabs">
-            <button v-on:click="setCategory(1)">{{uiLabels.protein}}</button>
-            <button v-on:click="setCategory(2)">{{uiLabels.toppings}}</button>
-            <button v-on:click="setCategory(3)">{{uiLabels.sauce}}</button>
-            <button v-on:click="setCategory(4)">{{uiLabels.bread}}</button>
-            <button v-on:click="setCategory(5)">{{uiLabels.sides}}</button>
-            <button v-on:click="setCategory(6)">{{uiLabels.drinks}}</button>
-      </div>
-
-    <!-- Add list of ingredients -->
-        <div class = "ingredientBox">
-            <div class = "ingredientWrapper">
-
-            <Ingredient
-                    ref="ingredient"
-                    v-for="item in ingredients"
-                    v-if="item.category===currentCategory"
-                    v-on:increment="addToBurger(item)"
-                    v-on:decrease="removeFromBurger(item)"
-                    :item="item"
-                    :count="item.counter"
-                    :lang="lang"
-                    :key="item.ingredient_id">
-            </Ingredient>
+        <!-- Add buttons for navigating through categories -->
+        <div class="wrapper">
+            <div class="ingredientHeader"><h1>{{ uiLabels.ingredients }}</h1></div>
+            <div class="categoryTabs">
+                <button v-on:click="setCategory(1)">{{uiLabels.protein}}</button>
+                <button v-on:click="setCategory(2)">{{uiLabels.toppings}}</button>
+                <button v-on:click="setCategory(3)">{{uiLabels.sauce}}</button>
+                <button v-on:click="setCategory(4)">{{uiLabels.bread}}</button>
+                <button v-on:click="setCategory(5)">{{uiLabels.sides}}</button>
+                <button v-on:click="setCategory(6)">{{uiLabels.drinks}}</button>
             </div>
-        </div>
 
-    <!-- Order information -->
+            <!-- Add list of ingredients -->
+            <div class="ingredientBox">
+                <div class="ingredientWrapper">
+
+                    <Ingredient
+                            ref="ingredient"
+                            v-for="item in ingredients"
+                            v-if="item.category===currentCategory"
+                            v-on:increment="addToBurger(item)"
+                            v-on:decrease="removeFromBurger(item)"
+                            :item="item"
+                            :count="item.counter"
+                            :lang="lang"
+                            :key="item.ingredient_id">
+                    </Ingredient>
+                </div>
+            </div>
+
+            <!-- Order information -->
             <div class="orderStatus">
                 <h1 class="myBurger">{{ uiLabels.order }}</h1>
                 <div v-for="countIng in countAllIngredients"
@@ -66,8 +66,8 @@
                 <!--<br><button class = "placeOrderButton" v-if = "chosenIngredients.length > 0" v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>-->
                 <br>
 
-                <h1 class  = "orderQueue">{{ uiLabels.ordersInQueue }}:</h1>
-                <div class = "orderedItems">
+                <h1 class="orderQueue">{{ uiLabels.ordersInQueue }}:</h1>
+                <div class="orderedItems">
                     <OrderItem
                             v-for="(order, key3) in this.orders"
                             v-if="order.status !== 'done'"
@@ -83,21 +83,14 @@
                 </button>
             </div>
         </div>
-  </div>
+    </div>
 
 </template>
 <script>
+    import Ingredient from '@/components/Ingredient.vue'
+    import OrderItem from '@/components/OrderItem.vue'
+    import sharedVueStuff from '@/components/sharedVueStuff.js'
 
-//import the components that are used in the template, the name that you
-//use for importing will be used in the template above and also below in
-//components
-import Ingredient from '@/components/Ingredient.vue'
-import OrderItem from '@/components/OrderItem.vue'
-
-//import methods and data that are shared between ordering and kitchen views
-import sharedVueStuff from '@/components/sharedVueStuff.js'
-    /* instead of defining a Vue instance, export default allows the only
-    necessary Vue instance (found in main.js) to import your data and methods */
     export default {
         name: 'Ordering',
         components: {
@@ -250,6 +243,7 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
                     }
                 else {
                         ingredientTuples[ingredientTuples.indexOf(ingredientList[0].ingredients[index])].count += 1;
+
                     }
                 }
                 return ingredientTuples;
@@ -258,24 +252,79 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
     }
 </script>
 <style scoped>
-/* scoped in the style tag means that these rules will only apply to elements, classes and ids in this template and no other templates. */
 
+    /*GENERAL*/
+
+    html {
+        scroll-behavior: smooth;
+    }
 
     #ordering {
-        margin:auto;
-        width: 60em;
+        margin: auto;
+        font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+        background-color: hsl(2, 57%, 40%);
+        background-image: repeating-linear-gradient(transparent, transparent 50px, rgba(0, 0, 0, .4) 50px, rgba(0, 0, 0, .4) 53px, transparent 53px, transparent 63px, rgba(0, 0, 0, .4) 63px, rgba(0, 0, 0, .4) 66px, transparent 66px, transparent 116px, rgba(0, 0, 0, .5) 116px, rgba(0, 0, 0, .5) 166px, rgba(255, 255, 255, .2) 166px, rgba(255, 255, 255, .2) 169px, rgba(0, 0, 0, .5) 169px, rgba(0, 0, 0, .5) 179px, rgba(255, 255, 255, .2) 179px, rgba(255, 255, 255, .2) 182px, rgba(0, 0, 0, .5) 182px, rgba(0, 0, 0, .5) 232px, transparent 232px),
+        repeating-linear-gradient(270deg, transparent, transparent 50px, rgba(0, 0, 0, .4) 50px, rgba(0, 0, 0, .4) 53px, transparent 53px, transparent 63px, rgba(0, 0, 0, .4) 63px, rgba(0, 0, 0, .4) 66px, transparent 66px, transparent 116px, rgba(0, 0, 0, .5) 116px, rgba(0, 0, 0, .5) 166px, rgba(255, 255, 255, .2) 166px, rgba(255, 255, 255, .2) 169px, rgba(0, 0, 0, .5) 169px, rgba(0, 0, 0, .5) 179px, rgba(255, 255, 255, .2) 179px, rgba(255, 255, 255, .2) 182px, rgba(0, 0, 0, .5) 182px, rgba(0, 0, 0, .5) 232px, transparent 232px),
+        repeating-linear-gradient(125deg, transparent, transparent 2px, rgba(0, 0, 0, .2) 2px, rgba(0, 0, 0, .2) 3px, transparent 3px, transparent 5px, rgba(0, 0, 0, .2) 5px);
+        height: 100vh;
     }
 
-    .example-panel {
-        position: fixed;
-        background-size: cover;
-        width: 100%;
-        left:0;
-        top:0;
-        z-index: -2;
+    /*LANGUAGE AND BACK BUTTON*/
+
+    .routerButton {
+        text-decoration: none;
+        color: black;
     }
+
+    /*MAIN*/
+
+    .wrapper {
+        display: grid;
+        grid-gap: 0.25rem;
+    }
+
+    /*HEADER*/
+
+    .ingredientHeader {
+        background: bisque;
+        border: solid black 3px;
+        border-radius: 10px;
+        text-align: center;
+        grid-row: 1;
+        grid-column: 1 / span 3;
+    }
+
+    /*MENU*/
+
+    .categoryTabs {
+        background-color: chocolate;
+        border: black solid 2px;
+        border-radius: 5px;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-content: stretch;
+        flex: 1;
+    }
+
+    .categoryTabs button {
+        background-color: chocolate;
+        border: solid black 2px;
+        text-align: center;
+        flex: 0 1 calc(16.66667%);
+        flex-grow: 1;
+        order: 1;
+        padding: 1em 0.6em 1em 0.6em;
+    }
+
+    .categoryTabs button:hover {
+        background-color: saddlebrown;
+        color: black;
+    }
+
+    /*LIST OF INGREDIENTS*/
+
     .ingredient {
-        border: 1px solid #ccd;
         padding: 1em;
         background-color: antiquewhite;
         border: solid 3px #ffc74a;
@@ -283,40 +332,24 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
         color: black;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
-    .menuWrapper {
-        display: grid;
-        grid-gap: 5px;
-    }
-    .ingredientHeader {
-        background: bisque;
-        border: solid black 2px;
-        border-radius: 10px;
-        text-align: center;
-        grid-row: 1;
-        grid-column: 1 / span 3;
-    }
-    .categoryTabs{
-        background-color: beige;
-        border: black solid 2px;
-        border-radius: 5px;
-        height: 3em;
-        grid-column: 1 / span 3;
-        grid-row: 2;
-    }
-    .categoryTabs button {
-        background-color: chocolate;
-        border: solid black 2px;
-        /*border-radius: 15px;*/
-        font-size: 1em;
-        height: 100%;
-        /*padding-bottom: 2px;*/
-        width: calc(100% /6);
 
+    .ingredientWrapper {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
+        grid-gap: 0.5rem;
     }
-    .categoryTabs button:hover {
-        background-color: saddlebrown;
-        color:black;
+
+    .ingredientBox {
+        grid-column: 1 / span 3;
+        grid-row: 3 / span 4;
+        background-color: bisque;
+        border: solid black 3px;
+        padding: 0.25rem;
+        border-radius: 10px;
     }
+
+    /*ORDER INFORMATION*/
+
     .orderStatus {
         background-color: bisque;
         border: black solid 3px;
@@ -326,63 +359,45 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
         padding-bottom: 1em;
         padding-left: 1em;
     }
+
     .orderedItems {
         background: beige;
-        border-radius: 5px;
         border: solid black 3px;
+        border-radius: 5px;
         margin-right: 1em;
     }
+
     .orderQueue {
         text-align: center;
     }
 
-/*Bytte från placeorderButton till make a new burger */
-.newBurgerButton {
+    /*Bytte från placeorderButton till make a new burger */
+    .newBurgerButton {
         border: 3px black solid;
         border-radius: 15px;
         font-size: 1em;
-        background-color: rgba(255,223,26,0.36);
+        background-color: rgba(255, 223, 26, 0.36);
 
     }
+
     .checkOutButton {
         text-align: center;
         background-color: yellow;
         border-radius: 15px;
-        border:solid black 3px;
+        border: solid black 3px;
         font-style: oblique;
-        margin: 0 auto;
-        margin-top: 1em;
+        margin: 1em auto 0;
         display: block;
-
     }
-    .myBurger{
+
+    .myBurger {
         text-align: center;
         background-color: beige;
         border: solid black 3px;
         border-radius: 10px;
-        margin-right: 2em;
-        margin-left: 2em;
-        padding-bottom: 0.5em;
-        padding-top: 0.5em;
-        padding-right: 1.5em;
-        padding-left: 1.5em;
-    }
-    .ingredientBox {
-        grid-column: 1 / span 3;
-        grid-row: 3 / span 4;
-        background-color: bisque;
-        border: solid black 3px;
-        padding: 2px;
-        border-radius: 10px;
-    }
-    .ingredientWrapper {
-        display: grid;
-        grid-template-columns: repeat(3,1fr);
-        grid-gap: 10px;
+        margin-right: 2rem;
+        margin-left: 2rem;
+        padding: 0.5rem 1.5rem;
     }
 
-    .routerButton {
-        text-decoration: none;
-        color: black;
-    }
 </style>
