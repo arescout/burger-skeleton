@@ -1,8 +1,7 @@
 <template id="template">
     <div id="ordering">
-        <button v-on:click="switchLang()">
-            <img src=https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width=20px>{{
-            uiLabels.language }}
+        <button class="routerButton" v-on:click="switchLang()">
+            <img src=https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width=20px>{{uiLabels.language }}
         </button>
         <button>
             <router-link to="/" class="routerButton">{{uiLabels.startpage}}</router-link>
@@ -262,10 +261,10 @@
 
     html {
         scroll-behavior: smooth;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
+        /*-webkit-background-size: cover;*/
+        /*-moz-background-size: cover;*/
+        /*-o-background-size: cover;*/
+        /*background-size: cover;*/
         /*background-color: hsl(2, 57%, 40%);*/
         /*background-image: repeating-linear-gradient(transparent, transparent 50px, rgba(0, 0, 0, .4) 50px, rgba(0, 0, 0, .4) 53px, transparent 53px, transparent 63px, rgba(0, 0, 0, .4) 63px, rgba(0, 0, 0, .4) 66px, transparent 66px, transparent 116px, rgba(0, 0, 0, .5) 116px, rgba(0, 0, 0, .5) 166px, rgba(255, 255, 255, .2) 166px, rgba(255, 255, 255, .2) 169px, rgba(0, 0, 0, .5) 169px, rgba(0, 0, 0, .5) 179px, rgba(255, 255, 255, .2) 179px, rgba(255, 255, 255, .2) 182px, rgba(0, 0, 0, .5) 182px, rgba(0, 0, 0, .5) 232px, transparent 232px),*/
         /*repeating-linear-gradient(270deg, transparent, transparent 50px, rgba(0, 0, 0, .4) 50px, rgba(0, 0, 0, .4) 53px, transparent 53px, transparent 63px, rgba(0, 0, 0, .4) 63px, rgba(0, 0, 0, .4) 66px, transparent 66px, transparent 116px, rgba(0, 0, 0, .5) 116px, rgba(0, 0, 0, .5) 166px, rgba(255, 255, 255, .2) 166px, rgba(255, 255, 255, .2) 169px, rgba(0, 0, 0, .5) 169px, rgba(0, 0, 0, .5) 179px, rgba(255, 255, 255, .2) 179px, rgba(255, 255, 255, .2) 182px, rgba(0, 0, 0, .5) 182px, rgba(0, 0, 0, .5) 232px, transparent 232px),*/
@@ -280,6 +279,7 @@
 
     .routerButton {
         text-decoration: none;
+        text-transform: uppercase;
         color: black;
     }
 
@@ -297,6 +297,7 @@
         border: solid black 3px;
         border-radius: 10px;
         text-align: center;
+        text-transform: uppercase;
         grid-row: 1;
         grid-column: 1 / span 3;
     }
@@ -318,6 +319,8 @@
         background-color: chocolate;
         border: solid black 2px;
         text-align: center;
+        text-transform: uppercase;
+        font-weight: bold;
         flex: 0 1 calc(16.66667%);
         flex-grow: 1;
         order: 1;
