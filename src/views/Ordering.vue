@@ -49,7 +49,7 @@
                 <!-- Mikaels utskrift av burgarna i ordering-->
                 <p>Dina burgare</p>
                 <div v-for="(burger, key) in aggregatedOrders.burgers" :key="key">
-                    {{burger}}
+                    <br/>
                     {{uiLabels.burgNr}} {{key + 1}}:    <!-- Key + 1 so it doesn't say "burger 0" on customers page -->
                     <span v-for="(item, key2) in burger.ingredients" :key="key2">
                         <br/>{{ item["ingredient_" + lang]}}: {{ item["count"] }} stk
@@ -106,6 +106,7 @@
                 orderNumber: "",
                 count: 0,
                 currentCategory: 1, // Category deciding what ingredients to show
+                numbOfBurgers: 0,
                 currentOrder: {
                     burgers: []
                 },
@@ -189,8 +190,10 @@
                     ingredients: this.chosenIngredients.splice(0),
                     price: this.price
                 });
+                console.log("currentOrder.burgers")
+                console.log(this.currentOrder.burgers);
                 this.aggregatedOrders.burgers.push({
-                    ingredients: this.countPlacedIngredients(this.currentOrder.burgers).id
+                    ingredients: this.countPlacedIngredients(this.currentOrder.burgers)
                 });
                 console.log("aggregatedOrders.burgers")
                 console.log(this.aggregatedOrders.burgers);
@@ -233,19 +236,18 @@
                 let indexCount = 0;
 
                 // Go through input list
-                for (let index = 0; index < ingredientList[0].ingredients.length; index++){
-                    console.log(ingredientList[0].ingredients[index])
+                for (let index = 0; index < ingredientList[this.numbOfBurgers].ingredients.length; index++) {
                     // Check if ingredientTuples has an instance of this ingredient
-                    if (!ingredientTuples.includes(ingredientList[0].ingredients[index])){
-                        ingredientTuples[indexCount] = ingredientList[0].ingredients[index];
+                    if (!ingredientTuples.includes(ingredientList[this.numbOfBurgers].ingredients[index])) {
+                        ingredientTuples[indexCount] = ingredientList[this.numbOfBurgers].ingredients[index];
                         ingredientTuples[indexCount].count = 1;
                         indexCount += 1;
-                    }
-                else {
-                        ingredientTuples[ingredientTuples.indexOf(ingredientList[0].ingredients[index])].count += 1;
+                    } else {
+                        ingredientTuples[ingredientTuples.indexOf(ingredientList[this.numbOfBurgers].ingredients[index])].count += 1;
 
                     }
                 }
+                this.numbOfBurgers += 1;
                 return ingredientTuples;
             }
         }
