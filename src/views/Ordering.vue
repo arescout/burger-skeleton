@@ -1,4 +1,4 @@
-<template>
+<template id="template">
     <div id="ordering">
         <button v-on:click="switchLang()">
             <img src=https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width=20px>{{
@@ -46,6 +46,7 @@
                      :key="countAllIngredients.indexOf(countIng)">
                     {{countIng.name}}: {{countIng.count}} {{uiLabels.unit}},
                 </div>
+                    Current burger price: {{this.currentPrice}}
                 <!-- Mikaels utskrift av burgarna i ordering-->
                 <p>Dina burgare</p>
                 <div v-for="(burger, key) in aggregatedOrders.burgers" :key="key">
@@ -60,7 +61,7 @@
         </span>
 
                 </div>
-                {{uiLabels.tally}}: {{price}} kr
+                {{uiLabels.tally}}: {{totalPrice}} kr
                 <br>
                 <button class="newBurgerButton" v-on:click="addToOrder()">{{ uiLabels.newBurger }}</button>
                 <!--<br><button class = "placeOrderButton" v-if = "chosenIngredients.length > 0" v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>-->
@@ -102,7 +103,8 @@
         data: function () { //Not that data is a function!
             return {
                 chosenIngredients: [],
-                price: 0,
+                totalPrice: 0,
+                currentPrice: 0,
                 orderNumber: "",
                 count: 0,
                 currentCategory: 1, // Category deciding what ingredients to show
@@ -171,7 +173,7 @@
                         },*/
             addToBurger: function (item) {
                 this.chosenIngredients.push(item);
-                this.price += +item.selling_price;
+                this.currentPrice += +item.selling_price;
             },
             removeFromBurger: function (item) {
                 let removeIndex = 0;
@@ -182,13 +184,13 @@
                     }
                 }
                 this.chosenIngredients.splice(removeIndex, 1);
-                this.price -= +item.selling_price;
+                this.currentPrice -= +item.selling_price;
             },
             addToOrder: function () {
                 // Add the burger to an order array
                 this.currentOrder.burgers.push({
                     ingredients: this.chosenIngredients.splice(0),
-                    price: this.price
+                    price: this.currentPrice
                 });
                 console.log("currentOrder.burgers")
                 console.log(this.currentOrder.burgers);
@@ -202,7 +204,8 @@
                     this.$refs.ingredient[i].resetCounter();
                 }
                 this.chosenIngredients = [];
-                this.price = 0;
+                this.totalPrice += this.currentPrice;
+                this.currentPrice = 0;
             },
             placeOrder: function () {
                 // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
