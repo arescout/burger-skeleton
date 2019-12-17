@@ -34,6 +34,7 @@
     import OrderItem from '@/components/OrderItem.vue'
     import OrderItemToPrepare from '@/components/OrderItemToPrepare.vue'
     import sharedVueStuff from '@/components/sharedVueStuff.js'
+
     export default {
         name: 'Ordering',
         components: {
@@ -67,6 +68,7 @@
         flex-flow: row wrap;
         width: 100%;
     }
+
     .menuTabs button {
         background: transparent;
         border: 0;
@@ -78,21 +80,26 @@
         order: 1;
         padding: 1em 0.6em 1em 0.6em;
     }
+
     .menuTabs button:hover {
         background-color: #347cff;
     }
+
     .buttonRight {
         justify-content: flex-start;
     }
+
     .buttonLeft {
         justify-content: flex-end;
         margin-left: auto;
     }
+
     /*ORDER SECTION*/
     .wrap {
         -webkit-flex-wrap: wrap;
         flex-wrap: wrap;
     }
+
     .ordersContainer {
         padding: 5px;
         margin: 0;
@@ -105,6 +112,7 @@
         display: -webkit-flex;
         display: flex;
     }
+
     .ordersItem {
         border: solid black 3px;
         border-radius: 3px;
@@ -113,6 +121,7 @@
         width: 10em;
         height: 100%;
     }
+
     /*GENERAL*/
     #orders {
         font-size: 24pt;
