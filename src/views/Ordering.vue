@@ -307,8 +307,8 @@
         border-radius: 5px;
         display: flex;
         flex-wrap: nowrap;
-        justify-content: flex-start;
-        align-content: stretch;
+        /*justify-content: flex-start;*/
+        /*align-content: stretch;*/
         flex: 1;
     }
 
@@ -332,7 +332,6 @@
     /*LIST OF INGREDIENTS*/
 
     .ingredient {
-        padding: 1em;
         background-color: antiquewhite;
         border: solid 3px #ffc74a;
         border-radius: 10px;
