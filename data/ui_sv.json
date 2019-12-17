@@ -33,5 +33,6 @@
   "begin": "Starta beställning!",
   "newBurger": "Lägg till burgare i beställningen",
   "burgNr" : "Burgarnummer",
-  "companyName": "Kraft Burgers"
+  "companyName": "Kraft Burgers",
+  "currentPriceLabel": "Pris på vald burgare"
 }

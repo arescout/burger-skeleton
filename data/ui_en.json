@@ -33,5 +33,6 @@
   "begin": "Begin order!",
   "newBurger": "Add burger to order",
   "burgNr": "Burger number",
-  "companyName": "Kraft Burgers"
+  "companyName": "Kraft Burgers",
+  "currentPriceLabel": "Current burger price"
 }
