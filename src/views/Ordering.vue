@@ -1,7 +1,8 @@
 <template id="template">
     <div id="ordering">
         <button class="routerButton" v-on:click="switchLang()">
-            <img src=https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width=20px>{{uiLabels.language }}
+            <img src=https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width=20px>{{uiLabels.language
+            }}
         </button>
         <button>
             <router-link to="/" class="routerButton">{{uiLabels.startpage}}</router-link>
@@ -44,12 +45,16 @@
                      :key="countAllIngredients.indexOf(countIng)">
                     {{countIng.name}}: {{countIng.count}} {{uiLabels.unit}},
                 </div>
-                    Current burger price: {{this.currentPrice}}
+                Current burger price: {{this.currentPrice}} <br><br>
+                <button class="newBurgerButton" v-on:click="addToOrder()">{{ uiLabels.newBurger }}</button>
+                <br> <br>
+                <b>{{uiLabels.yourOrder}}</b>
                 <div v-for="(burger, key) in aggregatedOrders.burgers" :key="key">
-                    <br/>
-                    {{uiLabels.burgNr}} {{key + 1}}:    <!-- Key + 1 so it doesn't say "burger 0" on customers page -->
+                    <br>
+                    <b>{{uiLabels.burgNr}} {{key + 1}}</b>
+                    <!-- Key + 1 so it doesn't say "burger 0" on customers page -->
                     <span v-for="(item, key2) in burger.ingredients" :key="key2">
-                        <br/>{{ item["ingredient_" + lang]}}: {{ item["count"] }} stk
+                        <br/>{{ item["ingredient_" + lang]}}: {{ item["count"] }} {{uiLabels.unit}}
                         <!--<span v-for="item in countPlacedIngredients(burger.ingredients)"
                               v-if="item.count > 0 "
                               :key="countPlacedIngredients.indexOf(item)">
@@ -58,10 +63,8 @@
 
                 </div>
                 <br>
-                <button class="newBurgerButton" v-on:click="addToOrder()">{{ uiLabels.newBurger }}</button>
                 <!--<br><button class = "placeOrderButton" v-if = "chosenIngredients.length > 0" v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>-->
                 <br>
-                <h4>{{uiLabels.yourOrder}}</h4>
                 <h4>{{uiLabels.tally}}: {{totalPrice}} kr</h4>
                 <h1 class="orderQueue">{{ uiLabels.ordersInQueue }}:</h1>
                 <div class="orderedItems">
@@ -75,7 +78,7 @@
                             :key="key3">
                     </OrderItem>
                 </div>
-                <button class="checkOutButton" ><!-- v-on:click="placeOrder()-->
+                <button class="checkOutButton"><!-- v-on:click="placeOrder()-->
                     <router-link class="routerButton" to="/checkout" v>{{uiLabels.proceedToCO}}</router-link>
                 </button>
             </div>
@@ -205,7 +208,7 @@
             },
             placeOrder: function () {
                 // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
-                this.$store.state.socket.emit('order', this.aggregatedOrders);
+                this.$store.state.socket.emit('order', {aggregatedOrders});
                 this.currentOrder = [];
                 this.category = 1;
             },
