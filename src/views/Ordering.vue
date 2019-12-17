@@ -77,7 +77,7 @@
                             :key="key3">
                     </OrderItem>
                 </div>
-                <button class="checkOutButton">
+                <button class="checkOutButton" v-on:click="placeOrder()">
                     <router-link class="routerButton" to="/checkout" v>{{uiLabels.proceedToCO}}</router-link>
                 </button>
             </div>
