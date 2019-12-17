@@ -3,7 +3,7 @@ ingredient_id,ingredient_sv,ingredient_en,category,milk_free,gluten_free,vegan,s
 2,Nötfärsburgare 100g,Beef patty 100g,1,1,1,0,40
 3,Nötfärsburgare 200g,Beef patty 200g,1,1,1,0,60
 4,Kycklingburgare,Chicken patty,1,1,0,0,40
-5,Friterad halloumi,Feep-fried halloumi,1,0,0,0,40
+5,Friterad halloumi,Deep-fried halloumi,1,0,0,0,40
 6,Fiskfilé,Fish filet,1,1,0,0,40
 7,Grillad aubergine,Grilled eggplant,1,1,1,1,30
 8,Hummer,Lobster,1,1,1,0,80

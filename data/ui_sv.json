@@ -32,5 +32,6 @@
   "welcomeTextBox" : "DSf",
   "begin": "Starta beställning!",
   "newBurger": "Lägg till burgare i beställningen",
-  "burgNr" : "Burgarnummer"
+  "burgNr" : "Burgarnummer",
+  "companyName": "Kraft Burgers"
 }
