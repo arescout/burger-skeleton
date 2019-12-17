@@ -45,9 +45,10 @@
                      :key="countAllIngredients.indexOf(countIng)">
                     {{countIng.name}}: {{countIng.count}} {{uiLabels.unit}},
                 </div>
-                Current burger price: {{this.currentPrice}} <br><br>
+                <b>{{uiLabels.currentPriceLabel}}: {{this.currentPrice}}:-</b>
+                <br><br>
                 <button class="newBurgerButton" v-on:click="addToOrder()">{{ uiLabels.newBurger }}</button>
-                <br> <br>
+                <br><br>
                 <b>{{uiLabels.yourOrder}}</b>
                 <div v-for="(burger, key) in aggregatedOrders.burgers" :key="key">
                     <br>
@@ -64,9 +65,7 @@
                 </div>
                 <br>
                 <!--<br><button class = "placeOrderButton" v-if = "chosenIngredients.length > 0" v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>-->
-                <br>
-                <h4>{{uiLabels.tally}}: {{totalPrice}} kr</h4>
-                <h1 class="orderQueue">{{ uiLabels.ordersInQueue }}:</h1>
+                <h4>{{uiLabels.tally}}: {{totalPrice}}:-</h4>
                 <div class="orderedItems">
                     <OrderItem
                             v-for="(order, key3) in this.orders"
