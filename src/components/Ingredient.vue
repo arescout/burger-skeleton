@@ -64,7 +64,7 @@
 
     .ingredientCard {
         display: flex;
-        flex-flow: column wrap;
+        flex-direction: column;
         justify-content: space-evenly;
         align-content: stretch;
         width: 100%;
@@ -72,6 +72,7 @@
     }
 
     .ingredientItems {
+        flex-basis: 100%;
         padding: 0.5rem;
         order: 1;
     }

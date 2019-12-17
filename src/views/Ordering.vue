@@ -309,8 +309,8 @@
         border-radius: 5px;
         display: flex;
         flex-wrap: nowrap;
-        justify-content: flex-start;
-        align-content: stretch;
+        /*justify-content: flex-start;*/
+        /*align-content: stretch;*/
         flex: 1;
     }
 
