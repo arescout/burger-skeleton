@@ -7,7 +7,7 @@
 
     </label>
       <div class = "pMButtons">
-        <br><button class="plusButton" v-on:click="incrementCounter">+</button> <!-- Nytt */-->
+        <br><button class="plusButton"  v-show="!breadChosen" v-on:click="incrementCounter">+</button> <!-- Nytt */-->
         {{ counter }} <!-- Nytt */-->
         <button class = "minusButton" v-if="counter > 0" v-on:click="decrementCounter">-</button> <!-- Nytt */-->
         <br>

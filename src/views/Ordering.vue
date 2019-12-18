@@ -96,6 +96,7 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
                 orderNumber: "",
                 count: 0,
                 currentCategory: 1, // Category deciding what ingredients to show
+                breadChosen: false
             }
         },
         created: function () {
@@ -129,6 +130,9 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
             addToOrder: function (item) {
                 this.chosenIngredients.push(item);
                 this.price += +item.selling_price;
+                if (this.chosenIngredients.currentCategory = 4){
+                    breadChosen = true;
+                }
             },
             deleteFromOrder: function (item) { // Nytt hela funktionen
                 // With splice remove one of the items that has been appending to the chosenIngredients array, is being called from minus-button,
