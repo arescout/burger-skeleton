@@ -11,11 +11,12 @@
             </div>
             <div class="buttonItem">
                 <div class="buttonWrapper">
-                    <div class="pMButtons">
-                        <br>
+                    <div class="buttonBox">
                         <button class="plusButton" v-on:click="incrementCounter">+</button>
                         {{ counter }}
                         <button class="minusButton" v-if="counter > 0" v-on:click="decrementCounter">-</button>
+                    </div>
+                    <div class="allergicBox">
                         <div class="lactose" v-if="!item.milk_free">L</div>
                         <div class="gluten" v-if="!item.gluten_free">G</div>
                         <div class="vegan" v-if="item.vegan">V</div>
@@ -74,15 +75,26 @@
         order: 1;
     }
 
-    .buttonWrapper {
-        display: grid;
-        grid-gap: 5px;
+    /*.buttonWrapper {*/
+    /*    display: grid;*/
+    /*    grid-gap: 5px;*/
+    /*}*/
 
+    .buttonWrapper {
+        display: flex;
+        flex-direction: row;
+        /*justify-content: space-evenly;*/
+        /*align-content: stretch;*/
+        width: 100%;
+        height: 100%;
+    }
+
+    .buttonBox {
+        order: 1;
     }
 
     .plusButton {
-        /*grid-row: 1;
-        grid-column: 1;*/
+        order: 1;
         background-color: rgba(124, 255, 96, 0.36);
         border-radius: 50%;
         -webkit-transition-duration: 0.4s; /* transition to color */
@@ -91,8 +103,7 @@
     }
 
     .minusButton {
-        /*grid-row: 1;
-          grid-column: 2;*/
+        order: 1;
         background-color: rgba(255, 28, 31, 0.36);
         -webkit-transition-duration: 0.4s; /* transition to color */
         transition-duration: 0.4s;
@@ -109,9 +120,14 @@
         /*text-align: center;*/
     }
 
+    .allergicBox {
+        order: 1;
+        justify-content: flex-end;
+        margin-left: auto;
+        align-self: center;
+    }
+
     .lactose {
-        /*grid-row: 1;
-        grid-column: 3;*/
         display: inline-block;
         background-color: rgba(51, 233, 255, 0.36);
         border: black solid 1px;
@@ -122,8 +138,6 @@
     }
 
     .gluten {
-        /*grid-row: 1;
-        grid-column: 4;*/
         display: inline-block;
         background-color: rgba(251, 255, 50, 0.36);
         border: black solid 1px;
@@ -135,8 +149,6 @@
     }
 
     .vegan {
-        /*grid-row: 1;
-        grid-column: 4;*/
         display: inline-block;
         background-color: rgba(55, 255, 57, 0.47);
         border: black solid 1px;
