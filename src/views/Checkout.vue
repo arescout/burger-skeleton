@@ -1,25 +1,34 @@
 <template>
-    <div class="checkout">
-        <button class = "backButton"><router-link to="/ordering" class="routerButton">{{uiLabels.backToOrd}}</router-link></button>
-        <div class = "checkOutTable">
-            <h1>Your total order: </h1>
-            <div class = "finalOrder">
-            <OrderItem
-                    v-for="(order, key) in this.orders"
-                    v-if="order.status !== 'done'"
-                    :order-id="key"
-                    :order="order"
-                    :ui-labels="uiLabels"
-                    :lang="lang"
-                    :key="key">
-            </OrderItem>
-            </div><br><br>
-            {{uiLabels.tally}}: {{this.price}} kr<br>
-            <!--<button class ="paymentButton" v-on:click = "alertFunction()">Ready for payment</button>-->
-            <button class ="paymentButton" v-on:click = "confirmedPayment = true">Ready for payment</button>
-            <div class = "paymentBox" v-show="confirmedPayment">
-                <button class = "xButton" v-on:click="confirmedPayment=false" >X</button>
-                Follow instructions in the card terminal...</div>
+    <div id="checkout">
+        <div class="itemsWrapper">
+            <div class="buttonItem">
+                <button class="backButton">
+                    <router-link to="/ordering" class="routerButton">{{uiLabels.backToOrd}}</router-link>
+                </button>
+            </div>
+            <div class="orderItem">
+                <div class="checkOutTable">
+                    <h1>Your total order: </h1>
+                    <div class="finalOrder">
+                        <OrderItem
+                                v-for="(order, key) in this.orders"
+                                v-if="order.status !== 'done'"
+                                :order-id="key"
+                                :order="order"
+                                :ui-labels="uiLabels"
+                                :lang="lang"
+                                :key="key">
+                        </OrderItem>
+                    </div>
+                    <br><br>
+                    {{uiLabels.tally}}: {{this.price}} kr<br>
+                    <button class="paymentButton" v-on:click="confirmedPayment = true">Ready for payment</button>
+                    <div class="paymentBox" v-show="confirmedPayment">
+                        <button class="xButton" v-on:click="confirmedPayment=false">X</button>
+                        Follow instructions in the card terminal...
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -51,7 +60,7 @@
             }
         },
         methods: {
-            alertFunction: function() {
+            alertFunction: function () {
                 alert("Follow the instructions in the card terminal")
             }
         }
@@ -61,59 +70,114 @@
 </script>
 
 <style scoped>
-    .checkout {
+
+    /*GENERAL*/
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    #checkout {
+        font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
         background-color: beige;
         background-size: cover;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
     }
+
+    .itemsWrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-content: stretch;
+        width: 100%;
+        height: 100%;
+    }
+
+    .buttonItem {
+        flex-basis: 20%;
+        padding: 0.5rem;
+        order: 1;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-around;
+    }
+
+    .orderItem {
+        flex-basis: 100%;
+        padding: 0.5rem;
+        order: 1;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-around;
+    }
+
     .backButton {
-        margin-left: 5em;
-        margin-top: 5em;
-        background-color: rgba(255,199,74,0.36);
+        /*margin-left: 5em;*/
+        /*margin-top: 5em;*/
+        background-color: rgba(255, 199, 74, 0.36);
         border-radius: 10px;
-        border:solid black 3px;
-        font-family: Helvetica;
-        font-size: 1em;
+        border: solid black 3px;
+        font-size: 1rem;
+        text-transform: uppercase;
+        font-style: oblique;
+        font-weight: bold;
     }
+
     .paymentButton {
-        margin-top: 10em;
+        /*margin-top: 10em;*/
         text-align: center;
         border-radius: 10px;
         background-color: #ffc74a;
         border: solid black 3px;
+        text-transform: uppercase;
+        font-style: oblique;
+        font-weight: bold;
+        margin: 0.25rem;
     }
+
     .checkOutTable {
         background-color: bisque;
         text-align: center;
         border: solid black 5px;
-        margin-left: 20em;
-        margin-right: 20em;
-        padding-bottom: 5em;
+        /*margin-left: 20em;*/
+        /*margin-right: 20em;*/
+        /*padding-bottom: 5em;*/
 
     }
+
     .routerButton {
         text-decoration: none;
         color: black;
     }
+
     .finalOrder {
-        border:black solid 3px;
+        border: black solid 3px;
     }
+
     .paymentBox {
         background-color: #efff9a;
         border: solid black 3px;
-        margin-right: 5vw;
-        margin-left: 5vw;
-        padding: 5vw;
-        position: relative;
+        /*margin-right: 5vw;*/
+        /*margin-left: 5vw;*/
+        /*padding: 5vw;*/
+        /*position: relative;*/
         text-align: center;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
+
     .paymentBox button {
         background-color: #ff0000;
         border-radius: 50%;
         border: solid black 2px;
-
-        position:absolute;
-        top: 0px;
-        right: 0px;
+        position: absolute;
+        /*top: 0px;*/
+        /*right: 0px;*/
     }
 </style>
