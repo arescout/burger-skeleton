@@ -22,7 +22,7 @@
 
             <!-- Add list of ingredients -->
             <div class="ingredientBox">
-                <div class="ingredientWrapper">
+                <div class="itemsWrapper">
                     <Ingredient
                             ref="ingredient"
                             v-for="item in ingredients"
@@ -256,6 +256,28 @@
 </script>
 <style scoped>
 
+    /*COLOR SCHEME */
+
+    :root {
+        /*--primary-color: #66bb6a;*/
+        /*--primary-light-color: #98ee99;*/
+        /*--primary-dark-color: #338a3e;*/
+        /*--primary-text-color: black;*/
+        /*--secondary-color: #29b6f6;*/
+        /*--secondary-light-color: #73e8ff;*/
+        /*--secondary-dark-color: #0086c3;*/
+        /*--secondary-text-color: black;*/
+        --primary-color: #FFE4C4;
+        --primary-light-color: #FAEBD7;
+        --primary-dark-color: #ffc74a;
+        --primary-text-color: black;
+        --secondary-color: chocolate;
+        --secondary-light-color: #FFFF00;
+        --secondary-dark-color: saddlechocolate;
+        --secondary-text-color: black;
+        --border-color: black;
+    }
+
     /*GENERAL*/
 
     html {
@@ -292,8 +314,8 @@
     /*HEADER*/
 
     .ingredientHeader {
-        background: bisque;
-        border: solid black 3px;
+        background: var(--primary-color);
+        border: 3px var(--border-color) solid;
         border-radius: 10px;
         text-align: center;
         text-transform: uppercase;
@@ -304,54 +326,51 @@
     /*MENU*/
 
     .categoryTabs {
-        background-color: chocolate;
-        border: black solid 2px;
+        border: 2px var(--border-color) solid;
         border-radius: 5px;
         display: flex;
         flex-wrap: nowrap;
-        /*justify-content: flex-start;*/
-        /*align-content: stretch;*/
         flex: 1;
     }
 
     .categoryTabs button {
-        background-color: chocolate;
-        border: solid black 2px;
+        background-color: var(--secondary-color);
+        border: 2px var(--border-color) solid;
         text-align: center;
         text-transform: uppercase;
         font-weight: bold;
         flex: 0 1 calc(16.66667%);
         flex-grow: 1;
         order: 1;
-        padding: 1em 0.6em 1em 0.6em;
+        padding: 1rem 0.6rem 1rem 0.6rem;
     }
 
     .categoryTabs button:hover {
-        background-color: saddlebrown;
-        color: black;
+        background-color: var(--secondary-dark-color);
+        color: var(--secondary-text-color);
     }
 
     /*LIST OF INGREDIENTS*/
 
     .ingredient {
-        background-color: antiquewhite;
-        border: solid 3px #ffc74a;
+        background-color: var(--primary-light-color);
+        border: 3px var(--primary-dark-color) solid;
         border-radius: 10px;
-        color: black;
+        color: var(--primary-text-color);
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
 
-    .ingredientWrapper {
+    .itemsWrapper {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
         grid-gap: 0.5rem;
     }
 
     .ingredientBox {
         grid-column: 1 / span 3;
         grid-row: 3 / span 4;
-        background-color: bisque;
-        border: solid black 3px;
+        background-color: var(--primary-color);
+        border: 3px var(--border-color) solid;
         padding: 0.25rem;
         border-radius: 10px;
     }
@@ -359,49 +378,46 @@
     /*ORDER INFORMATION*/
 
     .orderStatus {
-        background-color: bisque;
-        border: black solid 3px;
+        background-color: var(--primary-color);
+        border: 3px var(--border-color) solid;
         border-radius: 10px;
         grid-column: 4;
         grid-row: 1 / span 3;
-        padding-bottom: 1em;
-        padding-left: 1em;
+        padding-bottom: 1rem;
+        padding-left: 1rem;
     }
 
     .orderedItems {
-        background: beige;
-        border: solid black 3px;
+        background: var(--primary-light-color);
+        border: 3px var(--border-color) solid;
         border-radius: 5px;
-        margin-right: 1em;
+        margin-right: 1rem;
     }
 
-    .orderQueue {
-        text-align: center;
-    }
-
-    /*Bytte från placeorderButton till make a new burger */
     .newBurgerButton {
-        border: 3px black solid;
+        border: 3px var(--border-color) solid;
         border-radius: 15px;
-        font-size: 1em;
-        background-color: rgba(255, 223, 26, 0.36);
-
+        text-transform: uppercase;
+        font-style: oblique;
+        font-weight: bold;
+        background-color: var(--secondary-light-color);
     }
 
     .checkOutButton {
         text-align: center;
-        background-color: yellow;
+        background-color: var(--secondary-light-color);
         border-radius: 15px;
-        border: solid black 3px;
+        border: 3px var(--border-color) solid;
         font-style: oblique;
-        margin: 1em auto 0;
+        font-weight: bold;
+        margin: 1rem auto 0;
         display: block;
     }
 
     .myBurger {
         text-align: center;
-        background-color: beige;
-        border: solid black 3px;
+        background-color: var(--primary-light-color);
+        border: 3px var(--border-color) solid;
         border-radius: 10px;
         margin-right: 2rem;
         margin-left: 2rem;

@@ -1,24 +1,21 @@
 <template>
     <div class="ingredient">
-        <div class="ingredientCard">
-            <div class="ingredientItems">
+        <div class="itemsWrapper">
+            <div class="items">
                 <label>
-                    <!-- <button v-on:click="incrementCounter">{{ counter }}</button>  Nytt La den nedanför -->
                     {{item["ingredient_"+ lang]}}
-                    <!--      , {{item.stock}} pcs-->
                 </label>
             </div>
-            <div class="ingredientItems">
+            <div class="items">
                 <b>{{item.selling_price}}:-</b>
             </div>
-            <div class="ingredientItems">
+            <div class="items">
                 <div class="buttonWrapper">
                     <div class="pMButtons">
                         <br>
-                        <button class="plusButton" v-on:click="incrementCounter">+</button> <!-- Nytt */-->
-                        {{ counter }} <!-- Nytt */-->
+                        <button class="plusButton" v-on:click="incrementCounter">+</button>
+                        {{ counter }}
                         <button class="minusButton" v-if="counter > 0" v-on:click="decrementCounter">-</button>
-                        <!-- Nytt */-->
                         <div class="lactose" v-if="!item.milk_free">L</div>
                         <div class="gluten" v-if="!item.gluten_free">G</div>
                         <div class="vegan" v-if="item.vegan">V</div>
@@ -62,7 +59,7 @@
 </script>
 <style scoped>
 
-    .ingredientCard {
+    .itemsWrapper {
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
@@ -71,7 +68,7 @@
         height: 100%;
     }
 
-    .ingredientItems {
+    .items {
         flex-basis: 100%;
         padding: 0.5rem;
         order: 1;
@@ -96,7 +93,6 @@
     .minusButton {
         /*grid-row: 1;
           grid-column: 2;*/
-
         background-color: rgba(255, 28, 31, 0.36);
         -webkit-transition-duration: 0.4s; /* transition to color */
         transition-duration: 0.4s;
@@ -116,7 +112,6 @@
     .lactose {
         /*grid-row: 1;
         grid-column: 3;*/
-
         display: inline-block;
         background-color: rgba(51, 233, 255, 0.36);
         border: black solid 1px;
@@ -129,7 +124,6 @@
     .gluten {
         /*grid-row: 1;
         grid-column: 4;*/
-
         display: inline-block;
         background-color: rgba(251, 255, 50, 0.36);
         border: black solid 1px;
@@ -143,7 +137,6 @@
     .vegan {
         /*grid-row: 1;
         grid-column: 4;*/
-
         display: inline-block;
         background-color: rgba(55, 255, 57, 0.47);
         border: black solid 1px;
@@ -153,6 +146,5 @@
         padding-right: 5px;
         border-radius: 50%;
     }
-
 
 </style>
