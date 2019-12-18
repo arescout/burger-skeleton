@@ -20,7 +20,7 @@
                             </span>
                         </div>
                     <br><br>
-                    {{uiLabels.tally}}: {{this.price}} kr<br>
+                    <b>{{uiLabels.tally}}: {{this.price}}</b>:-<br>
                     <button class="paymentButton" v-on:click="confirmedPayment = true">Ready for payment</button>
                     <div class="paymentBox" v-show="confirmedPayment">
                         <button class="xButton" v-on:click="confirmedPayment=false">X</button>
@@ -162,7 +162,6 @@
         /*margin-left: 20em;*/
         /*margin-right: 20em;*/
         /*padding-bottom: 5em;*/
-
     }
 
     .routerButton {

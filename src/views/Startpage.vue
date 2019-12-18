@@ -1,16 +1,18 @@
 <template>
+    <div id = "startPage">
     <div class = "IntroText">
-         <button class="routerButton" v-on:click="switchLang()"><img src=https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width=20px>
-         {{uiLabels.language }}</button>
+        <button class="routerButton" v-on:click="switchLang()"><img src=https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width=20px>
+            {{uiLabels.language }}</button>
     <div class="welcomeText">Welcome to Indie Burgers</div>
         <section class = "welcomeSection">
-            <div class="whereToEat">
+            <div class="whereToEat" >
                 <h1>Welcome to Krafty Burgers</h1>
                 {{uiLabels.welcomeTextBox}}
                 <button id = "eatHereButton" v-on:click="whereToEatFuncHere()"><router-link to="/ordering" class="routerButton">{{uiLabels.eatHere}}</router-link></button>
                 <button id = "takeAwayButton" v-on:click="whereToEatFuncAway()"><router-link to="/ordering" class="routerButton">{{uiLabels.eatAway}}</router-link></button>
             </div>
         </section>
+    </div>
     </div>
 </template>
 
@@ -26,10 +28,6 @@
         data: function() { //Not that data is a function!
             return {
                 eatHere:false,
-                chosenIngredients: [],
-                price: 0,
-                orderNumber: "",
-                category: 1
             }
         },
         created: function () {
@@ -47,14 +45,21 @@
         }
     }
 
-
 </script>
 
 <style scoped>
+    #startPage{
+        top: 0;
+        left: 0;
+        position: absolute;
+        width: 100%;
+        hight:100%;
+        display:block;
+    }
     .welcomeText{
         text-align: center;
         font-size: 3em;
-        padding-top: 5em;
+        padding-top: 1em;
         padding-bottom: 1em;
 
     }
@@ -63,42 +68,46 @@
         overflow: hidden;
         background-size: cover;
         height: 50em;
-        border: 5px solid black;
+        border: 1em solid black;
         padding-left: 20em;
         padding-right: 20em;
         font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 
     }
     .welcomeSection {
+        display: flex;
         text-align: center;
-        border: black solid 5px;
+        border: black solid 0.5em;
         color: black;
         background-color: bisque;
         border-radius: 50px;
     }
-    button {
-        text-align: center;
-        font-size: 15px;
+    .whereToEat button {
+
+        font-size: 1em;
         border-radius: 40%;
-        border: 2px solid black;
-        padding: 15px 20px;
+        border: 0.2em solid black;
+        padding: 1em 1.4em;
         margin-top: 5%;
-        margin-left: 42%;
-        margin-right: 45%;
+        margin-left: 30%;
+        margin-right: 30%;
         margin-bottom: 2em;
         background-color: beige;
         -webkit-transition-duration: 0.4s;  /* transition to color */
         transition-duration: 0.4s;
         display: block;
-    }
-    #firstButton:hover{
-        background-color: chocolate;
-        color:white
-    }
+        text-decoration:none;
 
+    }
+    .whereToEat button:hover {
+        background-color: #ffd4a4;
+        color: var(--secondary-text-color);
+        cursor: pointer;
+    }
     .routerButton {
         text-decoration: none;
+        text-transform: uppercase;
         color: black;
+        display: block;
     }
-
 </style>
