@@ -29,6 +29,8 @@
       :key="key">
     </OrderItem>
   </div>
+
+</div>
 </div>	
 </template>
 <script>
