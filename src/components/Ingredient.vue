@@ -1,15 +1,15 @@
 <template>
     <div class="ingredient">
         <div class="itemsWrapper">
-            <div class="items">
+            <div class="buttonItem">
                 <label>
                     {{item["ingredient_"+ lang]}}
                 </label>
             </div>
-            <div class="items">
+            <div class="buttonItem">
                 <b>{{item.selling_price}}:-</b>
             </div>
-            <div class="items">
+            <div class="buttonItem">
                 <div class="buttonWrapper">
                     <div class="pMButtons">
                         <br>
@@ -68,7 +68,7 @@
         height: 100%;
     }
 
-    .items {
+    .buttonItem {
         flex-basis: 100%;
         padding: 0.5rem;
         order: 1;
