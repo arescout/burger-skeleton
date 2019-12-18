@@ -14,10 +14,11 @@
       <div class = "categoryTabs">
             <button v-on:click="setCategory(1)">{{uiLabels.protein}}</button>
             <button v-on:click="setCategory(2)">{{uiLabels.toppings}}</button>
-            <button v-on:click="setCategory(3)">{{uiLabels.sauce}}</button>
-            <button v-on:click="setCategory(4)">{{uiLabels.bread}}</button>
+            <button v-on:click="setCategory(3)">{{uiLabels.sauce}}</button> <!-- just one bread per burger-->
+            <button v-on:click="setCategory(4)">{{uiLabels.bread}}</button> <!-- no order without sallad and protein-->
             <button v-on:click="setCategory(5)">{{uiLabels.sides}}</button>
             <button v-on:click="setCategory(6)">{{uiLabels.drinks}}</button>
+            <button v-on:click="setCategory(3)">{{uiLabels.dip}}</button>
       </div>
 
     <!-- Add list of ingredients -->
@@ -176,7 +177,7 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
 
     #ordering {
         margin:auto;
-        width: 60em;
+        width: 80em;
     }
 
     .example-panel {
@@ -195,6 +196,7 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
         border-radius: 10px;
         color: black;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        text-transform: capitalize;
     }
     .menuWrapper {
         display: grid;
@@ -223,7 +225,7 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
         font-size: 1em;
         height: 100%;
         /*padding-bottom: 2px;*/
-        width: calc(100% /6);
+        width: calc(100% /7);
 
     }
     .categoryTabs button:hover {
@@ -238,6 +240,7 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
         grid-row: 1 / span 3;
         padding-bottom: 1em;
         padding-left: 1em;
+        text-transform: capitalize;
     }
     .orderedItems {
         background: beige;
@@ -288,7 +291,7 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
     }
     .ingredientWrapper {
         display: grid;
-        grid-template-columns: repeat(3,1fr);
+        grid-template-columns: repeat(4,1fr);
         grid-gap: 10px;
     }
 

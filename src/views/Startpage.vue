@@ -5,7 +5,7 @@
 
         <section class = "welcomeSection">
             <div >
-                <h1>Welcome to Krafty Burgers</h1>
+                <h1>Welcome to Indie Burgers</h1>
                 {{uiLabels.welcomeTextBox}}
                 <button id = "firstButton"><router-link to="/ordering" class="routerButton">{{uiLabels.begin}}</router-link></button>
             </div>
@@ -18,7 +18,7 @@
 
         export default {
             name: "Startpage",
-            mixins: {sharedVueStuff}
+            mixins: [sharedVueStuff]
         }
 
 
@@ -52,6 +52,7 @@
         border-radius: 50px;
     }
     #firstButton {
+        background-color: sandybrown;
         text-align: center;
         font-size: 15px;
         border-radius: 40%;
@@ -61,7 +62,6 @@
         margin-left: 42%;
         margin-right: 45%;
         margin-bottom: 2em;
-        background-color: beige;
         -webkit-transition-duration: 0.4s;  /* transition to color */
         transition-duration: 0.4s;
         display: block;
