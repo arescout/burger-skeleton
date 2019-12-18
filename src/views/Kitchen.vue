@@ -1,20 +1,24 @@
 <template>
 <div id="orders">
-  <h1>{{ uiLabels.ordersInQueue }}</h1>
-  <div>
-    <OrderItemToPrepare
-      v-for="(order, key) in orders"
-      v-if="order.status !== 'done'"
-      v-on:done="markDone(key)"
-      :order-id="key"
-      :order="order" 
-      :ui-labels="uiLabels"
-      :lang="lang"
-      :key="key">
-    </OrderItemToPrepare>
-  </div>
-  <h1>{{ uiLabels.ordersFinished }}</h1>
-  <div>
+
+  <div class = "kitchenWrapper">
+    <div class = "prepare">
+      <h1>{{ uiLabels.ordersInQueue }}</h1>
+        <OrderItemToPrepare
+          v-for="(order, key) in orders"
+          v-if="order.status !== 'done'"
+          v-on:done="markDone(key)"
+          :order-id="key"
+          :order="order"
+          :ui-labels="uiLabels"
+          :lang="lang"
+          :key="key">
+        </OrderItemToPrepare>
+    </div>
+
+
+  <div class = "itemsDone">
+    <h1>{{ uiLabels.ordersFinished }}</h1>
     <OrderItem
       v-for="(order, key) in orders"
       v-if="order.status === 'done'"
@@ -63,5 +67,22 @@ export default {
   h1 {
     text-transform: uppercase;
     font-size: 1.4em;
+  }
+  .kitchenWrapper {
+    display: grid;
+    grid-gap: 2vw;
+    border:solid black 5px;
+  }
+
+  .prepare {
+    text-align: center;
+    grid-column: 1;
+    border: solid black 5px;
+  }
+
+  .itemsDone {
+    text-align: center;
+    grid-column: 2;
+    border: solid black 5px;
   }
 </style>
