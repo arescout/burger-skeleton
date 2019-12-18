@@ -81,6 +81,11 @@
                     <router-link class="routerButton" to="/checkout" v>{{uiLabels.proceedToCO}}</router-link>
                 </button>
             </div>
+            <div class = "allergyBox">{{uiLabels.allergies}}:<br>
+                <p class = "vegan">V</p> = Vegan<br>
+                <p class = "lactose">L</p> = Lactose<br>
+                <p class = "gluten">G</p> = Gluten
+            </div>
         </div>
 
     </div>
@@ -430,6 +435,38 @@
         margin-right: 2rem;
         margin-left: 2rem;
         padding: 0.5rem 1.5rem;
+    }
+
+    /* ALLERGY BOX*/
+    .allergyBox {
+        grid-column: 4;
+        grid-row: 4;
+        background-color: var(--primary-color);
+        border: 3px var(--border-color) solid;
+        border-radius: 10px;
+        padding-bottom: 1rem;
+        padding-left: 1rem;
+        padding-top: 1rem;
+        margin-right: 15rem;
+
+    }
+    .allergyBox p {
+        display: inline-block;
+        border: black solid 1px;
+        color: black;
+        margin-left: 2px;
+        padding-left: 5px;
+        padding-right: 5px;
+        border-radius: 50%;
+    }
+    .vegan {
+        background-color: rgba(55, 255, 57, 0.47);
+    }
+    .lactose {
+        background-color: rgba(51, 233, 255, 0.36);
+    }
+    .gluten {
+        background-color: rgba(251, 255, 50, 0.36);
     }
 
 </style>
