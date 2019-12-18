@@ -17,6 +17,7 @@
                 <button v-on:click="setCategory(4)">{{uiLabels.bread}}</button>
                 <button v-on:click="setCategory(5)">{{uiLabels.sides}}</button>
                 <button v-on:click="setCategory(6)">{{uiLabels.drinks}}</button>
+                <button v-on:click="setCategory(3)">{{uiLabels.dip}}</button>
             </div>
 
             <!-- Add list of ingredients -->
@@ -81,6 +82,7 @@
                 </button>
             </div>
         </div>
+
     </div>
 </template>
 <script>
@@ -138,7 +140,7 @@
                 });
                 //console.log(difIngredients);
                 return difIngredients;
-            }
+            },
         },
         methods: {
             /*            addToOrder: function (item) {
