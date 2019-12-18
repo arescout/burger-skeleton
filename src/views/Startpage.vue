@@ -1,13 +1,14 @@
 <template>
-
     <div class = "IntroText">
+         <button class="routerButton" v-on:click="switchLang()"><img src=https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width=20px>
+         {{uiLabels.language }}</button>
     <div class="welcomeText">Welcome to Indie Burgers</div>
-
         <section class = "welcomeSection">
-            <div >
+            <div class="whereToEat">
                 <h1>Welcome to Krafty Burgers</h1>
                 {{uiLabels.welcomeTextBox}}
-                <button id = "firstButton"><router-link to="/ordering" class="routerButton">{{uiLabels.begin}}</router-link></button>
+                <button id = "eatHereButton" v-on:click="whereToEatFuncHere()"><router-link to="/ordering" class="routerButton">{{uiLabels.eatHere}}</router-link></button>
+                <button id = "takeAwayButton" v-on:click="whereToEatFuncAway()"><router-link to="/ordering" class="routerButton">{{uiLabels.eatAway}}</router-link></button>
             </div>
         </section>
     </div>
@@ -16,10 +17,35 @@
 <script>
     import sharedVueStuff from '@/components/sharedVueStuff.js'
 
-        export default {
-            name: "Startpage",
-            mixins: [sharedVueStuff]
+    export default {
+        name: 'StartingPage',
+        components: {
+        },
+        mixins: [sharedVueStuff], // include stuff that is used in both
+                                  // the ordering system and the kitchen
+        data: function() { //Not that data is a function!
+            return {
+                eatHere:false,
+                chosenIngredients: [],
+                price: 0,
+                orderNumber: "",
+                category: 1
+            }
+        },
+        created: function () {
+            this.$store.state.socket.on('orderNumber', function (data) {
+                this.orderNumber = data;
+            }.bind(this));
+        },
+        methods: {
+            whereToEatFuncHere: function () {
+                this.eatHere=true;
+            },
+            whereToEatFuncAway: function () {
+                this.eatHere=false;
+            }
         }
+    }
 
 
 </script>
@@ -50,7 +76,7 @@
         background-color: bisque;
         border-radius: 50px;
     }
-    #firstButton {
+    button {
         text-align: center;
         font-size: 15px;
         border-radius: 40%;
