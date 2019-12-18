@@ -9,7 +9,7 @@
   "pay" : "Betala",
   "sum" :"Summa",
   "ordersFinished" : "Färdiga beställningar",
-  "ordersInQueue" : "Beställningar att förbereda",
+  "ordersInQueue" : "Beställningskö",
   "ordersTrending" : "Populära beställningar",
   "placeOrder" : "Beställ",
   "sideorders" : "Tillbehör",
@@ -25,10 +25,15 @@
   "sides" : "Tillbehör",
   "dip": "Dipsås",
   "tally" : "Totalt pris",
-  "proceedToCO" : "Fortsätt till utcheckning",
-  "backToOrd" : "Gå tillbaks till ordern",
-  "startpage" : "Till startsidan",
+  "proceedToCO" : "Fortsätt till kassan",
+  "backToOrd" : "Gå tillbaka till din order",
+  "startpage" : "Avsluta",
   "unit" : "stk",
   "welcomeTextBox" : "DSf",
-  "begin" : "Börja beställa!"
+  "eatHere": "Vill du äta här",
+  "eatAway": "Vill du ta take-away",
+  "newBurger": "Lägg till burgare i beställningen",
+  "burgNr" : "Burgarnummer",
+  "companyName": "Kraft Burgers",
+  "currentPriceLabel": "Pris på vald burgare"
 }
