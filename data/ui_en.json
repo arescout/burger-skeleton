@@ -1,4 +1,5 @@
 {
+  "allergies" : "Allergies",
   "cancelOrder" : "Cancel order",
   "next" : "Next",
   "changeIng" : "Change ingredient",
@@ -23,6 +24,7 @@
   "bread" : "Bread",
   "drinks" : "Drinks",
   "sides" : "Sides",
+  "dip": "Dip Sauce",
   "tally" : "Total price",
   "proceedToCO" : "Proceed to checkout",
   "backToOrd" : "Back to ordering page",

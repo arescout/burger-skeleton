@@ -11,12 +11,11 @@
             </div>
             <div class="buttonItem">
                 <div class="buttonWrapper">
-                    <div class="buttonBox">
-                        <button class="plusButton" v-on:click="incrementCounter">+</button>
+                    <div class="pMButtons">
+                        <br>
+                        <button class="plusButton" v-show="!breadChosen && !doublePatty" v-on:click="incrementCounter">+</button>
                         {{ counter }}
-                        <button class="minusButton" v-if="counter > 0" v-on:click="decrementCounter">-</button>
-                    </div>
-                    <div class="allergicBox">
+                        <button class="minusButton" v-if="counter > 0" v-on:click="decrementCounter">-</button><br>
                         <div class="lactose" v-if="!item.milk_free">L</div>
                         <div class="gluten" v-if="!item.gluten_free">G</div>
                         <div class="vegan" v-if="item.vegan">V</div>
@@ -28,7 +27,9 @@
 
 </template>
 <script>
-    import Ordering from '@/views/Ordering.vue'
+
+    import Ordering from "../views/Ordering";
+
     export default {
         name: 'Ingredient',
         components: {
@@ -40,7 +41,12 @@
         },
         data: function () {
             return {
-                counter: 0
+                counter: 0,
+                breadChosen: false,
+                patties: 0,
+                burgerChosen: false,
+                doublePatty: false,
+                burgerAndBread: false
             };
         },
 
@@ -48,17 +54,37 @@
             this.checkCounter();
         },
         methods: {
-            incrementCounter: function () {
-                this.counter += 1;
-                // sending 'increment' message to parent component or view so that it
-                // can catch it with v-on:increment in the component declaration
-                this.$emit('increment');
-                //this.$emit('counter', this.counter)  //nytt
-            },
-            decrementCounter: function () {
-                this.counter -= 1;
-                // Makes the same thing as incrementCounter with difference that it remove instead of adding .
-                this.$emit('decrease');
+          incrementCounter: function () {
+            this.counter += 1;
+            // sending 'increment' message to parent component or view so that it
+            // can catch it with v-on:increment in the component declaration
+            this.$emit('increment');
+            //this.$emit('counter', this.counter)  //nytt
+            if (this.item.category === 4) { //if a bread i selected plus button now disappears
+              this.breadChosen = true;
+            }
+            if (this.item.category === 1) {
+              this.patties += 1;
+              this.burgerChosen = true;
+            }
+            if (this.patties === 2) {
+              this.doublePatty = true;
+            }
+              console.log(this.breadChosen);
+          },
+          decrementCounter: function () {
+            this.counter -= 1;
+            // Makes the same thing as incrementCounter with difference that it remove instead of adding .
+            this.$emit('decrease');
+            if (this.item.category === 4) { //if selected bread is unselected, the plus button reappears
+              this.breadChosen = false;
+            }
+            if (this.item.category === 1) {
+              this.patties -= 1;
+            }
+            if (this.patties < 2) {
+              this.doublePatty = false;
+            }
             },
             resetCounter: function () {
                 this.counter = 0;

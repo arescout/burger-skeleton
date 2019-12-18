@@ -1,4 +1,5 @@
 {
+  "allergies" : "Allergier",
   "cancelOrder" : "Avbryt köp",
   "next" : "Nästa",
   "changeIng" : "Byt ut ingrediens",
@@ -23,6 +24,7 @@
   "bread" : "Bröd",
   "drinks" : "Dryck",
   "sides" : "Tillbehör",
+  "dip": "Dipsås",
   "tally" : "Totalt pris",
   "proceedToCO" : "Fortsätt till kassan",
   "backToOrd" : "Gå tillbaka till din order",
