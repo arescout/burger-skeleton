@@ -27,8 +27,12 @@
 
 </template>
 <script>
+    import Ordering from '@/views/Ordering.vue'
     export default {
         name: 'Ingredient',
+        components: {
+            Ordering
+        },
         props: {
             item: Object,
             lang: String,
@@ -37,6 +41,10 @@
             return {
                 counter: 0
             };
+        },
+
+        created: function(){
+            this.checkCounter();
         },
         methods: {
             incrementCounter: function () {
@@ -53,6 +61,17 @@
             },
             resetCounter: function () {
                 this.counter = 0;
+            },
+            checkCounter: function(){
+                if(Ordering.chosenIngredients.length === 0){
+                    return;
+                } else {
+                    for (let i = 0; i < Ordering.chosenIngredients.length; i++) {
+                        if (Ordering.chosenIngreients[i].ingredient_id === ingredient_id){
+                            this.counter = Ordering.chosenIngreients[i].counter;
+                        }
+                    }
+                }
             }
         }
     }

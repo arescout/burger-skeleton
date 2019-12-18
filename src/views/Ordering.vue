@@ -55,11 +55,7 @@
                     <!-- Key + 1 so it doesn't say "burger 0" on customers page -->
                     <span v-for="(item, key2) in burger.ingredients" :key="key2">
                         <br/>{{ item["ingredient_" + lang]}}: {{ item["count"] }} {{uiLabels.unit}}
-                        <!--<span v-for="item in countPlacedIngredients(burger.ingredients)"
-                              v-if="item.count > 0 "
-                              :key="countPlacedIngredients.indexOf(item)">
-          {{ item.name }}: {{item.count}} {{uiLabels.unit}} -->
-        </span>
+                    </span>
 
                 </div>
                 <br>
@@ -76,7 +72,7 @@
                             :key="key3">
                     </OrderItem>
                 </div>
-                <button class="checkOutButton"><!-- v-on:click="placeOrder()-->
+                <button class="checkOutButton" v-on:click="placeOrder()">
                     <router-link class="routerButton" to="/checkout" v>{{uiLabels.proceedToCO}}</router-link>
                 </button>
             </div>
@@ -184,17 +180,19 @@
             },
             addToOrder: function () {
                 // Add the burger to an order array
+                if(this.chosenIngredients.length === 0){
+                    return;
+                }
+
                 this.currentOrder.burgers.push({
                     ingredients: this.chosenIngredients.splice(0),
                     price: this.currentPrice
                 });
-                console.log("currentOrder.burgers")
-                console.log(this.currentOrder.burgers);
+
                 this.aggregatedOrders.burgers.push({
                     ingredients: this.countPlacedIngredients(this.currentOrder.burgers)
                 });
-                console.log("aggregatedOrders.burgers")
-                console.log(this.aggregatedOrders.burgers);
+
                 //set all counters to 0. Notice the use of $refs
                 for (let i = 0; i < this.$refs.ingredient.length; i += 1) {
                     this.$refs.ingredient[i].resetCounter();
@@ -204,8 +202,13 @@
                 this.currentPrice = 0;
             },
             placeOrder: function () {
+                console.log("Sending");
                 // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
-                this.$store.state.socket.emit('order', {aggregatedOrders});
+                this.$store.state.socket.emit('order', {
+                    order: this.aggregatedOrders,
+                    price: this.totalPrice,
+                    time: Date.getTime()}
+                    );
                 this.currentOrder = [];
                 this.category = 1;
             },
@@ -226,9 +229,6 @@
             },
             // Function for counting number of same ingredients in ingredient list
             countPlacedIngredients: function (ingredientList) {
-                console.log("Ingredientlist")
-                console.log(ingredientList)
-
                 // Create new array for collecting the unique ingredients
                 let ingredientTuples = [];
 
