@@ -326,6 +326,8 @@
     /*MENU*/
 
     .categoryTabs {
+        grid-row: 2;
+        grid-column: 1 / span 3;
         border: 2px var(--border-color) solid;
         border-radius: 5px;
         display: flex;
