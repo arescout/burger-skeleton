@@ -273,7 +273,7 @@
         --primary-text-color: black;
         --secondary-color: chocolate;
         --secondary-light-color: #FFFF00;
-        --secondary-dark-color: saddlechocolate;
+        --secondary-dark-color: saddlebrown;
         --secondary-text-color: black;
         --border-color: black;
     }
