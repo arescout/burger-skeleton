@@ -56,17 +56,13 @@
                     <!-- Key + 1 so it doesn't say "burger 0" on customers page -->
                     <span v-for="(item, key2) in burger.ingredients" :key="key2">
                         <br/>{{ item["ingredient_" + lang]}}: {{ item["count"] }} {{uiLabels.unit}}
-                        <!--<span v-for="item in countPlacedIngredients(burger.ingredients)"
-                              v-if="item.count > 0 "
-                              :key="countPlacedIngredients.indexOf(item)">
-          {{ item.name }}: {{item.count}} {{uiLabels.unit}} -->
-        </span>
+                    </span>
 
                 </div>
                 <br>
                 <!--<br><button class = "placeOrderButton" v-if = "chosenIngredients.length > 0" v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>-->
                 <h4>{{uiLabels.tally}}: {{totalPrice}}:-</h4>
-                <div class="orderedItems" v-show="!noOrder">
+                <div class="orderedItems">
                     <OrderItem
                             v-for="(order, key3) in this.orders"
                             v-if="order.status !== 'done'"
@@ -77,14 +73,16 @@
                             :key="key3">
                     </OrderItem>
                 </div>
+                <button class="checkOutButton" v-show="!noOrder" v-on:click="placeOrder()">
+                    <router-link class="routerButton" to="/checkout" v>{{uiLabels.proceedToCO}}</router-link>
                 <button class="checkOutButton" v-show="!noOrder"><!-- v-on:click="placeOrder()-->
                     <router-link class="routerButton" to="/checkout">{{uiLabels.proceedToCO}}</router-link>
                 </button>
-            </div>
-            <div class = "allergyBox">{{uiLabels.allergies}}:<br>
-                <p class = "vegan">V</p> = Vegan<br>
-                <p class = "lactose">L</p> = Lactose<br>
-                <p class = "gluten">G</p> = Gluten
+                            <div class = "allergyBox">{{uiLabels.allergies}}:<br>
+                                <p class = "vegan">V</p> = Vegan<br>
+                                <p class = "lactose">L</p> = Lactose<br>
+                                <p class = "gluten">G</p> = Gluten
+                            </div>
             </div>
         </div>
 
@@ -108,7 +106,6 @@
                 chosenIngredients: [],
                 totalPrice: 0,
                 currentPrice: 0,
-                noQueue: true,
                 orderNumber: "",
                 count: 0,
                 noOrder: true,
@@ -126,6 +123,7 @@
             this.$store.state.socket.on('orderNumber', function (data) {
                 this.orderNumber = data;
             }.bind(this));
+
         },
         computed: {
             //Nytt Taken from burger-skeleton/severalBurgers/src/views/Kitchen.vue and changed ingredients to our array chosenIngredients
@@ -179,6 +177,7 @@
             addToBurger: function (item) {
                 this.chosenIngredients.push(item);
                 this.currentPrice += +item.selling_price;
+
             },
             removeFromBurger: function (item) {
                 let removeIndex = 0;
@@ -193,17 +192,19 @@
             },
             addToOrder: function () {
                 // Add the burger to an order array
+                if(this.chosenIngredients.length === 0){
+                    return;
+                }
+
                 this.currentOrder.burgers.push({
                     ingredients: this.chosenIngredients.splice(0),
                     price: this.currentPrice
                 });
-                console.log("currentOrder.burgers")
-                console.log(this.currentOrder.burgers);
+
                 this.aggregatedOrders.burgers.push({
                     ingredients: this.countPlacedIngredients(this.currentOrder.burgers)
                 });
-                console.log("aggregatedOrders.burgers")
-                console.log(this.aggregatedOrders.burgers);
+
                 //set all counters to 0. Notice the use of $refs
                 for (let i = 0; i < this.$refs.ingredient.length; i += 1) {
                     this.$refs.ingredient[i].resetCounter();
@@ -211,16 +212,14 @@
                 this.chosenIngredients = [];
                 this.totalPrice += this.currentPrice;
                 this.currentPrice = 0;
-                if (this.totalPrice > 0) { //Checkout button not visible if no burger is added
-                    this.noOrder = false;
-                }
-                Ingredient.data().breadChosen = false;
-                Ingredient.data().patties = 0;
-                console.log(Ingredient.data().breadChosen);
             },
             placeOrder: function () {
                 // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
-                this.$store.state.socket.emit('order', {aggregatedOrders});
+                this.$store.state.socket.emit('order', {
+                    order: this.aggregatedOrders,
+                    price: this.totalPrice,
+                    time: Date.getTime()}
+                    );
                 this.currentOrder = [];
                 this.category = 1;
             },
@@ -241,9 +240,6 @@
             },
             // Function for counting number of same ingredients in ingredient list
             countPlacedIngredients: function (ingredientList) {
-                console.log("Ingredientlist")
-                console.log(ingredientList)
-
                 // Create new array for collecting the unique ingredients
                 let ingredientTuples = [];
 
@@ -272,14 +268,6 @@
     /*COLOR SCHEME */
 
     :root {
-        /*--primary-color: #66bb6a;*/
-        /*--primary-light-color: #98ee99;*/
-        /*--primary-dark-color: #338a3e;*/
-        /*--primary-text-color: black;*/
-        /*--secondary-color: #29b6f6;*/
-        /*--secondary-light-color: #73e8ff;*/
-        /*--secondary-dark-color: #0086c3;*/
-        /*--secondary-text-color: black;*/
         --primary-color: #FFE4C4;
         --primary-light-color: #FAEBD7;
         --primary-dark-color: #ffc74a;
@@ -326,27 +314,33 @@
 
     .wrapper {
         display: grid;
-        grid-gap: 0.25rem;
         margin: 0.25rem;
+        /*TEST*/
+        grid-template-areas:
+                "header header order"
+                "nav nav order"
+                "content content order";
+                /*"footer footer footer";*/
+        grid-template-columns: 0.625fr 0.375fr;
+        grid-template-rows: auto auto 1fr;
+        grid-gap: 0.25rem;
     }
 
     /*HEADER*/
 
     .ingredientHeader {
+        grid-area: header;
         background: var(--primary-color);
         border: 3px var(--border-color) solid;
         border-radius: 10px;
         text-align: center;
         text-transform: uppercase;
-        grid-row: 1;
-        grid-column: 1 / span 3;
     }
 
     /*MENU*/
 
     .categoryTabs {
-        grid-row: 2;
-        grid-column: 1 / span 3;
+        grid-area: nav;
         border: 2px var(--border-color) solid;
         border-radius: 5px;
         display: flex;
@@ -388,8 +382,7 @@
     }
 
     .ingredientBox {
-        grid-column: 1 / span 3;
-        grid-row: 3 / span 4;
+        grid-area: content;
         background-color: var(--primary-color);
         border: 3px var(--border-color) solid;
         padding: 0.25rem;
@@ -399,11 +392,10 @@
     /*ORDER INFORMATION*/
 
     .orderStatus {
+        grid-area: order;
         background-color: var(--primary-color);
         border: 3px var(--border-color) solid;
         border-radius: 10px;
-        grid-column: 4;
-        grid-row: 1 / span 3;
         padding-bottom: 1rem;
         padding-left: 1rem;
     }
@@ -445,16 +437,32 @@
         padding: 0.5rem 1.5rem;
     }
 
+    @media (max-width: 850px) {
+        .wrapper {
+            display: grid;
+            margin: 0.25rem;
+            grid-template-areas:
+                    "header"
+                    "nav"
+                    "content"
+                    "order";
+            grid-template-columns: auto;
+            grid-template-rows: auto;
+            grid-gap: 0.25rem;
+        }
+    }
+
     /* ALLERGY BOX*/
     .allergyBox {
-        grid-column: 4;
-        grid-row: 4;
+        /*grid-column: 4;*/
+        /*grid-row: 4;*/
         background-color: var(--primary-color);
         border: 3px var(--border-color) solid;
         border-radius: 10px;
         padding-bottom: 1rem;
         padding-left: 1rem;
         padding-top: 1rem;
+        margin-top: 1rem;
         margin-right: 15rem;
 
     }

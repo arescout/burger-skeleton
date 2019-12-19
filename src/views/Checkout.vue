@@ -10,16 +10,15 @@
                 <div class="checkOutTable">
                     <h1>Your total order: </h1>
                     <div class="finalOrder">
-                        <OrderItem
-                                v-for="(order, key) in this.orders"
-                                v-if="order.status !== 'done'"
-                                :order-id="key"
-                                :order="order"
-                                :ui-labels="uiLabels"
-                                :lang="lang"
-                                :key="key">
-                        </OrderItem>
-                    </div>
+                        <div v-for="(burger, key) in order.order" :key="key">
+                            Hej
+                            <br>
+                            <b>{{uiLabels.burgNr}} {{key + 1}}</b>
+                            <!-- Key + 1 so it doesn't say "burger 0" on customers page -->
+                            <span v-for="(item, key2) in burger.ingredients" :key="key2">
+                            <br/>{{ item["ingredient_" + lang]}}: {{ item["count"] }} {{uiLabels.unit}}
+                            </span>
+                        </div>
                     <br><br>
                     <b>{{uiLabels.tally}}: {{this.price}}</b>:-<br>
                     <button class="paymentButton" v-on:click="confirmedPayment = true">Ready for payment</button>
@@ -28,6 +27,7 @@
                         Follow instructions in the card terminal...
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     </div>
@@ -52,17 +52,30 @@
         data: function () { //Not that data is a function!
             return {
                 confirmedPayment: false,
-                chosenIngredients: [],
+                order: {},
                 price: 0,
                 orderNumber: "",
-                count: 0,
-                currentCategory: 1, // Category deciding what ingredients to show
+
             }
         },
+
+        created: function() {
+
+            // Method for recieving order from Ordering page
+            this.$store.state.socket.on('order', function (order) {
+                console.log(order);
+                    this.order = order.order;
+                    this.price = order.price;
+            }.bind(this));
+        },
+
+
         methods: {
             alertFunction: function () {
                 alert("Follow the instructions in the card terminal")
-            }
+            },
+
+
         }
     };
 
