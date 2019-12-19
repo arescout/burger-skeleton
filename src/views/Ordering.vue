@@ -115,6 +115,7 @@
                 currentPrice: 0,
                 orderNumber: "",
                 count: 0,
+                breadChosen: false,
                 noOrder: true,
                 currentCategory: 1, // Category deciding what ingredients to show
                 numbOfBurgers: 0,
@@ -184,8 +185,13 @@
             addToBurger: function (item) {
                 this.chosenIngredients.push(item);
                 this.currentPrice += +item.selling_price;
-                Startpage.data().eatHere, //Mikael
-                    console.log(eatHere)
+                //Startpage.data().eatHere, //Mikael
+                //    console.log(eatHere)
+                for (let i = 1; i < this.chosenIngredients.length; i += 1) {
+                    if (this.chosenIngredients[i].category === 4) {
+                        this.breadChosen = true;
+                    }
+                }
 
 
             },
@@ -223,11 +229,11 @@
                 this.totalPrice += this.currentPrice;
                 this.currentPrice = 0;
             },
-            addWheretoEat:function(){
-                Startpage.data().eatHere,
-                console.log(eatHere)
+            //addWheretoEat:function(){
+            //    Startpage.data().eatHere,
+            //    console.log(eatHere)
 
-            },
+            //},
             placeOrder: function () {
                 // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
                 this.$store.state.socket.emit('order', {
