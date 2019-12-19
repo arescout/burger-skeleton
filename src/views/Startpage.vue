@@ -9,7 +9,7 @@
                 <div class="welcomeShort"><h2>{{uiLabels.welcomeShort}}</h2></div>
                 <div class="welcomelong">{{uiLabels.welcomeTextBox}}</div>
                 <button class = "eatHereButton" v-on:click="whereToEatFuncHere()"><router-link to="/ordering" class="routerButton">{{uiLabels.eatHere}}</router-link></button>
-                <button id = "takeAwayButton" v-on:click="whereToEatFuncAway()"><router-link to="/ordering" class="routerButton">{{uiLabels.eatAway}}</router-link></button>
+                <button class = "takeAwayButton" v-on:click="whereToEatFuncAway()"><router-link to="/ordering" class="routerButton">{{uiLabels.eatAway}}</router-link></button>
             </div>
         </section>
     </div>
@@ -131,7 +131,7 @@
         grid-row-start: 4;
         grid-row-end: 5;
         font-size: 1em;
-        border-radius: 40%;
+        border-radius: 25px;
         border: 0.2em solid black;
 
 
@@ -139,13 +139,13 @@
 
 
     }
-    #takeAwayButton{
+    .takeAwayButton{
         grid-column-start: 3;
         grid-column-end: 4;
         grid-row-start: 4;
         grid-row-end: 5;
         font-size: 1em;
-        border-radius: 40%;
+        border-radius: 25px;
         border: 0.2em solid black;
         background-color: beige;
 

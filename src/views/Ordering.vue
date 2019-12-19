@@ -47,7 +47,7 @@
                 </div>
                 <b>{{uiLabels.currentPriceLabel}}: {{this.currentPrice}}:-</b>
                 <br><br>
-                <button class="newBurgerButton"  v-on:click="addToOrder()">{{ uiLabels.newBurger }}</button>
+                <button class="newBurgerButton" v-show="chosenIngredients.length > 0" v-on:click="addToOrder()">{{ uiLabels.newBurger }}</button>
                 <br><br>
                 <b>{{uiLabels.yourOrder}}:</b>
                 <div v-for="(burger, key) in aggregatedOrders.burgers" :key="key">
@@ -74,9 +74,6 @@
                     </OrderItem>
                 </div>
                 <button class="checkOutButton" v-show="!noOrder" v-on:click="placeOrder()">
-                    <router-link class="routerButton" to="/checkout" v>{{uiLabels.proceedToCO}}</router-link>
-                </button>
-                <button class="checkOutButton" v-show="!noOrder"><!-- v-on:click="placeOrder()-->
                     <router-link class="routerButton" to="/checkout">{{uiLabels.proceedToCO}}</router-link>
                 </button>
                             <div class = "allergyBox">{{uiLabels.allergies}}:<br>
@@ -213,6 +210,9 @@
                 this.chosenIngredients = [];
                 this.totalPrice += this.currentPrice;
                 this.currentPrice = 0;
+                this.noOrder = false;
+                Ingredient.data().breadChosen = false;
+
             },
             placeOrder: function () {
                 // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
@@ -221,9 +221,9 @@
                     price: this.totalPrice,
                     time: Date.getTime()}
                     );
+
                 this.currentOrder = [];
                 this.category = 1;
-                Ingredient.data().breadChosen = false;
             },
             // Function for changing category. Called on at buttons in <Ingredient
             setCategory: function (newCat) {
@@ -464,6 +464,7 @@
         padding-bottom: 1rem;
         padding-left: 1rem;
         padding-top: 1rem;
+        padding-right: 1rem;
         margin-top: 1rem;
         margin-right: 15rem;
 

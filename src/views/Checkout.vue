@@ -20,7 +20,7 @@
                             </span>
                         </div>
                     <br><br>
-                    <b>{{uiLabels.tally}}: {{this.price}}</b>:-<br>
+                    <b>{{uiLabels.tally}}: {{Ordering.data.totalPrice}}</b>:-<br>
                     <button class="paymentButton" v-on:click="confirmedPayment = true">Ready for payment</button>
                     <div class="paymentBox" v-show="confirmedPayment">
                         <button class="xButton" v-on:click="confirmedPayment=false">X</button>
