@@ -32,11 +32,11 @@
   "unit" : "pcs",
   "welcomeTextBox" : "We are a restaurant dedicated to providing exactly the burger that you want. Here at Indie Burgers we love to create the best individual burger just for you. ",
   "welcomeShort": "Welcome to Indie Burgers",
-  "eatHere": "Eat here",
+  "eatHere": "Eat-in",
   "eatAway": "Take-away",
   "newBurger": "Add burger to order",
   "burgNr": "Burger number",
-  "companyName": "Kraft Burgers",
+  "companyName": "Indie Burgers",
   "currentPriceLabel": "Current burger price",
   "lactose": "Contains lactose",
   "gluten": "Contains gluten"
