@@ -45,6 +45,7 @@
                      :key="countAllIngredients.indexOf(countIng)">
                     {{countIng.name}}: {{countIng.count}} {{uiLabels.unit}},
                 </div>
+
                 <b>{{uiLabels.currentPriceLabel}}: {{this.currentPrice}}:-</b>
                 <br><br>
                 <button class="newBurgerButton"  v-on:click="addToOrder()">{{ uiLabels.newBurger }}</button>
@@ -81,8 +82,8 @@
                 </button>
                             <div class = "allergyBox">{{uiLabels.allergies}}:<br>
                                 <p class = "vegan">V</p> = Vegan<br>
-                                <p class = "lactose">L</p> = Lactose<br>
-                                <p class = "gluten">G</p> = Gluten
+                                <p class = "lactose">L</p> = {{uiLabels.lactose}}<br>
+                                <p class = "gluten">G</p> = {{uiLabels.gluten}}
                             </div>
             </div>
         </div>
@@ -93,12 +94,14 @@
     import Ingredient from '@/components/Ingredient.vue'
     import OrderItem from '@/components/OrderItem.vue'
     import sharedVueStuff from '@/components/sharedVueStuff.js'
+    import Startpage from "./Startpage";
 
     export default {
         name: 'Ordering',
         components: {
             Ingredient,
-            OrderItem
+            OrderItem,
+            Startpage
         },
         mixins: [sharedVueStuff], // include stuff that is used in both
                                   // the ordering system and the kitchen
@@ -178,6 +181,9 @@
             addToBurger: function (item) {
                 this.chosenIngredients.push(item);
                 this.currentPrice += +item.selling_price;
+                Startpage.data().eatHere,
+                    console.log(eatHere)
+
 
             },
             removeFromBurger: function (item) {
@@ -196,7 +202,6 @@
                 if(this.chosenIngredients.length === 0){
                     return;
                 }
-
                 this.currentOrder.burgers.push({
                     ingredients: this.chosenIngredients.splice(0),
                     price: this.currentPrice
@@ -213,6 +218,11 @@
                 this.chosenIngredients = [];
                 this.totalPrice += this.currentPrice;
                 this.currentPrice = 0;
+            },
+            addWheretoEat:function(){
+                Startpage.data().eatHere,
+                console.log(eatHere)
+
             },
             placeOrder: function () {
                 // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
@@ -463,6 +473,7 @@
         border-radius: 10px;
         padding-bottom: 1rem;
         padding-left: 1rem;
+        padding-right: 1rem;
         padding-top: 1rem;
         margin-top: 1rem;
         margin-right: 15rem;
@@ -473,7 +484,7 @@
         border: black solid 1px;
         color: black;
         margin-left: 2px;
-        padding-left: 5px;
+        padding-left: 0.3em;
         padding-right: 5px;
         border-radius: 50%;
     }

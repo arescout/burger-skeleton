@@ -37,5 +37,7 @@
   "newBurger": "Lägg till burgare i beställningen",
   "burgNr" : "Burgarnummer",
   "companyName": "Kraft Burgers",
-  "currentPriceLabel": "Pris på vald burgare"
+  "currentPriceLabel": "Pris på vald burgare",
+  "lactose": "Innehåller laktos",
+  "gluten": "Innehåller gluten"
 }
