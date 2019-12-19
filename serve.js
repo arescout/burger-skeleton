@@ -43,6 +43,7 @@ io.on('connection', function (socket) {
 
   // When someone orders something
   socket.on('order', function (order) {
+      console.log("in server");
     var orderIdAndName = data.addOrder(order);
     // send updated info to all connected clients, note the use of io instead of socket
     socket.emit('orderNumber', orderIdAndName);
