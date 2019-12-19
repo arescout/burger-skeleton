@@ -12,7 +12,7 @@
             <div class="buttonItem">
                 <div class="buttonWrapper">
                     <div class="buttonBox">
-                        <button class="plusButton" v-show="!breadChosen && !doublePatty" v-on:click="incrementCounter">
+                        <button class="plusButton" v-show="!breadChosen" v-on:click="incrementCounter">
                             +
                         </button>
                         {{ counter }}
@@ -76,13 +76,14 @@
             if (this.item.category === 4) { //if a bread i selected plus button now disappears
               this.breadChosen = true;
             }
-            if (this.item.category === 1) {
+            /*if (this.item.category === 1) {
               this.patties += 1;
               this.burgerChosen = true;
             }
             if (this.patties === 2) {
               this.doublePatty = true;
-            }
+            }*/
+            console.log(Ordering.data().chosenIngredients);
           },
 
           decrementCounter: function () {
@@ -93,12 +94,12 @@
             if (this.item.category === 4) { //if selected bread is unselected, the plus button reappears
               this.breadChosen = false;
             }
-            if (this.item.category === 1) {
+            /*if (this.item.category === 1) {
               this.patties -= 1;
             }
             if (this.patties < 2) {
               this.doublePatty = false;
-            }
+            }*/
           },
             resetCounter: function () {
                 this.counter = 0;
