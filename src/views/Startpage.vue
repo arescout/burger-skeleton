@@ -3,13 +3,12 @@
     <div class = "IntroText">
         <button class="routerButton" v-on:click="switchLang()"><img src=https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width=20px>
             {{uiLabels.language }}</button>
-    <div class="welcomeText">Welcome to Indie Burgers</div>
+    <div class="welcomeText">{{uiLabels.welcomeShort}}</div>
         <section class = "welcomeSection">
             <div class="whereToEat" >
-                <div class="welcomeShort"><h2>{{uiLabels.welcomeShort}}</h2></div>
                 <div class="welcomelong">{{uiLabels.welcomeTextBox}}</div>
                 <button class = "eatHereButton" v-on:click="whereToEatFuncHere()"><router-link to="/ordering" class="routerButton">{{uiLabels.eatHere}}</router-link></button>
-                <button id = "takeAwayButton" v-on:click="whereToEatFuncAway()"><router-link to="/ordering" class="routerButton">{{uiLabels.eatAway}}</router-link></button>
+                <button class = "takeAwayButton" v-on:click="whereToEatFuncAway()"><router-link to="/ordering" class="routerButton">{{uiLabels.eatAway}}</router-link></button>
             </div>
         </section>
     </div>
@@ -27,7 +26,7 @@
                                   // the ordering system and the kitchen
         data: function() { //Not that data is a function!
             return {
-                eatHere:false,
+                eatHere:false, // variabeln jag vill skicka Mikael
             }
         },
         created: function () {
@@ -37,10 +36,13 @@
         },
         methods: {
             whereToEatFuncHere: function () {
+
                 this.eatHere=true;
+                this.$emit('startPageWhereToEat'); // Mikael eller är det på något sådant sätt man ska göra
             },
             whereToEatFuncAway: function () {
                 this.eatHere=false;
+                console.log("whereto eat in ordering func")
             }
         }
     }
@@ -84,38 +86,15 @@
     .whereToEat{
         display: grid;
         grid-template-columns: repeat(4, 2fr);
-        grid-gap: 0.5rem;
-
-    }
-    .welcomeShort{
-        grid-column-start: 1;
-        grid-column-end: 5;
-        grid-row-start: 1;
-        grid-row-end: 2;
+        grid-gap: 1.1rem;
     }
     .welcomelong{
         grid-column-start: 1;
         grid-column-end: 5;
         grid-row-start: 2;
         grid-row-end: 3;
+        font-size: 1.3em;
     }
-/*    .whereToEat button {
-
-        font-size: 1em;
-        border-radius: 40%;
-        border: 0.2em solid black;
-        padding: 1em 1.4em;
-        margin-top: 5%;
-        margin-left: 30%;
-        margin-right: 30%;
-        margin-bottom: 2em;
-        background-color: beige;
-        -webkit-transition-duration: 0.4s;  !* transition to color *!
-        transition-duration: 0.4s;
-        display: block;
-        text-decoration:none;
-
-    }*/
     .whereToEat button:hover {
         background-color: #ffd4a4;
         color: var(--secondary-text-color);
@@ -133,13 +112,10 @@
         font-size: 1em;
         border-radius: 40%;
         border: 0.2em solid black;
-
-
         background-color: beige;
-
-
+        margin-bottom: 2em;
     }
-    #takeAwayButton{
+    .takeAwayButton{
         grid-column-start: 3;
         grid-column-end: 4;
         grid-row-start: 4;
@@ -148,8 +124,7 @@
         border-radius: 40%;
         border: 0.2em solid black;
         background-color: beige;
-
-
+        margin-bottom: 2em;
     }
     .routerButton {
         text-decoration: none;

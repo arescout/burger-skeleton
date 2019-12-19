@@ -9,7 +9,7 @@
 
         <!-- Add buttons for navigating through categories -->
         <div class="wrapper">
-            <div class="header"><h1>{{ uiLabels.companyName }}</h1></div>
+            <div class="ingredientHeader"><h1>{{ uiLabels.companyName }}</h1></div>
             <div class="categoryTabs">
                 <button v-on:click="setCategory(1)">{{uiLabels.protein}}</button>
                 <button v-on:click="setCategory(2)">{{uiLabels.toppings}}</button>
@@ -21,7 +21,7 @@
             </div>
 
             <!-- Add list of ingredients -->
-            <div class="itemsContainer">
+            <div class="ingredientBox">
                 <div class="itemsWrapper">
                     <Ingredient
                             ref="ingredient"
@@ -38,56 +38,52 @@
             </div>
 
             <!-- Order information -->
-            <div class="orderContainer">
-                <div class="orderWrapper">
-                    <div class="orderHeader">
-                        {{ uiLabels.order }}
-                    </div>
-                    <div class="orderSelectedWrapper">
-                        <div>
-                            <div v-for="countIng in countAllIngredients"
-                                 v-if="countIng.count>0"
-                                 :key="countAllIngredients.indexOf(countIng)">
-                                {{countIng.name}}: {{countIng.count}} {{uiLabels.unit}},
-                            </div>
-                            <b>{{uiLabels.currentPriceLabel}}: {{this.currentPrice}}:-</b>
-                        </div>
-                        <button class="orderButton" v-on:click="addToOrder()">{{ uiLabels.newBurger }}</button>
-                    </div>
-                    <div class="orderSummaryContainer">
-                        <div>
-                            <b>{{uiLabels.yourOrder}}:</b>
-                            <div v-for="(burger, key) in aggregatedOrders.burgers" :key="key">
-                                <b>{{uiLabels.burgNr}} {{key + 1}}</b>
-                                <!-- Key + 1 so it doesn't say "burger 0" on customers page -->
-                                <span v-for="(item, key2) in burger.ingredients" :key="key2">
-                                <br/>{{ item["ingredient_" + lang]}}: {{ item["count"] }} {{uiLabels.unit}}
-                            </span>
-                            </div>
-                            <!--<br><button class = "placeOrderButton" v-if = "chosenIngredients.length > 0" v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>-->
-                            <h4>{{uiLabels.tally}}: {{totalPrice}}:-</h4>
-                            <OrderItem
-                                    v-for="(order, key3) in this.orders"
-                                    v-if="order.status !== 'done'"
-                                    :order-id="key3"
-                                    :order="order"
-                                    :ui-labels="uiLabels"
-                                    :lang="lang"
-                                    :key="key3">
-                            </OrderItem>
-                        </div>
-                        <button class="orderButton" v-on:click="placeOrder()">
-                            <router-link class="routerButton" to="/checkout" v>{{uiLabels.proceedToCO}}</router-link>
-                        </button>
-                    </div>
-                    <div class="allergyContainer">
-                        <div class="allergyBox">{{uiLabels.allergies}}:<br>
-                            <p class="vegan">V</p> = Vegan<br>
-                            <p class="lactose">L</p> = Lactose<br>
-                            <p class="gluten">G</p> = Gluten
-                        </div>
-                    </div>
+            <div class="orderStatus">
+                <h1 class="myBurger">{{ uiLabels.order }}</h1>
+                <div v-for="countIng in countAllIngredients"
+                     v-if="countIng.count>0"
+                     :key="countAllIngredients.indexOf(countIng)">
+                    {{countIng.name}}: {{countIng.count}} {{uiLabels.unit}},
                 </div>
+                <b>{{uiLabels.currentPriceLabel}}: {{this.currentPrice}}:-</b>
+                <br><br>
+                <button class="newBurgerButton"  v-on:click="addToOrder()">{{ uiLabels.newBurger }}</button>
+                <br><br>
+                <b>{{uiLabels.yourOrder}}:</b>
+                <div v-for="(burger, key) in aggregatedOrders.burgers" :key="key">
+                    <br>
+                    <b>{{uiLabels.burgNr}} {{key + 1}}</b>
+                    <!-- Key + 1 so it doesn't say "burger 0" on customers page -->
+                    <span v-for="(item, key2) in burger.ingredients" :key="key2">
+                        <br/>{{ item["ingredient_" + lang]}}: {{ item["count"] }} {{uiLabels.unit}}
+                    </span>
+
+                </div>
+                <br>
+                <!--<br><button class = "placeOrderButton" v-if = "chosenIngredients.length > 0" v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>-->
+                <h4>{{uiLabels.tally}}: {{totalPrice}}:-</h4>
+                <div class="orderedItems">
+                    <OrderItem
+                            v-for="(order, key3) in this.orders"
+                            v-if="order.status !== 'done'"
+                            :order-id="key3"
+                            :order="order"
+                            :ui-labels="uiLabels"
+                            :lang="lang"
+                            :key="key3">
+                    </OrderItem>
+                </div>
+                <button class="checkOutButton" v-show="!noOrder" v-on:click="placeOrder()">
+                    <router-link class="routerButton" to="/checkout" v>{{uiLabels.proceedToCO}}</router-link>
+                </button>
+                <button class="checkOutButton" v-show="!noOrder"><!-- v-on:click="placeOrder()-->
+                    <router-link class="routerButton" to="/checkout">{{uiLabels.proceedToCO}}</router-link>
+                </button>
+                            <div class = "allergyBox">{{uiLabels.allergies}}:<br>
+                                <p class = "vegan">V</p> = Vegan<br>
+                                <p class = "lactose">L</p> = Lactose<br>
+                                <p class = "gluten">G</p> = Gluten
+                            </div>
             </div>
         </div>
 
@@ -97,12 +93,14 @@
     import Ingredient from '@/components/Ingredient.vue'
     import OrderItem from '@/components/OrderItem.vue'
     import sharedVueStuff from '@/components/sharedVueStuff.js'
+    import Startpage from "./Startpage"; //Mikael
 
     export default {
         name: 'Ordering',
         components: {
             Ingredient,
-            OrderItem
+            OrderItem,
+            Startpage //Mikael
         },
         mixins: [sharedVueStuff], // include stuff that is used in both
                                   // the ordering system and the kitchen
@@ -182,6 +180,9 @@
             addToBurger: function (item) {
                 this.chosenIngredients.push(item);
                 this.currentPrice += +item.selling_price;
+                Startpage.data().eatHere, //Mikael
+                    console.log(eatHere)
+
 
             },
             removeFromBurger: function (item) {
@@ -197,7 +198,7 @@
             },
             addToOrder: function () {
                 // Add the burger to an order array
-                if (this.chosenIngredients.length === 0) {
+                if(this.chosenIngredients.length === 0){
                     return;
                 }
 
@@ -218,14 +219,18 @@
                 this.totalPrice += this.currentPrice;
                 this.currentPrice = 0;
             },
+            addWheretoEat:function(){
+                Startpage.data().eatHere,
+                console.log(eatHere)
+
+            },
             placeOrder: function () {
                 // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
                 this.$store.state.socket.emit('order', {
-                        order: this.aggregatedOrders,
-                        price: this.totalPrice,
-                        time: Date.getTime()
-                    }
-                );
+                    order: this.aggregatedOrders,
+                    price: this.totalPrice,
+                    time: Date.getTime()}
+                    );
                 this.currentOrder = [];
                 this.category = 1;
                 Ingredient.data().breadChosen = false;
@@ -322,28 +327,20 @@
     .wrapper {
         display: grid;
         margin: 0.25rem;
-        grid-template-areas: "header order" "nav order" "content order";
+        /*TEST*/
+        grid-template-areas:
+                "header header order"
+                "nav nav order"
+                "content content order";
+                /*"footer footer footer";*/
         grid-template-columns: 0.625fr 0.375fr;
         grid-template-rows: auto auto 1fr;
         grid-gap: 0.25rem;
     }
 
-    /*MOBILE VIEW*/
-
-    @media (max-width: 850px) {
-        .wrapper {
-            display: grid;
-            margin: 0.25rem;
-            grid-template-areas: "header" "nav" "content" "order";
-            grid-template-columns: auto;
-            grid-template-rows: auto;
-            grid-gap: 0.25rem;
-        }
-    }
-
     /*HEADER*/
 
-    .header {
+    .ingredientHeader {
         grid-area: header;
         background: var(--primary-color);
         border: 3px var(--border-color) solid;
@@ -396,7 +393,7 @@
         grid-gap: 0.5rem;
     }
 
-    .itemsContainer {
+    .ingredientBox {
         grid-area: content;
         background-color: var(--primary-color);
         border: 3px var(--border-color) solid;
@@ -404,84 +401,83 @@
         border-radius: 10px;
     }
 
-    /*ORDER*/
+    /*ORDER INFORMATION*/
 
-    .orderContainer {
+    .orderStatus {
         grid-area: order;
-        width: 100%;
-        height: 100%;
-    }
-
-    .orderWrapper {
-        display: grid;
-        padding: 0.25rem;
-        grid-gap: 0.25rem;
-        grid-template-areas: "orderHeader orderHeader" "orderSelected allergies" "orderSummary allergies";
-        grid-template-columns: auto auto;
-        grid-template-rows: auto auto auto;
         background-color: var(--primary-color);
         border: 3px var(--border-color) solid;
         border-radius: 10px;
+        padding-bottom: 1rem;
+        padding-left: 1rem;
     }
 
-    .orderHeader {
-        grid-area: orderHeader;
-        background-color: var(--primary-light-color);
-        border: 3px var(--border-color) solid;
-        border-radius: 10px;
-        text-transform: uppercase;
-        text-align: center;
-        font-weight: bold;
-        font-size: 2rem;
-        padding: 0.25rem;
-    }
-
-    .orderSelectedWrapper {
-        grid-area: orderSelected;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
+    .orderedItems {
         background: var(--primary-light-color);
         border: 3px var(--border-color) solid;
         border-radius: 5px;
-        padding: 0.25rem;
+        margin-right: 1rem;
     }
 
-    .orderSummaryContainer {
-        grid-area: orderSummary;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        background: var(--primary-light-color);
+    .newBurgerButton {
         border: 3px var(--border-color) solid;
-        border-radius: 5px;
-        padding: 0.25rem;
-    }
-
-    .orderButton {
-        border: 3px var(--border-color) solid;
-        background-color: var(--secondary-light-color);
         border-radius: 15px;
         text-transform: uppercase;
-        text-align: center;
         font-style: oblique;
         font-weight: bold;
+        background-color: var(--secondary-light-color);
     }
 
-    /*ALLERGY BOX*/
-
-    .allergyContainer {
-        grid-area: allergies;
-
+    .checkOutButton {
+        text-align: center;
+        background-color: var(--secondary-light-color);
+        border-radius: 15px;
+        border: 3px var(--border-color) solid;
+        font-style: oblique;
+        font-weight: bold;
+        margin: 1rem auto 0;
+        display: block;
     }
 
-    .allergyBox {
+    .myBurger {
+        text-align: center;
         background-color: var(--primary-light-color);
         border: 3px var(--border-color) solid;
         border-radius: 10px;
-        padding: 1rem;
+        margin-right: 2rem;
+        margin-left: 2rem;
+        padding: 0.5rem 1.5rem;
     }
 
+    @media (max-width: 850px) {
+        .wrapper {
+            display: grid;
+            margin: 0.25rem;
+            grid-template-areas:
+                    "header"
+                    "nav"
+                    "content"
+                    "order";
+            grid-template-columns: auto;
+            grid-template-rows: auto;
+            grid-gap: 0.25rem;
+        }
+    }
+
+    /* ALLERGY BOX*/
+    .allergyBox {
+        /*grid-column: 4;*/
+        /*grid-row: 4;*/
+        background-color: var(--primary-color);
+        border: 3px var(--border-color) solid;
+        border-radius: 10px;
+        padding-bottom: 1rem;
+        padding-left: 1rem;
+        padding-top: 1rem;
+        margin-top: 1rem;
+        margin-right: 15rem;
+
+    }
     .allergyBox p {
         display: inline-block;
         border: black solid 1px;
@@ -491,15 +487,12 @@
         padding-right: 5px;
         border-radius: 50%;
     }
-
     .vegan {
         background-color: rgba(55, 255, 57, 0.47);
     }
-
     .lactose {
         background-color: rgba(51, 233, 255, 0.36);
     }
-
     .gluten {
         background-color: rgba(251, 255, 50, 0.36);
     }
