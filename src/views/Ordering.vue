@@ -49,10 +49,11 @@
                                  v-if="countIng.count>0"
                                  :key="countAllIngredients.indexOf(countIng)">
                                 {{countIng.name}}: {{countIng.count}} {{uiLabels.unit}},
+                                <button class = "minusButton" v-on:click="this.$children[1].decrementCounter()">-</button> <!--tried to make a functional decrease button in the ordering tab-->
                             </div>
                             <b>{{uiLabels.currentPriceLabel}}: {{this.currentPrice}}:-</b>
                         </div>
-                        <button class="orderButton" v-on:click="addToOrder()">{{ uiLabels.newBurger }}</button>
+                        <button class="orderButton" v-show="this.orderReady" v-on:click="addToOrder()">{{ uiLabels.newBurger }}</button>
                     </div>
                     <div class="orderSummaryContainer">
                         <div>
@@ -76,15 +77,15 @@
                                     :key="key3">
                             </OrderItem>
                         </div>
-                        <button class="orderButton" v-on:click="placeOrder()">
+                        <button class="orderButton" v-show="!this.noOrder" v-on:click="placeOrder()"> <!-- no order if no burger is added to the tab-->
                             <router-link class="routerButton" to="/checkout" v>{{uiLabels.proceedToCO}}</router-link>
                         </button>
                     </div>
                     <div class="allergyContainer">
                         <div class="allergyBox">{{uiLabels.allergies}}:<br>
-                            <p class="vegan">V</p> = Vegan<br>
-                            <p class="lactose">L</p> = Lactose<br>
-                            <p class="gluten">G</p> = Gluten
+                            <p class="vegan">V</p> = {{uiLabels.vegan}}<br>
+                            <p class="lactose">L</p> = {{uiLabels.lactose}}<br>
+                            <p class="gluten">G</p> = {{uiLabels.gluten}}
                         </div>
                     </div>
                 </div>
@@ -116,7 +117,11 @@
                 orderNumber: "",
                 count: 0,
                 breadChosen: false,
+                pattyChosen: false,
+                orderReady: false,
                 noOrder: true,
+                noShow: false,
+                patties: 0,
                 currentCategory: 1, // Category deciding what ingredients to show
                 numbOfBurgers: 0,
                 currentOrder: {
@@ -191,9 +196,19 @@
                     if (this.chosenIngredients[i].category === 4) {
                         this.breadChosen = true;
                     }
+                    if (this.chosenIngredients[i].category === 1) {
+                        this.pattyChosen = true;
+                    }
                 }
-
-
+                if (item.category === 1) {
+                    this.patties += 1;
+                }
+                if (this.pattyChosen && this.breadChosen){  //order can only be made if burger and bread is chosen
+                    this.orderReady = true;
+                }
+                console.log(this.breadChosen);
+                console.log(this.pattyChosen);
+                console.log(this.orderReady);
             },
             removeFromBurger: function (item) {
                 let removeIndex = 0;
@@ -201,6 +216,12 @@
                     if (this.chosenIngredients[i] === item) {
                         removeIndex = i;
                         break;
+                    }
+                }
+                for (let i = 1; i < this.chosenIngredients.length; i += 1) {
+                    if (this.chosenIngredients[i].category === 4) {
+                        this.breadChosen = false;
+                        this.orderReady = false;
                     }
                 }
                 this.chosenIngredients.splice(removeIndex, 1);
@@ -228,6 +249,10 @@
                 this.chosenIngredients = [];
                 this.totalPrice += this.currentPrice;
                 this.currentPrice = 0;
+                this.noOrder = false;  //reset counters
+                this.orderReady = false;
+                this.breadChosen = false;
+                this.pattyChosen = false;
             },
             //addWheretoEat:function(){
             //    Startpage.data().eatHere,
@@ -479,6 +504,12 @@
         border: 3px var(--border-color) solid;
         border-radius: 5px;
         padding: 0.25rem;
+    }
+
+    .minusButton {
+        background-color: var(--primary-color);
+        border-radius: 50%;
+
     }
 
     .orderButton {
