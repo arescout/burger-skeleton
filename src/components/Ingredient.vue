@@ -11,12 +11,15 @@
             </div>
             <div class="buttonItem">
                 <div class="buttonWrapper">
-                    <div class="pMButtons">
-                        <br>
-                        <button class="plusButton" v-show="!breadChosen && !doublePatty"
-                                v-on:click="incrementCounter">+</button>
-                        {{counter}}
-                        <button class="minusButton" v-if="counter > 0" v-on:click="decrementCounter">-</button><br>
+                    <div class="buttonBox">
+                        <button class="plusButton" v-show="!breadChosen && !doublePatty" v-on:click="incrementCounter">
+                            +
+                        </button>
+                        {{ counter }}
+                        <button class="minusButton" v-if="counter > 0" v-on:click="decrementCounter">-</button>
+                    </div>
+                    <div class="allergicBox">
+
                         <div class="lactose" v-if="!item.milk_free">L</div>
                         <div class="gluten" v-if="!item.gluten_free">G</div>
                         <div class="vegan" v-if="item.vegan">V</div>
@@ -96,7 +99,6 @@
               this.doublePatty = false;
             }
           },
-
             resetCounter: function () {
                 this.counter = 0;
                 this.item.currentOrderCounter = 0;

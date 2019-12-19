@@ -76,11 +76,11 @@
                 <button class="checkOutButton" v-on:click="placeOrder()">
                     <router-link class="routerButton" to="/checkout" v>{{uiLabels.proceedToCO}}</router-link>
                 </button>
-            </div>
-            <div class = "allergyBox">{{uiLabels.allergies}}:<br>
-                <p class = "vegan">V</p> = Vegan<br>
-                <p class = "lactose">L</p> = Lactose<br>
-                <p class = "gluten">G</p> = Gluten
+                            <div class = "allergyBox">{{uiLabels.allergies}}:<br>
+                                <p class = "vegan">V</p> = Vegan<br>
+                                <p class = "lactose">L</p> = Lactose<br>
+                                <p class = "gluten">G</p> = Gluten
+                            </div>
             </div>
         </div>
 
@@ -266,14 +266,6 @@
     /*COLOR SCHEME */
 
     :root {
-        /*--primary-color: #66bb6a;*/
-        /*--primary-light-color: #98ee99;*/
-        /*--primary-dark-color: #338a3e;*/
-        /*--primary-text-color: black;*/
-        /*--secondary-color: #29b6f6;*/
-        /*--secondary-light-color: #73e8ff;*/
-        /*--secondary-dark-color: #0086c3;*/
-        /*--secondary-text-color: black;*/
         --primary-color: #FFE4C4;
         --primary-light-color: #FAEBD7;
         --primary-dark-color: #ffc74a;
@@ -320,27 +312,33 @@
 
     .wrapper {
         display: grid;
-        grid-gap: 0.25rem;
         margin: 0.25rem;
+        /*TEST*/
+        grid-template-areas:
+                "header header order"
+                "nav nav order"
+                "content content order";
+                /*"footer footer footer";*/
+        grid-template-columns: 0.625fr 0.375fr;
+        grid-template-rows: auto auto 1fr;
+        grid-gap: 0.25rem;
     }
 
     /*HEADER*/
 
     .ingredientHeader {
+        grid-area: header;
         background: var(--primary-color);
         border: 3px var(--border-color) solid;
         border-radius: 10px;
         text-align: center;
         text-transform: uppercase;
-        grid-row: 1;
-        grid-column: 1 / span 3;
     }
 
     /*MENU*/
 
     .categoryTabs {
-        grid-row: 2;
-        grid-column: 1 / span 3;
+        grid-area: nav;
         border: 2px var(--border-color) solid;
         border-radius: 5px;
         display: flex;
@@ -382,8 +380,7 @@
     }
 
     .ingredientBox {
-        grid-column: 1 / span 3;
-        grid-row: 3 / span 4;
+        grid-area: content;
         background-color: var(--primary-color);
         border: 3px var(--border-color) solid;
         padding: 0.25rem;
@@ -393,11 +390,10 @@
     /*ORDER INFORMATION*/
 
     .orderStatus {
+        grid-area: order;
         background-color: var(--primary-color);
         border: 3px var(--border-color) solid;
         border-radius: 10px;
-        grid-column: 4;
-        grid-row: 1 / span 3;
         padding-bottom: 1rem;
         padding-left: 1rem;
     }
@@ -439,16 +435,32 @@
         padding: 0.5rem 1.5rem;
     }
 
+    @media (max-width: 850px) {
+        .wrapper {
+            display: grid;
+            margin: 0.25rem;
+            grid-template-areas:
+                    "header"
+                    "nav"
+                    "content"
+                    "order";
+            grid-template-columns: auto;
+            grid-template-rows: auto;
+            grid-gap: 0.25rem;
+        }
+    }
+
     /* ALLERGY BOX*/
     .allergyBox {
-        grid-column: 4;
-        grid-row: 4;
+        /*grid-column: 4;*/
+        /*grid-row: 4;*/
         background-color: var(--primary-color);
         border: 3px var(--border-color) solid;
         border-radius: 10px;
         padding-bottom: 1rem;
         padding-left: 1rem;
         padding-top: 1rem;
+        margin-top: 1rem;
         margin-right: 15rem;
 
     }

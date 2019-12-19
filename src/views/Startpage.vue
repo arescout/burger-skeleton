@@ -6,9 +6,9 @@
     <div class="welcomeText">Welcome to Indie Burgers</div>
         <section class = "welcomeSection">
             <div class="whereToEat" >
-                <h1>Welcome to Krafty Burgers</h1>
-                {{uiLabels.welcomeTextBox}}
-                <button id = "eatHereButton" v-on:click="whereToEatFuncHere()"><router-link to="/ordering" class="routerButton">{{uiLabels.eatHere}}</router-link></button>
+                <div class="welcomeShort"><h2>{{uiLabels.welcomeShort}}</h2></div>
+                <div class="welcomelong">{{uiLabels.welcomeTextBox}}</div>
+                <button class = "eatHereButton" v-on:click="whereToEatFuncHere()"><router-link to="/ordering" class="routerButton">{{uiLabels.eatHere}}</router-link></button>
                 <button id = "takeAwayButton" v-on:click="whereToEatFuncAway()"><router-link to="/ordering" class="routerButton">{{uiLabels.eatAway}}</router-link></button>
             </div>
         </section>
@@ -75,14 +75,31 @@
 
     }
     .welcomeSection {
-        display: flex;
         text-align: center;
         border: black solid 0.5em;
         color: black;
         background-color: bisque;
         border-radius: 50px;
     }
-    .whereToEat button {
+    .whereToEat{
+        display: grid;
+        grid-template-columns: repeat(4, 2fr);
+        grid-gap: 0.5rem;
+
+    }
+    .welcomeShort{
+        grid-column-start: 1;
+        grid-column-end: 5;
+        grid-row-start: 1;
+        grid-row-end: 2;
+    }
+    .welcomelong{
+        grid-column-start: 1;
+        grid-column-end: 5;
+        grid-row-start: 2;
+        grid-row-end: 3;
+    }
+/*    .whereToEat button {
 
         font-size: 1em;
         border-radius: 40%;
@@ -93,21 +110,51 @@
         margin-right: 30%;
         margin-bottom: 2em;
         background-color: beige;
-        -webkit-transition-duration: 0.4s;  /* transition to color */
+        -webkit-transition-duration: 0.4s;  !* transition to color *!
         transition-duration: 0.4s;
         display: block;
         text-decoration:none;
 
-    }
+    }*/
     .whereToEat button:hover {
         background-color: #ffd4a4;
         color: var(--secondary-text-color);
         cursor: pointer;
+
+    }
+    .whereToEat a{
+        display: block;
+    }
+    .eatHereButton{
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 4;
+        grid-row-end: 5;
+        font-size: 1em;
+        border-radius: 40%;
+        border: 0.2em solid black;
+
+
+        background-color: beige;
+
+
+    }
+    #takeAwayButton{
+        grid-column-start: 3;
+        grid-column-end: 4;
+        grid-row-start: 4;
+        grid-row-end: 5;
+        font-size: 1em;
+        border-radius: 40%;
+        border: 0.2em solid black;
+        background-color: beige;
+
+
     }
     .routerButton {
         text-decoration: none;
         text-transform: uppercase;
         color: black;
-        display: block;
+
     }
 </style>
