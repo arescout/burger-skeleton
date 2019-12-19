@@ -83,7 +83,6 @@
             if (this.patties === 2) {
               this.doublePatty = true;
             }*/
-            console.log(Ordering.data().chosenIngredients);
           },
 
           decrementCounter: function () {

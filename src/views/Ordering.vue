@@ -144,7 +144,7 @@
                         count: ingredientTuples.find(arrayName => arrayName.name === name).count
                     };
                 });
-                //console.log(difIngredients);
+
                 return difIngredients;
             },
         },
