@@ -94,14 +94,14 @@
     import Ingredient from '@/components/Ingredient.vue'
     import OrderItem from '@/components/OrderItem.vue'
     import sharedVueStuff from '@/components/sharedVueStuff.js'
-    import Startpage from "./Startpage";
+    import Startpage from "./Startpage"; //Mikael
 
     export default {
         name: 'Ordering',
         components: {
             Ingredient,
             OrderItem,
-            Startpage
+            Startpage //Mikael
         },
         mixins: [sharedVueStuff], // include stuff that is used in both
                                   // the ordering system and the kitchen
@@ -181,7 +181,7 @@
             addToBurger: function (item) {
                 this.chosenIngredients.push(item);
                 this.currentPrice += +item.selling_price;
-                Startpage.data().eatHere,
+                Startpage.data().eatHere, //Mikael
                     console.log(eatHere)
 
 

@@ -26,7 +26,7 @@
                                   // the ordering system and the kitchen
         data: function() { //Not that data is a function!
             return {
-                eatHere:false,
+                eatHere:false, // variabeln jag vill skicka Mikael
             }
         },
         created: function () {
@@ -38,7 +38,7 @@
             whereToEatFuncHere: function () {
 
                 this.eatHere=true;
-                this.$emit('startPageWhereToEat');
+                this.$emit('startPageWhereToEat'); // Mikael eller är det på något sådant sätt man ska göra
             },
             whereToEatFuncAway: function () {
                 this.eatHere=false;
