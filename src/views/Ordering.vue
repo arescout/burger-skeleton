@@ -75,6 +75,7 @@
                 </div>
                 <button class="checkOutButton" v-show="!noOrder" v-on:click="placeOrder()">
                     <router-link class="routerButton" to="/checkout" v>{{uiLabels.proceedToCO}}</router-link>
+                </button>
                 <button class="checkOutButton" v-show="!noOrder"><!-- v-on:click="placeOrder()-->
                     <router-link class="routerButton" to="/checkout">{{uiLabels.proceedToCO}}</router-link>
                 </button>
@@ -217,8 +218,7 @@
                 // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
                 this.$store.state.socket.emit('order', {
                     order: this.aggregatedOrders,
-                    price: this.totalPrice,
-                    time: Date.getTime()}
+                    price: this.totalPrice}
                     );
                 this.currentOrder = [];
                 this.category = 1;
