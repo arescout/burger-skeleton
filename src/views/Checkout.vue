@@ -60,7 +60,8 @@
         },
 
         created: function() {
-
+            console.log(this.$parent)
+            console.log("Checkout")
             // Method for recieving order from Ordering page
             this.$store.state.socket.on('order', function (order) {
                 console.log(order);

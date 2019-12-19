@@ -6,11 +6,13 @@
 
 <script>
 import Ordering from "./views/Ordering.vue"
+import Checkout from "./views/Checkout"
 
 export default {
   name: 'app',
   components: {
-    Ordering
+    Ordering,
+    Checkout
   }
 }
 </script>
