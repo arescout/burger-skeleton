@@ -39,5 +39,6 @@
   "companyName": "Kraft Burgers",
   "currentPriceLabel": "Current burger price",
   "lactose": "Contains lactose",
-  "gluten": "Contains gluten"
+  "gluten": "Contains gluten",
+  "vegan": "vegan"
 }

@@ -39,5 +39,6 @@
   "companyName": "Indie Burgers",
   "currentPriceLabel": "Pris på vald burgare",
   "lactose": "Innehåller laktos",
-  "gluten": "Innehåller gluten"
+  "gluten": "Innehåller gluten",
+  "vegan": "vegansk"
 }
