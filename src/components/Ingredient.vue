@@ -35,6 +35,7 @@
     import Ordering from "../views/Ordering";
     import OrderItem from "../views/Ordering";
 
+
     export default {
         name: 'Ingredient',
         components: {
