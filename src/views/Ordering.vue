@@ -120,6 +120,7 @@
             this.$store.state.socket.on('orderNumber', function (data) {
                 this.orderNumber = data;
             }.bind(this));
+
         },
         computed: {
             //Nytt Taken from burger-skeleton/severalBurgers/src/views/Kitchen.vue and changed ingredients to our array chosenIngredients
@@ -173,6 +174,7 @@
             addToBurger: function (item) {
                 this.chosenIngredients.push(item);
                 this.currentPrice += +item.selling_price;
+
             },
             removeFromBurger: function (item) {
                 let removeIndex = 0;

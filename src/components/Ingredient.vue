@@ -13,8 +13,9 @@
                 <div class="buttonWrapper">
                     <div class="pMButtons">
                         <br>
-                        <button class="plusButton" v-show="!breadChosen && !doublePatty" v-on:click="incrementCounter">+</button>
-                        {{ counter }}
+                        <button class="plusButton" v-show="!breadChosen && !doublePatty"
+                                v-on:click="incrementCounter">+</button>
+                        {{counter}}
                         <button class="minusButton" v-if="counter > 0" v-on:click="decrementCounter">-</button><br>
                         <div class="lactose" v-if="!item.milk_free">L</div>
                         <div class="gluten" v-if="!item.gluten_free">G</div>
@@ -46,16 +47,24 @@
                 patties: 0,
                 burgerChosen: false,
                 doublePatty: false,
-                burgerAndBread: false
+                burgerAndBread: false,
             };
         },
 
         created: function(){
-            this.checkCounter();
+            this.checkCounter();    // Check if ingredient already is chosen
         },
         methods: {
           incrementCounter: function () {
             this.counter += 1;
+              // See if order already is on the chosen ingredients list
+              // If so, increase currentOrderCounter. If not, create currentOrderCounter
+              if (this.item.currentOrderCounter >= 1){
+                this.item.currentOrderCounter += 1;
+              } else {
+                this.item.currentOrderCounter = 1;
+              }
+
             // sending 'increment' message to parent component or view so that it
             // can catch it with v-on:increment in the component declaration
             this.$emit('increment');
@@ -70,10 +79,11 @@
             if (this.patties === 2) {
               this.doublePatty = true;
             }
-              console.log(this.breadChosen);
           },
+
           decrementCounter: function () {
             this.counter -= 1;
+            this.item.currentOrderCounter -= 1;
             // Makes the same thing as incrementCounter with difference that it remove instead of adding .
             this.$emit('decrease');
             if (this.item.category === 4) { //if selected bread is unselected, the plus button reappears
@@ -85,17 +95,23 @@
             if (this.patties < 2) {
               this.doublePatty = false;
             }
-            },
+          },
+
             resetCounter: function () {
                 this.counter = 0;
+                this.item.currentOrderCounter = 0;
             },
+            // Function to check and show the number of ingredient already chosen
             checkCounter: function(){
-                if(Ordering.chosenIngredients.length === 0){
+              // Check if any ingredients are chosen
+                if(this.$parent.chosenIngredients.length === 0){
                     return;
+                    // If so, go through ingredients to find this particular one
                 } else {
-                    for (let i = 0; i < Ordering.chosenIngredients.length; i++) {
-                        if (Ordering.chosenIngreients[i].ingredient_id === ingredient_id){
-                            this.counter = Ordering.chosenIngreients[i].counter;
+                    for (let i = 0; i < this.$parent.chosenIngredients.length; i++) {
+                        if (this.$parent.chosenIngredients[i].ingredient_id === this.item.ingredient_id){
+                            // Set counter to the amount that is already chosen
+                            this.counter = this.$parent.chosenIngredients[i].currentOrderCounter;
                         }
                     }
                 }
