@@ -77,12 +77,7 @@ Data.prototype.addOrder = function (order) {
     transId =  transactions[transactions.length - 1].transaction_id,
     i = order.order.ingredients,
     k;
-  for (k = 0; k < i.length; k += 1) {
-    transId += 1;
-    transactions.push({transaction_id: transId,
-                       ingredient_id: i[k].ingredient_id,
-                       change: - 1}); // Used to be - 2 but that meant double amount got removed
-  }
+    console.log(i);
     return orderId;
 };
 
