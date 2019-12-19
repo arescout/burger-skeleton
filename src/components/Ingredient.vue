@@ -12,18 +12,19 @@
             <div class="buttonItem">
                 <div class="buttonWrapper">
                     <div class="buttonBox">
-                        <div v-if="item.currentCategory === 4">
+                        <!--<div v-if="this.$parent.currentCategory === 4">
                             <button class="breadButton"></button>
-                        </div>
-                        <div v-else>
+
+                        <div v-else></div>-->
                             <button class="plusButton" v-show = "!this.$parent.breadChosen || this.$parent.currentCategory !== 4" v-on:click="incrementCounter">
-                                +
+                                + <!-- only one bread can be selected -->
                             </button>
+
                             {{ counter }}
                             <button class="minusButton" v-if="counter > 0" v-on:click="decrementCounter">
                                 -
                             </button>
-                        </div>
+                        <!--</div>-->
                     </div>
                     <div class="allergicBox">
                         <div class="lactose" v-if="!item.milk_free">L</div>
@@ -74,6 +75,7 @@
                     this.item.currentOrderCounter = 1;
                 }
 
+
                 // sending 'increment' message to parent component or view so that it
                 // can catch it with v-on:increment in the component declaration
                 this.$emit('increment');
@@ -99,6 +101,7 @@
                 if (this.item.category === 4) { //if selected bread is unselected, the plus button reappears
                   this.$parent.breadChosen = false;
                 }
+                console.log("test");
                 /*if (this.item.category === 1) {
               this.patties -= 1;
             }
@@ -180,6 +183,7 @@
     }
 
     .allergicBox {
+        text-align: center;
         order: 1;
         justify-content: flex-end;
         margin-left: auto;
@@ -217,5 +221,6 @@
         padding-right: 5px;
         border-radius: 50%;
     }
+
 
 </style>
