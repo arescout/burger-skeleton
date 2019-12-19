@@ -32,10 +32,12 @@
   "unit" : "stk",
   "welcomeTextBox" : "Vi är en restaurang som ägnar sig åt att tillhandahålla exakt den burger du vill ha. Här på Indie Burgers älskar vi att skapa den bästa individuella hamburgaren just för dig.",
   "welcomeShort": "Välkommen till Indie Burgers",
-  "eatHere": "Vill du äta här",
-  "eatAway": "Vill du ta take-away",
+  "eatHere": "Äta-här",
+  "eatAway": "Take-away",
   "newBurger": "Lägg till burgare i beställningen",
   "burgNr" : "Burgarnummer",
-  "companyName": "Kraft Burgers",
-  "currentPriceLabel": "Pris på vald burgare"
+  "companyName": "Indie Burgers",
+  "currentPriceLabel": "Pris på vald burgare",
+  "lactose": "Innehåller laktos",
+  "gluten": "Innehåller gluten"
 }

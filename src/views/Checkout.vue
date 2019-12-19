@@ -68,6 +68,7 @@
                     this.order = order.order;
                     this.price = order.price;
             }.bind(this));
+
         },
 
 
@@ -133,8 +134,6 @@
     }
 
     .backButton {
-        /*margin-left: 5em;*/
-        /*margin-top: 5em;*/
         background-color: rgba(255, 199, 74, 0.36);
         border-radius: 10px;
         border: solid black 3px;
