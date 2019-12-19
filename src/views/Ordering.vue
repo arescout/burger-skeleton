@@ -47,9 +47,9 @@
                 </div>
                 <b>{{uiLabels.currentPriceLabel}}: {{this.currentPrice}}:-</b>
                 <br><br>
-                <button class="newBurgerButton" v-on:click="addToOrder()">{{ uiLabels.newBurger }}</button>
+                <button class="newBurgerButton"  v-on:click="addToOrder()">{{ uiLabels.newBurger }}</button>
                 <br><br>
-                <b>{{uiLabels.yourOrder}}</b>
+                <b>{{uiLabels.yourOrder}}:</b>
                 <div v-for="(burger, key) in aggregatedOrders.burgers" :key="key">
                     <br>
                     <b>{{uiLabels.burgNr}} {{key + 1}}</b>
@@ -66,7 +66,7 @@
                 <br>
                 <!--<br><button class = "placeOrderButton" v-if = "chosenIngredients.length > 0" v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>-->
                 <h4>{{uiLabels.tally}}: {{totalPrice}}:-</h4>
-                <div class="orderedItems">
+                <div class="orderedItems" v-show="!noOrder">
                     <OrderItem
                             v-for="(order, key3) in this.orders"
                             v-if="order.status !== 'done'"
@@ -77,8 +77,8 @@
                             :key="key3">
                     </OrderItem>
                 </div>
-                <button class="checkOutButton"><!-- v-on:click="placeOrder()-->
-                    <router-link class="routerButton" to="/checkout" v>{{uiLabels.proceedToCO}}</router-link>
+                <button class="checkOutButton" v-show="!noOrder"><!-- v-on:click="placeOrder()-->
+                    <router-link class="routerButton" to="/checkout">{{uiLabels.proceedToCO}}</router-link>
                 </button>
             </div>
             <div class = "allergyBox">{{uiLabels.allergies}}:<br>
@@ -108,8 +108,10 @@
                 chosenIngredients: [],
                 totalPrice: 0,
                 currentPrice: 0,
+                noQueue: true,
                 orderNumber: "",
                 count: 0,
+                noOrder: true,
                 currentCategory: 1, // Category deciding what ingredients to show
                 numbOfBurgers: 0,
                 currentOrder: {
@@ -209,6 +211,12 @@
                 this.chosenIngredients = [];
                 this.totalPrice += this.currentPrice;
                 this.currentPrice = 0;
+                if (this.totalPrice > 0) { //Checkout button not visible if no burger is added
+                    this.noOrder = false;
+                }
+                Ingredient.data().breadChosen = false;
+                Ingredient.data().patties = 0;
+                console.log(Ingredient.data().breadChosen);
             },
             placeOrder: function () {
                 // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
@@ -299,7 +307,7 @@
         background-image: repeating-linear-gradient(transparent, transparent 50px, rgba(0, 0, 0, .4) 50px, rgba(0, 0, 0, .4) 53px, transparent 53px, transparent 63px, rgba(0, 0, 0, .4) 63px, rgba(0, 0, 0, .4) 66px, transparent 66px, transparent 116px, rgba(0, 0, 0, .5) 116px, rgba(0, 0, 0, .5) 166px, rgba(255, 255, 255, .2) 166px, rgba(255, 255, 255, .2) 169px, rgba(0, 0, 0, .5) 169px, rgba(0, 0, 0, .5) 179px, rgba(255, 255, 255, .2) 179px, rgba(255, 255, 255, .2) 182px, rgba(0, 0, 0, .5) 182px, rgba(0, 0, 0, .5) 232px, transparent 232px),
         repeating-linear-gradient(270deg, transparent, transparent 50px, rgba(0, 0, 0, .4) 50px, rgba(0, 0, 0, .4) 53px, transparent 53px, transparent 63px, rgba(0, 0, 0, .4) 63px, rgba(0, 0, 0, .4) 66px, transparent 66px, transparent 116px, rgba(0, 0, 0, .5) 116px, rgba(0, 0, 0, .5) 166px, rgba(255, 255, 255, .2) 166px, rgba(255, 255, 255, .2) 169px, rgba(0, 0, 0, .5) 169px, rgba(0, 0, 0, .5) 179px, rgba(255, 255, 255, .2) 179px, rgba(255, 255, 255, .2) 182px, rgba(0, 0, 0, .5) 182px, rgba(0, 0, 0, .5) 232px, transparent 232px),
         repeating-linear-gradient(125deg, transparent, transparent 2px, rgba(0, 0, 0, .2) 2px, rgba(0, 0, 0, .2) 3px, transparent 3px, transparent 5px, rgba(0, 0, 0, .2) 5px);
-        position: absolute;
+        position: relative; /* Seems like this fixes the background*/
         width: 100%;
         height: 100%;
         top: 0;

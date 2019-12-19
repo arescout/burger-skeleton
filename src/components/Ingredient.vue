@@ -16,6 +16,7 @@
                         <button class="plusButton" v-show="!breadChosen && !doublePatty" v-on:click="incrementCounter">+</button>
                         {{ counter }}
                         <button class="minusButton" v-if="counter > 0" v-on:click="decrementCounter">-</button><br>
+
                         <div class="lactose" v-if="!item.milk_free">L</div>
                         <div class="gluten" v-if="!item.gluten_free">G</div>
                         <div class="vegan" v-if="item.vegan">V</div>
@@ -28,9 +29,14 @@
 </template>
 <script>
     import Ordering from "../views/Ordering";
+    import OrderItem from "../views/Ordering";
 
     export default {
         name: 'Ingredient',
+        components: {
+            Ordering,
+            OrderItem
+        },
         props: {
             item: Object,
             lang: String,

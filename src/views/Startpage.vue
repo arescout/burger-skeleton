@@ -8,8 +8,12 @@
             <div class="whereToEat" >
                 <h1>Welcome to Krafty Burgers</h1>
                 {{uiLabels.welcomeTextBox}}
-                <button id = "eatHereButton" v-on:click="whereToEatFuncHere()"><router-link to="/ordering" class="routerButton">{{uiLabels.eatHere}}</router-link></button>
-                <button id = "takeAwayButton" v-on:click="whereToEatFuncAway()"><router-link to="/ordering" class="routerButton">{{uiLabels.eatAway}}</router-link></button>
+                <button class = "eatHereButton" v-on:click="whereToEatFuncHere()">
+                    <router-link class="routerButton" to="/ordering">{{uiLabels.eatHere}}</router-link>
+                </button>
+                <button class = "takeAwayButton" v-on:click="whereToEatFuncAway()">
+                    <router-link class="routerButton" to="/ordering">{{uiLabels.eatAway}}</router-link>
+                </button>
             </div>
         </section>
     </div>
