@@ -139,16 +139,9 @@
         order: 1;
     }
 
-    /*.buttonWrapper {*/
-    /*    display: grid;*/
-    /*    grid-gap: 5px;*/
-    /*}*/
-
     .buttonWrapper {
         display: flex;
         flex-direction: row;
-        /*justify-content: space-evenly;*/
-        /*align-content: stretch;*/
         width: 100%;
         height: 100%;
     }
@@ -178,10 +171,6 @@
     .ingredient button:hover {
         background-color: rgba(255, 223, 26, 0.36);
         color: black;
-    }
-
-    .pMButtons {
-        /*text-align: center;*/
     }
 
     .allergicBox {
