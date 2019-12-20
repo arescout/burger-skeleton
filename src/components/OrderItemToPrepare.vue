@@ -8,6 +8,7 @@
     :order="order">
   </OrderItem>
   <button v-on:click="orderDone">
+    {{order}}
     {{uiLabels.ready}}
   </button>
 </div>

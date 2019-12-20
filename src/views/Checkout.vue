@@ -13,9 +13,10 @@
 
                     <br><br>
                     <b>{{uiLabels.tally}}: {{this.price}}</b>:-<br>
-                    <button class="paymentButton" v-on:click="confirmedPayment = true">Ready for payment</button>
+                    <button class="paymentButton"
+                            v-on:click="placeOrder">Ready for payment</button>
                     <div class="paymentBox" v-show="confirmedPayment">
-                        <button class="xButton" v-on:click="confirmedPayment=false">X</button>
+                        <button class="xButton"  v-on:click="confirmedPayment=false">X</button>
                         Follow instructions in the card terminal...
                     </div>
                 </div>
@@ -53,11 +54,11 @@
 
         created: function() {
             // Method for receiving order from Ordering page
-            this.$store.state.socket.on('order', function (order) {
+            this.$store.state.socket.on('proceedToCheckout', function (data) {
                 console.log("in on.order");
-                console.log(order);
-                    this.order = order.order;
-                    this.price = order.price;
+                console.log(data);
+                    this.order = data.order;
+                    this.price = data.price;
             }.bind(this));
 
         },
@@ -68,7 +69,11 @@
                 alert("Follow the instructions in the card terminal")
             },
 
-
+            placeOrder: function () {
+                this.confirmedPayment = true;
+                this.$store.state.socket.emit('order', {order: this.aggregatedOrders});
+                console.log({order: this.aggregatedOrders});
+            }
         }
     };
 
