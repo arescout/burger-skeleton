@@ -1,6 +1,7 @@
 <template>
 	<div>
-		{{orderId}} {{order.type}} {{uiLabels.ingredients}}: {{ order.ingredients.map(item=>item["ingredient_"+ lang]).join(", ") }}
+		<!-- The following line promts errors and don't seem to do anything so i commented it away -->
+		{{orderId}} {{order.type}}}: {{ order.ingredients.map(item=>item["ingredient_"+ lang]).join(", ") }}
 	</div>
 </template>
 <script>

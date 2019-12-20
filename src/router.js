@@ -27,10 +27,10 @@ let router = new Router({
         {
             path: "/checkout",
             meta: {
-                title: Checkout
+                title: "Checkout"
             },
             name: "Checkout",
-            component: Checkout
+            component: () => import(/* webpackChunkName: "read" */ './views/Checkout.vue')
         },
         {
             path: '/kitchen',

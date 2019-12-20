@@ -1,7 +1,6 @@
 'use strict';
 
 // Stuff that is used both in the ordering system and in the kitchen
-import Startpage from "../views/Startpage";
 
 var sharedVueStuff = {
   data: function () {
@@ -24,11 +23,16 @@ var sharedVueStuff = {
     }.bind(this));
 
     this.$store.state.socket.on('currentQueue', function (data) {
+      console.log("In sharedVueStuff currentQueue");
       this.orders = data.orders;
+      console.log(this.orders)
       if (typeof data.ingredients !== 'undefined') {
         this.ingredients = data.ingredients;
       }
     }.bind(this));
+
+    this.$store.state.socket.emit('fetchData', {});
+
   },
   methods: {
     switchLang: function () {

@@ -1,111 +1,147 @@
-<template>
-  <div id="ordering">
-    <img class="example-panel" src="https://rfclipart.com/image/big/18-1f-86/ornamental-batik-seamless-pattern-Download-Royalty-free-Vector-File-EPS-113870.jpg">
-      <button v-on:click="switchLang()">
-          <img src = https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width = 20px>{{ uiLabels.language }}
-      </button>
-    <button><router-link to="/" class="routerButton">{{uiLabels.startpage}}</router-link></button>
+<template id="template">
+    <div id="ordering">
+        <button class="routerButton" v-on:click="switchLang()">
+            <img src=https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width=20px>{{uiLabels.language}}
+        </button>
+        <button>
+            <router-link to="/" class="routerButton">{{uiLabels.startpage}}</router-link>
+        </button>
 
-    <h1 class = "ingredientHeader">{{ uiLabels.ingredients }}</h1>
-
-    <!-- Add buttons for navigating through categories -->
-    <div class = "menuWrapper">
-      <div class = "categoryTabs">
-            <button v-on:click="setCategory(1)">{{uiLabels.protein}}</button>
-            <button v-on:click="setCategory(2)">{{uiLabels.toppings}}</button>
-            <button v-on:click="setCategory(3)">{{uiLabels.sauce}}</button>
-            <button v-on:click="setCategory(4)">{{uiLabels.bread}}</button>
-            <button v-on:click="setCategory(5)">{{uiLabels.sides}}</button>
-            <button v-on:click="setCategory(6)">{{uiLabels.drinks}}</button>
-      </div>
-
-    <!-- Add list of ingredients -->
-        <div class = "ingredientBox">
-            <div class = "ingredientWrapper">
-
-            <Ingredient
-                ref="ingredient"
-                v-for="item in ingredients"
-                v-if="item.category===currentCategory"
-                v-on:increment="addToOrder(item)"
-                v-on:decrease="deleteFromOrder(item)"
-                :item="item"
-                :count="item.counter"
-                :lang="lang"
-                :key="item.ingredient_id">
-            </Ingredient>
-
+        <!-- Add buttons for navigating through categories -->
+        <div class="wrapper">
+            <div class="header"><h1>{{ uiLabels.companyName }}</h1></div>
+            <div class="categoryTabs">
+                <button v-on:click="setCategory(1)">{{uiLabels.protein}}</button>
+                <button v-on:click="setCategory(2)">{{uiLabels.toppings}}</button>
+                <button v-on:click="setCategory(3)">{{uiLabels.sauce}}</button>
+                <button v-on:click="setCategory(4)">{{uiLabels.bread}}</button>
+                <button v-on:click="setCategory(5)">{{uiLabels.sides}}</button>
+                <button v-on:click="setCategory(6)">{{uiLabels.drinks}}</button>
+                <button v-on:click="setCategory(3)">{{uiLabels.dip}}</button>
             </div>
-        </div>
-    <!-- Order information -->
-            <div class="orderStatus">
-                <h1 class="myBurger">{{ uiLabels.order }}</h1>
-               <!-- {{ chosenIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr-->
-                <div v-for="countIng in countAllIngredients"
-                     v-if="countIng.count>0"
-                     :key="countAllIngredients.indexOf(countIng)">
-                    {{countIng.name}}: {{countIng.count}} {{uiLabels.unit}},
-                </div>
-                {{uiLabels.tally}}: {{price}} kr
-                <br><button class = "placeOrderButton" v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
-                <br>
 
-                <h1 class  = "orderQueue">{{ uiLabels.ordersInQueue }}:</h1>
-                <div class = "orderedItems">
-                    <OrderItem
-                            v-for="(order, key) in this.orders"
-                            v-if="order.status !== 'done'"
-                            :order-id="key"
-                            :order="order"
-                            :ui-labels="uiLabels"
+            <!-- Add list of ingredients -->
+            <div class="itemsContainer">
+                <div class="itemsWrapper">
+                    <Ingredient
+                            ref="ingredient"
+                            v-for="item in ingredients"
+                            v-if="item.category===currentCategory"
+                            v-on:increment="addToBurger(item)"
+                            v-on:decrease="removeFromBurger(item)"
+                            :item="item"
+                            :count="item.counter"
                             :lang="lang"
-                            :key="key">
-                    </OrderItem>
+                            :key="item.ingredient_id">
+                    </Ingredient>
                 </div>
-                <button class = "checkOutButton"><router-link class="routerButton" to="/checkout">{{uiLabels.proceedToCO}}</router-link></button>
+            </div>
+
+            <!-- Order information -->
+            <div class="orderContainer">
+                <div class="orderWrapper">
+                    <div class="orderHeader">
+                        {{ uiLabels.order }}
+                    </div>
+                    <div class="orderSelectedWrapper">
+                        <div>
+                            <div v-for="countIng in countAllIngredients"
+                                 v-if="countIng.count>0"
+                                 :key="countAllIngredients.indexOf(countIng)">
+                                {{countIng.name}}: {{countIng.count}} {{uiLabels.unit}},
+                                <button class = "minusButton" v-on:click="this.$children[1].decrementCounter()">-</button> <!--tried to make a functional decrease button in the ordering tab-->
+                            </div>
+                            <b>{{uiLabels.currentPriceLabel}}: {{this.currentPrice}}:-</b>
+                        </div>
+                        <button class="orderButton" v-show="this.orderReady" v-on:click="addToOrder()">{{ uiLabels.newBurger }}</button>
+                    </div>
+                    <div class="orderSummaryContainer">
+                        <div>
+                            <b>{{uiLabels.yourOrder}}:</b>
+                            <div v-for="(burger, key) in aggregatedOrders.burgers" :key="key">
+                                <b>{{uiLabels.burgNr}} {{key + 1}}</b>
+                                <!-- Key + 1 so it doesn't say "burger 0" on customers page -->
+                                <span v-for="(item, key2) in burger.ingredients" :key="key2">
+                                <br/>{{ item["ingredient_" + lang]}}: {{ item["count"] }} {{uiLabels.unit}}
+                            </span>
+                            </div>
+                            <!--<br><button class = "placeOrderButton" v-if = "chosenIngredients.length > 0" v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>-->
+                            <h4>{{uiLabels.tally}}: {{totalPrice}}:-</h4>
+                            <OrderItem
+                                    v-for="(order, key3) in this.orders"
+                                    v-if="order.status !== 'done'"
+                                    :order-id="key3"
+                                    :order="order"
+                                    :ui-labels="uiLabels"
+                                    :lang="lang"
+                                    :key="key3">
+                            </OrderItem>
+                        </div>
+                        <button class="orderButton" v-show="!this.noOrder" v-on:click="placeOrder()"> <!-- no order if no burger is added to the tab-->
+                            <router-link class="routerButton" to="/checkout" v>{{uiLabels.proceedToCO}}</router-link>
+                        </button>
+                    </div>
+                    <div class="allergyContainer">
+                        <div class="allergyBox">{{uiLabels.allergies}}:<br>
+                            <p class="vegan">V</p> = {{uiLabels.vegan}}<br>
+                            <p class="lactose">L</p> = {{uiLabels.lactose}}<br>
+                            <p class="gluten">G</p> = {{uiLabels.gluten}}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-  </div>
 
+    </div>
 </template>
 <script>
+    import Ingredient from '@/components/Ingredient.vue'
+    import OrderItem from '@/components/OrderItem.vue'
+    import sharedVueStuff from '@/components/sharedVueStuff.js'
+    import Startpage from "./Startpage"; //Mikael
 
-//import the components that are used in the template, the name that you
-//use for importing will be used in the template above and also below in
-//components
-import Ingredient from '@/components/Ingredient.vue'
-import OrderItem from '@/components/OrderItem.vue'
-
-//import methods and data that are shared between ordering and kitchen views
-import sharedVueStuff from '@/components/sharedVueStuff.js'
-    /* instead of defining a Vue instance, export default allows the only
-    necessary Vue instance (found in main.js) to import your data and methods */
     export default {
         name: 'Ordering',
         components: {
             Ingredient,
-            OrderItem
+            OrderItem,
+            Startpage //Mikael
         },
         mixins: [sharedVueStuff], // include stuff that is used in both
                                   // the ordering system and the kitchen
         data: function () { //Not that data is a function!
             return {
                 chosenIngredients: [],
-                price: 0,
+                totalPrice: 0,
+                currentPrice: 0,
                 orderNumber: "",
                 count: 0,
+                breadChosen: false,
+                pattyChosen: false,
+                orderReady: false,
+                noOrder: true,
+                noShow: false,
+                patties: 0,
                 currentCategory: 1, // Category deciding what ingredients to show
+                numbOfBurgers: 0,
+                currentOrder: {
+                    burgers: []
+                },
+                aggregatedOrders: {
+                    burgers: []
+                },
             }
         },
         created: function () {
             this.$store.state.socket.on('orderNumber', function (data) {
                 this.orderNumber = data;
             }.bind(this));
+
         },
         computed: {
             //Nytt Taken from burger-skeleton/severalBurgers/src/views/Kitchen.vue and changed ingredients to our array chosenIngredients
             countAllIngredients: function () {
-                let ingredientTuples = []
+                let ingredientTuples = [];
                 for (let i = 0; i < this.chosenIngredients.length; i += 1) {
                     ingredientTuples[i] = {};
                     ingredientTuples[i].name = this.chosenIngredients[i]['ingredient_' + this.lang];
@@ -115,47 +151,101 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
                 // Array.from creates a new shallow-copied array
                 // set is being used to remove duplicates/store unique values
                 let difIngredients = Array.from(new Set(ingredientTuples.map(arrayName => arrayName.name))).map(name => {
-                        return {
-                            name: name,
-                            count: ingredientTuples.find(arrayName => arrayName.name === name).count
-                        };
-                    });
+                    return {
+                        name: name,
+                        count: ingredientTuples.find(arrayName => arrayName.name === name).count
+                    };
+                });
+
                 return difIngredients;
-                console.log(difIngredients);
-            }
+            },
         },
         methods: {
-            addToOrder: function (item) {
+            addToBurger: function (item) {
                 this.chosenIngredients.push(item);
-                this.price += +item.selling_price;
+                this.currentPrice += +item.selling_price;
+                //Startpage.data().eatHere, //Mikael
+                //    console.log(eatHere)
+                for (let i = 0; i < this.chosenIngredients.length; i += 1) {
+                    if (this.chosenIngredients[i].category === 4) {
+                        this.breadChosen = true;
+                    }
+                    if (this.chosenIngredients[i].category === 1) {
+                        this.pattyChosen = true;
+                    }
+                }
+                if (item.category === 1) {
+                    this.patties += 1;
+                }
+                if (this.pattyChosen && this.breadChosen){  //order can only be made if burger and bread is chosen
+                    this.orderReady = true;
+                }
+
             },
-            deleteFromOrder: function (item) { // Nytt hela funktionen
-                // With splice remove one of the items that has been appending to the chosenIngredients array, is being called from minus-button,
-                // indexOf says where the removing should be done, the 1 is  that is being removed
-                this.chosenIngredients.splice(this.chosenIngredients.indexOf(item), 1);
-                this.price -= item.selling_price; // Adjust the total price
+            removeFromBurger: function (item) {
+                let removeIndex = 0;
+                for (let i = 0; i < this.chosenIngredients.length; i += 1) {
+                    if (this.chosenIngredients[i] === item) {
+                        removeIndex = i;
+                        break;
+                    }
+                }
+                for (let i = 1; i < this.chosenIngredients.length; i += 1) {
+                    if (this.chosenIngredients[i].category === 4) {
+                        this.breadChosen = false;
+                        this.orderReady = false;
+                    }
+                }
+                this.chosenIngredients.splice(removeIndex, 1);
+                this.currentPrice -= +item.selling_price;
             },
-            placeOrder: function () {
-                    //Wrap the order in an object
-                    let order = {
-                        ingredients: this.chosenIngredients,
-                        price: this.price
-                    };
-                // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
-                this.$store.state.socket.emit('order', {order: order});
+
+            addToOrder: function () {
+                // Add the burger to an order array
+                if(this.chosenIngredients.length === 0){
+                    return;
+                }
+
+                this.currentOrder.burgers.push({
+                    ingredients: this.chosenIngredients.splice(0),
+                    price: this.currentPrice
+                });
+
+                this.aggregatedOrders.burgers.push({
+                    ingredients: this.countPlacedIngredients(this.currentOrder.burgers)
+                });
+
                 //set all counters to 0. Notice the use of $refs
                 for (let i = 0; i < this.$refs.ingredient.length; i += 1) {
                     this.$refs.ingredient[i].resetCounter();
                 }
-                this.price = 0;
                 this.chosenIngredients = [];
-                /*this.difIngredients.clear*/
+                this.totalPrice += this.currentPrice;
+                this.currentPrice = 0;
+                this.noOrder = false;  //reset counters
+                this.orderReady = false;
+                this.breadChosen = false;
+                this.pattyChosen = false;
+
+            },
+            //addWheretoEat:function(){
+            //    Startpage.data().eatHere,
+            //    console.log(eatHere)
+
+            //},
+
+            placeOrder: function () {
+                // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
+                this.$store.commit('setCheckoutOrder', this.aggregatedOrders);
+                this.currentOrder = [];
+                this.category = 1;
             },
 
             // Function for changing category. Called on at buttons in <Ingredient
             setCategory: function (newCat) {
                 this.currentCategory = newCat;
             },
+
             countNumberOfIngredients: function (id) {
                 //Nytt Taken from burger-skeleton/severalBurgers/src/views/Kitchen.vue
                 let counter = 0;
@@ -166,134 +256,279 @@ import sharedVueStuff from '@/components/sharedVueStuff.js'
                     }
                 }
                 return counter;
+            },
+
+            // Function for counting number of same ingredients in ingredient list
+            countPlacedIngredients: function (ingredientList) {
+                // Create new array for collecting the unique ingredients
+                let ingredientTuples = [];
+
+                let indexCount = 0;
+
+                // Go through input list
+                for (let index = 0; index < ingredientList[this.numbOfBurgers].ingredients.length; index++) {
+                    // Check if ingredientTuples has an instance of this ingredient
+                    if (!ingredientTuples.includes(ingredientList[this.numbOfBurgers].ingredients[index])) {
+                        ingredientTuples[indexCount] = ingredientList[this.numbOfBurgers].ingredients[index];
+                        ingredientTuples[indexCount].count = 1;
+                        indexCount += 1;
+                    } else {
+                        ingredientTuples[ingredientTuples.indexOf(ingredientList[this.numbOfBurgers].ingredients[index])].count += 1;
+                    }
+                }
+                this.numbOfBurgers += 1;
+                return ingredientTuples;
             }
         }
     }
 </script>
 <style scoped>
-/* scoped in the style tag means that these rules will only apply to elements, classes and ids in this template and no other templates. */
 
+    /*COLOR SCHEME*/
+
+    :root {
+        --primary-color: #FFE4C4;
+        --primary-light-color: #FAEBD7;
+        --primary-dark-color: #ffc74a;
+        --primary-text-color: black;
+        --secondary-color: chocolate;
+        --secondary-light-color: #FFFF00;
+        --secondary-dark-color: saddlebrown;
+        --secondary-text-color: black;
+        --border-color: black;
+    }
+
+    /*GENERAL*/
+
+    html {
+        scroll-behavior: smooth;
+    }
 
     #ordering {
-        margin:auto;
-        width: 60em;
-    }
-
-    .example-panel {
-        position: fixed;
+        font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
         background-size: cover;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-color: hsl(2, 57%, 40%);
+        background-image: repeating-linear-gradient(transparent, transparent 50px, rgba(0, 0, 0, .4) 50px, rgba(0, 0, 0, .4) 53px, transparent 53px, transparent 63px, rgba(0, 0, 0, .4) 63px, rgba(0, 0, 0, .4) 66px, transparent 66px, transparent 116px, rgba(0, 0, 0, .5) 116px, rgba(0, 0, 0, .5) 166px, rgba(255, 255, 255, .2) 166px, rgba(255, 255, 255, .2) 169px, rgba(0, 0, 0, .5) 169px, rgba(0, 0, 0, .5) 179px, rgba(255, 255, 255, .2) 179px, rgba(255, 255, 255, .2) 182px, rgba(0, 0, 0, .5) 182px, rgba(0, 0, 0, .5) 232px, transparent 232px),
+        repeating-linear-gradient(270deg, transparent, transparent 50px, rgba(0, 0, 0, .4) 50px, rgba(0, 0, 0, .4) 53px, transparent 53px, transparent 63px, rgba(0, 0, 0, .4) 63px, rgba(0, 0, 0, .4) 66px, transparent 66px, transparent 116px, rgba(0, 0, 0, .5) 116px, rgba(0, 0, 0, .5) 166px, rgba(255, 255, 255, .2) 166px, rgba(255, 255, 255, .2) 169px, rgba(0, 0, 0, .5) 169px, rgba(0, 0, 0, .5) 179px, rgba(255, 255, 255, .2) 179px, rgba(255, 255, 255, .2) 182px, rgba(0, 0, 0, .5) 182px, rgba(0, 0, 0, .5) 232px, transparent 232px),
+        repeating-linear-gradient(125deg, transparent, transparent 2px, rgba(0, 0, 0, .2) 2px, rgba(0, 0, 0, .2) 3px, transparent 3px, transparent 5px, rgba(0, 0, 0, .2) 5px);
+        position: absolute; /* Seems like this fixes the background*/
         width: 100%;
-        left:0;
-        top:0;
-        z-index: -2;
-    }
-    .ingredient {
-        border: 1px solid #ccd;
-        padding: 1em;
-        background-color: antiquewhite;
-        border: solid 3px #ffc74a;
-        border-radius: 10px;
-        color: black;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    }
-    .menuWrapper {
-        display: grid;
-        grid-gap: 5px;
-    }
-    .ingredientHeader {
-        background: bisque;
-        border: solid black 2px;
-        border-radius: 10px;
-        text-align: center;
-        grid-row: 1;
-        grid-column: 1 / span 3;
-    }
-    .categoryTabs{
-        background-color: beige;
-        border: black solid 2px;
-        border-radius: 5px;
-        height: 3em;
-        grid-column: 1 / span 3;
-        grid-row: 2;
-    }
-    .categoryTabs button {
-        background-color: chocolate;
-        border: solid black 2px;
-        /*border-radius: 15px;*/
-        font-size: 1em;
         height: 100%;
-        /*padding-bottom: 2px;*/
-        width: calc(100% /6);
+        top: 0;
+        left: 0;
+    }
 
-    }
-    .categoryTabs button:hover {
-        background-color: saddlebrown;
-        color:black;
-    }
-    .orderStatus {
-        background-color: bisque;
-        border: black solid 3px;
-        border-radius: 10px;
-        grid-column: 4;
-        grid-row: 2 / span 3;
-        padding-bottom: 1em;
-        padding-left: 1em;
-    }
-    .orderedItems {
-        background: beige;
-        border-radius: 5px;
-        border: solid black 3px;
-        margin-right: 1em;
-    }
-    .orderQueue {
-        text-align: center;
-    }
-    .placeOrderButton {
-        border: 3px black solid;
-        border-radius: 15px;
-        font-size: 1em;
-        background-color: rgba(255,223,26,0.36);
-
-    }
-    .checkOutButton {
-        text-align: center;
-        background-color: yellow;
-        border-radius: 15px;
-        border:solid black 3px;
-        font-style: oblique;
-        margin: 0 auto;
-        margin-top: 1em;
-        display: block;
-
-    }
-    .myBurger{
-        text-align: center;
-        background-color: beige;
-        border: solid black 3px;
-        border-radius: 10px;
-        margin-right: 2em;
-        margin-left: 2em;
-        padding-bottom: 0.5em;
-        padding-top: 0.5em;
-        padding-right: 1em;
-        padding-left: 1em;
-    }
-    .ingredientBox {
-        grid-column: 1 / span 3;
-        grid-row: 3 / span 4;
-        background-color: bisque;
-        border: solid black 3px;
-        padding: 2px;
-        border-radius: 10px;
-    }
-    .ingredientWrapper {
-        display: grid;
-        grid-template-columns: repeat(3,1fr);
-        grid-gap: 5px;
-    }
+    /*LANGUAGE AND BACK BUTTON*/
 
     .routerButton {
         text-decoration: none;
+        text-transform: uppercase;
         color: black;
     }
+
+    /*MAIN*/
+
+    .wrapper {
+        display: grid;
+        margin: 0.25rem;
+        grid-template-areas: "header order" "nav order" "content order";
+        grid-template-columns: 0.625fr 0.375fr;
+        grid-template-rows: auto auto 1fr;
+        grid-gap: 0.25rem;
+    }
+
+    /*MOBILE VIEW*/
+
+    @media (max-width: 850px) {
+        .wrapper {
+            display: grid;
+            margin: 0.25rem;
+            grid-template-areas: "header" "nav" "content" "order";
+            grid-template-columns: auto;
+            grid-template-rows: auto;
+            grid-gap: 0.25rem;
+        }
+    }
+
+    /*HEADER*/
+
+    .header {
+        grid-area: header;
+        background: var(--primary-color);
+        border: 3px var(--border-color) solid;
+        border-radius: 10px;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    /*MENU*/
+
+    .categoryTabs {
+        grid-area: nav;
+        border: 2px var(--border-color) solid;
+        border-radius: 5px;
+        display: flex;
+        flex-wrap: nowrap;
+        flex: 1;
+    }
+
+    .categoryTabs button {
+        background-color: var(--secondary-color);
+        border: 2px var(--border-color) solid;
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: bold;
+        flex: 0 1 calc(16.66667%);
+        flex-grow: 1;
+        order: 1;
+        padding: 1rem 0.6rem 1rem 0.6rem;
+    }
+
+    .categoryTabs button:hover {
+        background-color: var(--secondary-dark-color);
+        color: var(--secondary-text-color);
+    }
+
+    /*LIST OF INGREDIENTS*/
+
+    .ingredient {
+        background-color: var(--primary-light-color);
+        border: 3px var(--primary-dark-color) solid;
+        border-radius: 10px;
+        color: var(--primary-text-color);
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .itemsWrapper {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+        grid-gap: 0.5rem;
+    }
+
+    .itemsContainer {
+        grid-area: content;
+        background-color: var(--primary-color);
+        border: 3px var(--border-color) solid;
+        padding: 0.25rem;
+        border-radius: 10px;
+    }
+
+    /*ORDER*/
+
+    .orderContainer {
+        grid-area: order;
+        width: 100%;
+        height: 100%;
+    }
+
+    /*.orderWrapper {*/
+    /*    display: flex;*/
+    /*    align-items: center;*/
+    /*    flex-direction: column;*/
+    /*    background-color: var(--primary-color);*/
+    /*    border: 3px var(--border-color) solid;*/
+    /*    border-radius: 10px;*/
+    /*}*/
+
+    .orderWrapper {
+        display: grid;
+        padding: 0.25rem;
+        grid-gap: 0.25rem;
+        grid-template-areas: "orderHeader orderHeader" "orderSelected allergies" "orderSummary allergies";
+        grid-template-columns: auto auto;
+        grid-template-rows: auto auto auto;
+        background-color: var(--primary-color);
+        border: 3px var(--border-color) solid;
+        border-radius: 10px;
+    }
+
+    .orderHeader {
+        grid-area: orderHeader;
+        background-color: var(--primary-light-color);
+        border: 3px var(--border-color) solid;
+        border-radius: 10px;
+        text-transform: uppercase;
+        text-align: center;
+        font-weight: bold;
+        font-size: 2rem;
+        padding: 0.25rem;
+    }
+
+    .orderSelectedWrapper {
+        grid-area: orderSelected;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        background: var(--primary-light-color);
+        border: 3px var(--border-color) solid;
+        border-radius: 5px;
+        padding: 0.25rem;
+    }
+
+    .orderSummaryContainer {
+        grid-area: orderSummary;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        background: var(--primary-light-color);
+        border: 3px var(--border-color) solid;
+        border-radius: 5px;
+        padding: 0.25rem;
+    }
+
+    .minusButton {
+        background-color: var(--primary-color);
+        border-radius: 50%;
+
+    }
+
+    .orderButton {
+        border: 3px var(--border-color) solid;
+        background-color: var(--secondary-light-color);
+        border-radius: 15px;
+        text-transform: uppercase;
+        text-align: center;
+        font-style: oblique;
+        font-weight: bold;
+    }
+
+    /*ALLERGY BOX*/
+
+    .allergyContainer {
+        grid-area: allergies;
+
+    }
+
+    .allergyBox {
+        background-color: var(--primary-light-color);
+        border: 3px var(--border-color) solid;
+        border-radius: 10px;
+        padding: 1rem;
+    }
+
+    .allergyBox p {
+        display: inline-block;
+        border: black solid 1px;
+        color: black;
+        margin-left: 2px;
+        padding-left: 5px;
+        padding-right: 5px;
+        border-radius: 50%;
+    }
+
+    .vegan {
+        background-color: rgba(55, 255, 57, 0.47);
+    }
+
+    .lactose {
+        background-color: rgba(51, 233, 255, 0.36);
+    }
+
+    .gluten {
+        background-color: rgba(251, 255, 50, 0.36);
+    }
+
 </style>
