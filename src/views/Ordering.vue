@@ -124,7 +124,7 @@
                 noOrder: true,
                 noShow: false,
                 patties: 0,
-                currentCategory: 1, // Category deciding what ingredients to show
+                currentCategory: 4, // Category deciding what ingredients to show
                 numbOfBurgers: 0,
                 currentOrder: {
                     burgers: []
