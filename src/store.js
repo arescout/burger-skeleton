@@ -15,8 +15,10 @@ export default new Vuex.Store({
   mutations: {
     setCheckoutOrder: function (state, order) {
       state.checkoutOrder = order;
+    },
+    addToCheckoutOrder: function (state, order) {
+      state.checkoutOrder.burgers.push(order);
     }
-
   },
   actions: {
 

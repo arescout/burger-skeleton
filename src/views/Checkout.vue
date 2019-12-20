@@ -10,7 +10,13 @@
                 <div class="checkOutTable">
                     <h1>Your total order: </h1>
                     <div class="finalOrder">
-                        {{this.checkoutOrder}}
+                        <div v-for="(burger, key) in checkoutOrder.burgers" :key="key">
+                            <b>{{uiLabels.burgNr}} {{key + 1}}</b>
+                            <!-- Key + 1 so it doesn't say "burger 0" on customers page -->
+                            <span v-for="(item, key2) in burger.ingredients" :key="key2">
+                                <br/>{{ item["ingredient_" + lang]}}: {{ item["count"] }} {{uiLabels.unit}}
+                            </span>
+                        </div>
                     <br><br>
                     <b>{{uiLabels.tally}}: {{this.price}}</b>:-<br>
                     <button class="paymentButton"
