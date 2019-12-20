@@ -144,6 +144,9 @@
             eatHere: function () {
                 return this.$store.state.eatHere
             },
+            totalPrice: function() {
+                return this.$store.state.totalPrice
+            },
             //Nytt Taken from burger-skeleton/severalBurgers/src/views/Kitchen.vue and changed ingredients to our array chosenIngredients
             countAllIngredients: function () {
                 let ingredientTuples = [];
@@ -172,7 +175,6 @@
                 }
                 if (this.eatHere){
                     this.$store.commit('setEatHere', true);
-                    cons
                 }
             },
             addToBurger: function (item) {
@@ -208,6 +210,11 @@
                         this.breadChosen = false;
                         this.orderReady = false;
                     }
+                }
+                if (item.category === 4 || item.category === 1) {
+                    this.orderReady = false;
+                    this.breadChosen = false;
+                    this.pattyChosen = false;
                 }
                 this.chosenIngredients.splice(removeIndex, 1);
                 this.currentPrice -= +item.selling_price;
