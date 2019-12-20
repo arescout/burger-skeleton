@@ -36,7 +36,6 @@
         },
         methods: {
             whereToEatFuncHere: function () {
-
                 this.eatHere=true;
                 this.$emit('startPageWhereToEat'); // Mikael eller är det på något sådant sätt man ska göra
             },

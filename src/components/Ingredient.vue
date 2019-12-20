@@ -101,7 +101,7 @@
                 if (this.item.category === 4) { //if selected bread is unselected, the plus button reappears
                   this.$parent.breadChosen = false;
                 }
-                console.log("test");
+
                 /*if (this.item.category === 1) {
               this.patties -= 1;
             }

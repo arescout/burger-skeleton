@@ -192,7 +192,7 @@
                 this.currentPrice += +item.selling_price;
                 //Startpage.data().eatHere, //Mikael
                 //    console.log(eatHere)
-                for (let i = 1; i < this.chosenIngredients.length; i += 1) {
+                for (let i = 0; i < this.chosenIngredients.length; i += 1) {
                     if (this.chosenIngredients[i].category === 4) {
                         this.breadChosen = true;
                     }
@@ -206,9 +206,7 @@
                 if (this.pattyChosen && this.breadChosen){  //order can only be made if burger and bread is chosen
                     this.orderReady = true;
                 }
-                console.log(this.breadChosen);
-                console.log(this.pattyChosen);
-                console.log(this.orderReady);
+
             },
             removeFromBurger: function (item) {
                 let removeIndex = 0;
@@ -227,6 +225,7 @@
                 this.chosenIngredients.splice(removeIndex, 1);
                 this.currentPrice -= +item.selling_price;
             },
+
             addToOrder: function () {
                 // Add the burger to an order array
                 if(this.chosenIngredients.length === 0){
@@ -253,25 +252,26 @@
                 this.orderReady = false;
                 this.breadChosen = false;
                 this.pattyChosen = false;
+
             },
             //addWheretoEat:function(){
             //    Startpage.data().eatHere,
             //    console.log(eatHere)
 
             //},
+
             placeOrder: function () {
                 // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
-                this.$store.state.socket.emit('order', {
-                    order: this.aggregatedOrders,
-                    price: this.totalPrice}
-                    );
+                this.$store.state.socket.emit('proceed', {order: this.aggregatedOrders});
                 this.currentOrder = [];
                 this.category = 1;
             },
+
             // Function for changing category. Called on at buttons in <Ingredient
             setCategory: function (newCat) {
                 this.currentCategory = newCat;
             },
+
             countNumberOfIngredients: function (id) {
                 //Nytt Taken from burger-skeleton/severalBurgers/src/views/Kitchen.vue
                 let counter = 0;
@@ -283,6 +283,7 @@
                 }
                 return counter;
             },
+
             // Function for counting number of same ingredients in ingredient list
             countPlacedIngredients: function (ingredientList) {
                 // Create new array for collecting the unique ingredients
