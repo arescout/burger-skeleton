@@ -10,7 +10,7 @@
                 <div class="checkOutTable">
                     <h1>Your total order: </h1>
                     <div class="finalOrder">
-
+                        {{this.checkoutOrder}}
                     <br><br>
                     <b>{{uiLabels.tally}}: {{this.price}}</b>:-<br>
                     <button class="paymentButton"
@@ -52,14 +52,14 @@
             }
         },
 
+        computed: {
+            checkoutOrder: function () {
+                return this.$store.state.checkoutOrder;
+            }
+        },
+
         created: function() {
             // Method for receiving order from Ordering page
-            this.$store.state.socket.on('proceedToCheckout', function (data) {
-                console.log("in on.order");
-                console.log(data);
-                    this.order = data.order;
-                    this.price = data.price;
-            }.bind(this));
 
         },
 

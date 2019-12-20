@@ -52,11 +52,6 @@ io.on('connection', function (socket) {
                           ingredients: data.getIngredients() });
   });
 
-  socket.on('proceed', function (order) {
-      console.log("in server - proceed")
-      socket.emit('proceedToCheckout')
-  });
-
   // send UI labels in the chosen language
   socket.on('switchLang', function (lang) {
     socket.emit('switchLang', data.getUILabels(lang));

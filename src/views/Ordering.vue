@@ -262,7 +262,7 @@
 
             placeOrder: function () {
                 // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
-                this.$store.state.socket.emit('proceed', {order: this.aggregatedOrders});
+                this.$store.commit('setCheckoutOrder', this.aggregatedOrders);
                 this.currentOrder = [];
                 this.category = 1;
             },
