@@ -26,7 +26,11 @@
                                   // the ordering system and the kitchen
         data: function() { //Not that data is a function!
             return {
-                eatHere:false, // variabeln jag vill skicka Mikael
+            }
+        },
+        computed: {
+            eatHere: function () {
+                return this.$store.state.eatHere;
             }
         },
         created: function () {
@@ -36,12 +40,11 @@
         },
         methods: {
             whereToEatFuncHere: function () {
-                this.eatHere=true;
-                this.$emit('startPageWhereToEat'); // Mikael eller är det på något sådant sätt man ska göra
+                this.$store.commit('setEatHere', true);
             },
             whereToEatFuncAway: function () {
-                this.eatHere=false;
-                console.log("whereto eat in ordering func")
+                this.$store.commit('setEatHere', false);
+
             }
         }
     }

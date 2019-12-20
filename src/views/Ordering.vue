@@ -11,10 +11,10 @@
         <div class="wrapper">
             <div class="header"><h1>{{ uiLabels.companyName }}</h1></div>
             <div class="categoryTabs">
+                <button v-on:click="setCategory(4)">{{uiLabels.bread}}</button>
                 <button v-on:click="setCategory(1)">{{uiLabels.protein}}</button>
                 <button v-on:click="setCategory(2)">{{uiLabels.toppings}}</button>
                 <button v-on:click="setCategory(3)">{{uiLabels.sauce}}</button>
-                <button v-on:click="setCategory(4)">{{uiLabels.bread}}</button>
                 <button v-on:click="setCategory(5)">{{uiLabels.sides}}</button>
                 <button v-on:click="setCategory(6)">{{uiLabels.drinks}}</button>
                 <button v-on:click="setCategory(3)">{{uiLabels.dip}}</button>
@@ -81,6 +81,10 @@
                             <router-link class="routerButton" to="/checkout" v>{{uiLabels.proceedToCO}}</router-link>
                         </button>
                     </div>
+                    <div>
+                        <button class = "eatButton" v-on:click="changeEatHere()" v-if="this.eatHere"> {{uiLabels.eatHere}} </button>
+                        <button class = "eatButton" v-on:click="changeEatHere()" v-if="!this.eatHere"> {{uiLabels.eatAway}} </button> <!--Mandus test om jag får infoo från startsidan-->
+                    </div>
                     <div class="allergyContainer">
                         <div class="allergyBox">{{uiLabels.allergies}}:<br>
                             <p class="vegan">V</p> = {{uiLabels.vegan}}<br>
@@ -98,14 +102,12 @@
     import Ingredient from '@/components/Ingredient.vue'
     import OrderItem from '@/components/OrderItem.vue'
     import sharedVueStuff from '@/components/sharedVueStuff.js'
-    import Startpage from "./Startpage"; //Mikael
 
     export default {
         name: 'Ordering',
         components: {
             Ingredient,
             OrderItem,
-            Startpage //Mikael
         },
         mixins: [sharedVueStuff], // include stuff that is used in both
                                   // the ordering system and the kitchen
@@ -139,6 +141,9 @@
 
         },
         computed: {
+            eatHere: function () {
+                return this.$store.state.eatHere
+            },
             //Nytt Taken from burger-skeleton/severalBurgers/src/views/Kitchen.vue and changed ingredients to our array chosenIngredients
             countAllIngredients: function () {
                 let ingredientTuples = [];
@@ -161,11 +166,18 @@
             },
         },
         methods: {
+            changeEatHere: function(){
+                if (this.eatHere){
+                    this.$store.commit('setEatHere', false);
+                }
+                if (this.eatHere){
+                    this.$store.commit('setEatHere', true);
+                    cons
+                }
+            },
             addToBurger: function (item) {
                 this.chosenIngredients.push(item);
                 this.currentPrice += +item.selling_price;
-                //Startpage.data().eatHere, //Mikael
-                //    console.log(eatHere)
                 for (let i = 0; i < this.chosenIngredients.length; i += 1) {
                     if (this.chosenIngredients[i].category === 4) {
                         this.breadChosen = true;
@@ -177,6 +189,7 @@
                 if (item.category === 1) {
                     this.patties += 1;
                 }
+
                 if (this.pattyChosen && this.breadChosen){  //order can only be made if burger and bread is chosen
                     this.orderReady = true;
                 }
@@ -228,12 +241,6 @@
                 this.pattyChosen = false;
 
             },
-            //addWheretoEat:function(){
-            //    Startpage.data().eatHere,
-            //    console.log(eatHere)
-
-            //},
-
             placeOrder: function () {
                 // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
                 this.$store.commit('setCheckoutOrder', this.aggregatedOrders);
