@@ -161,32 +161,6 @@
             },
         },
         methods: {
-            /*            addToOrder: function (item) {
-                            this.chosenIngredients.push(item);
-                            this.price += +item.selling_price;
-                        },
-                        deleteFromOrder: function (item) { // Nytt hela funktionen
-                            // With splice remove one of the items that has been appending to the chosenIngredients array, is being called from minus-button,
-                            // indexOf says where the removing should be done, the 1 is  that is being removed
-                            this.chosenIngredients.splice(this.chosenIngredients.indexOf(item), 1);
-                            this.price -= item.selling_price; // Adjust the total price
-                        },
-                        placeOrder: function () {
-                                //Wrap the order in an object
-                                let order = {
-                                    ingredients: this.chosenIngredients,
-                                    price: this.price
-                                };
-                            // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
-                            this.$store.state.socket.emit('order', {order: order});
-                            //set all counters to 0. Notice the use of $refs
-                            for (let i = 0; i < this.$refs.ingredient.length; i += 1) {
-                                this.$refs.ingredient[i].resetCounter();
-                            }
-                            this.price = 0;
-                            this.chosenIngredients = [];
-                            /!*this.difIngredients.clear*!/
-                        },*/
             addToBurger: function (item) {
                 this.chosenIngredients.push(item);
                 this.currentPrice += +item.selling_price;
@@ -300,7 +274,6 @@
                         indexCount += 1;
                     } else {
                         ingredientTuples[ingredientTuples.indexOf(ingredientList[this.numbOfBurgers].ingredients[index])].count += 1;
-
                     }
                 }
                 this.numbOfBurgers += 1;
@@ -311,7 +284,7 @@
 </script>
 <style scoped>
 
-    /*COLOR SCHEME */
+    /*COLOR SCHEME*/
 
     :root {
         --primary-color: #FFE4C4;
