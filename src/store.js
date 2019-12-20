@@ -7,7 +7,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     socket: io(),
-    checkoutOrder: {}
+    checkoutOrder: {},
+    eatHere: false
   },
   getters: {
     getSocket: state => state.socket
@@ -15,7 +16,10 @@ export default new Vuex.Store({
   mutations: {
     setCheckoutOrder: function (state, order) {
       state.checkoutOrder = order;
-    },
+      },
+      setEatHere: function (state, bool) {
+        state.eatHere = bool;
+      },
     addToCheckoutOrder: function (state, order) {
       state.checkoutOrder.burgers.push(order);
     }
