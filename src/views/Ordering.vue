@@ -30,7 +30,7 @@
                             v-on:increment="addToBurger(item)"
                             v-on:decrease="removeFromBurger(item)"
                             :item="item"
-                            :count="item.counter"
+                            v-bind:itemCount="ingredientCount(item)"
                             :lang="lang"
                             :key="item.ingredient_id">
                     </Ingredient>
@@ -45,15 +45,15 @@
                     </div>
                     <div class="orderSelectedWrapper">
                         <div>
-                            <div v-for="countIng in countAllIngredients"
-                                 v-if="countIng.count>0"
-                                 :key="countAllIngredients.indexOf(countIng)">
-                                {{countIng.name}}: {{countIng.count}} {{uiLabels.unit}},
-                                <button class = "minusButton" v-on:click="this.$children[1].decrementCounter()">-</button> <!--tried to make a functional decrease button in the ordering tab-->
+                            <div v-for="(item, key) in groupIngredients(chosenIngredients)">
+                                {{item.count}} x {{item.ing['ingredient_' + lang]}}
+                                <button class="plusButton" v-show = "!breadChosen || currentCategory !== 4" v-on:click="addToBurger(item.ing)">+</button>
+                                <button class = "minusButton" v-on:click="removeFromBurger(item.ing)">-</button> <!--tried to make a functional decrease button in the ordering tab-->
                             </div>
                             <b>{{uiLabels.currentPriceLabel}}: {{this.currentPrice}}:-</b>
                         </div>
-                        <button class="orderButton" v-show="this.orderReady" v-on:click="addToOrder()">{{ uiLabels.newBurger }}</button>
+                        <button class="orderButton" v-show="this.orderReady" v-on:click="addToOrder()">
+                            {{ uiLabels.newBurger }}</button>
                     </div>
                     <div class="orderSummaryContainer">
                         <div>
@@ -61,8 +61,8 @@
                             <div v-for="(burger, key) in aggregatedOrders.burgers" :key="key">
                                 <b>{{uiLabels.burgNr}} {{key + 1}}</b>
                                 <!-- Key + 1 so it doesn't say "burger 0" on customers page -->
-                                <span v-for="(item, key2) in burger.ingredients" :key="key2">
-                                <br/>{{ item["ingredient_" + lang]}}: {{ item["count"] }} {{uiLabels.unit}}
+                                <span v-for="(item, key2) in groupIngredients(burger.ingredients)" :key="key2">
+                                <br/>{{ item.ing["ingredient_" + lang]}}: {{ item.count }} {{uiLabels.unit}}
                             </span>
                             </div>
                             <!--<br><button class = "placeOrderButton" v-if = "chosenIngredients.length > 0" v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>-->
@@ -78,12 +78,15 @@
                             </OrderItem>
                         </div>
                         <button class="orderButton" v-show="!this.noOrder" v-on:click="placeOrder()"> <!-- no order if no burger is added to the tab-->
-                            <router-link class="routerButton" to="/checkout" v>{{uiLabels.proceedToCO}}</router-link>
+                            <router-link class="routerButton" to="/checkout" v>
+                                {{uiLabels.proceedToCO}}</router-link>
                         </button>
                     </div>
                     <div>
-                        <button class = "eatButton" v-on:click="changeEatHere()" v-if="this.eatHere"> {{uiLabels.eatHere}} </button>
-                        <button class = "eatButton" v-on:click="changeEatHere()" v-if="!this.eatHere"> {{uiLabels.eatAway}} </button> <!--Mandus test om jag får infoo från startsidan-->
+                        <button class = "eatButton" v-on:click="changeEatHere()" v-if="this.eatHere">
+                            {{uiLabels.eatHere}} </button>
+                        <button class = "eatButton" v-on:click="changeEatHere()" v-if="!this.eatHere">
+                            {{uiLabels.eatAway}} </button> <!--Mandus test om jag får infoo från startsidan-->
                     </div>
                     <div class="allergyContainer">
                         <div class="allergyBox">{{uiLabels.allergies}}:<br>
@@ -101,8 +104,8 @@
 <script>
     import Ingredient from '@/components/Ingredient.vue'
     import OrderItem from '@/components/OrderItem.vue'
-    import sharedVueStuff from '@/mixins/sharedVueStuff.js'
-    import utilityFunctions from '@/mixins/utilityFunctions'
+    import sharedVueStuff from '../mixins/sharedVueStuff.js'
+    import utilityFunctions from '../mixins/utilityFunctions'
 
     export default {
         name: 'Ordering',
@@ -170,17 +173,26 @@
             },
         },
         methods: {
+            ingredientCount: function (item){
+              let counter = 0;
+              for(let i = 0; i < this.chosenIngredients.length; i += 1) {
+                  if (this.chosenIngredients[i] === item)
+                      counter += 1;
+              }
+              return counter;
+            },
             changeEatHere: function(){
                 if (this.eatHere){
                     this.$store.commit('setEatHere', false);
                 }
-                if (this.eatHere){
+                if (!this.eatHere){
                     this.$store.commit('setEatHere', true);
                 }
             },
             addToBurger: function (item) {
                 this.chosenIngredients.push(item);
                 this.currentPrice += +item.selling_price;
+
                 for (let i = 0; i < this.chosenIngredients.length; i += 1) {
                     if (this.chosenIngredients[i].category === 4) {
                         this.breadChosen = true;
@@ -192,7 +204,6 @@
                 if (item.category === 1) {
                     this.patties += 1;
                 }
-
                 if (this.pattyChosen && this.breadChosen){  //order can only be made if burger and bread is chosen
                     this.orderReady = true;
                 }
@@ -495,9 +506,20 @@
     }
 
     .minusButton {
-        background-color: var(--primary-color);
+        order: 1;
+        background-color: rgba(255, 28, 31, 0.36);
+        -webkit-transition-duration: 0.4s; /* transition to color */
+        transition-duration: 0.4s;
         border-radius: 50%;
-
+        font-size: 1.5em;
+    }
+    .plusButton {
+        order: 1;
+        background-color: rgba(124, 255, 96, 0.36);
+        border-radius: 50%;
+        -webkit-transition-duration: 0.4s; /* transition to color */
+        transition-duration: 0.4s;
+        font-size: 1.5em;
     }
 
     .orderButton {

@@ -16,12 +16,11 @@
                             <button class="breadButton"></button>
 
                         <div v-else></div>-->
-                            <button class="plusButton" v-show = "!this.$parent.breadChosen || this.$parent.currentCategory !== 4" v-on:click="incrementCounter">
+                            <button class="plusButton" id="inc" v-show = "!this.$parent.breadChosen || this.$parent.currentCategory !== 4" v-on:click="incrementCounter($event)">
                                 + <!-- only one bread can be selected -->
                             </button>
-
-                            {{ counter }}
-                            <button class="minusButton" v-if="counter > 0" v-on:click="decrementCounter">
+                            {{ itemCount }}
+                            <button class="minusButton" id="dec" v-if="itemCount > 0" v-on:click="decrementCounter($event)">
                                 -
                             </button>
                         <!--</div>-->
@@ -41,7 +40,6 @@
     import Ordering from "../views/Ordering";
     import OrderItem from "../views/Ordering";
 
-
     export default {
         name: 'Ingredient',
         components: {
@@ -51,10 +49,10 @@
         props: {
             item: Object,
             lang: String,
+            itemCount: Number
         },
         data: function () {
             return {
-                counter: 0,
                 patties: 0,
                 doublePatty: false,
                 burgerAndBread: false,
@@ -65,8 +63,12 @@
             this.checkCounter();    // Check if ingredient already is chosen
         },
         methods: {
-            incrementCounter: function () {
-                this.counter += 1;
+            incrementCounter: function (ev) {
+
+                if (ev.target.id === "inc") {
+                    this.$emit('increment');
+                    console.log(this.itemCount)
+                }
                 // See if order already is on the chosen ingredients list
                 // If so, increase currentOrderCounter. If not, create currentOrderCounter
                 if (this.item.currentOrderCounter >= 1) {
@@ -78,7 +80,7 @@
 
                 // sending 'increment' message to parent component or view so that it
                 // can catch it with v-on:increment in the component declaration
-                this.$emit('increment');
+
                 //this.$emit('counter', this.counter)  //nytt
                 //if (this.item.category === 4) { //if a bread i selected plus button now disappears
                 //  this.breadChosen = true;
@@ -93,11 +95,12 @@
 
             },
 
-            decrementCounter: function () {
-                this.counter -= 1;
+            decrementCounter: function (ev) {
                 this.item.currentOrderCounter -= 1;
                 // Makes the same thing as incrementCounter with difference that it remove instead of adding .
-                this.$emit('decrease');
+                if (ev.target.id === "dec") {
+                    this.$emit('decrease');
+                }
                 if (this.item.category === 4) { //if selected bread is unselected, the plus button reappears
                   this.$parent.breadChosen = false;
                 }
