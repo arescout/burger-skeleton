@@ -101,7 +101,8 @@
 <script>
     import Ingredient from '@/components/Ingredient.vue'
     import OrderItem from '@/components/OrderItem.vue'
-    import sharedVueStuff from '@/components/sharedVueStuff.js'
+    import sharedVueStuff from '@/mixins/sharedVueStuff.js'
+    import utilityFunctions from '@/mixins/utilityFunctions'
 
     export default {
         name: 'Ordering',
@@ -109,7 +110,7 @@
             Ingredient,
             OrderItem,
         },
-        mixins: [sharedVueStuff], // include stuff that is used in both
+        mixins: [sharedVueStuff, utilityFunctions], // include stuff that is used in both
                                   // the ordering system and the kitchen
         data: function () { //Not that data is a function!
             return {

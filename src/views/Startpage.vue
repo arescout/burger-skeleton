@@ -16,7 +16,7 @@
 </template>
 
 <script>
-    import sharedVueStuff from '@/components/sharedVueStuff.js'
+    import sharedVueStuff from '@/mixins/sharedVueStuff.js'
 
     export default {
         name: 'StartingPage',
