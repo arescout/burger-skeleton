@@ -36,7 +36,7 @@
     import Ingredient from '@/components/Ingredient.vue'
     import OrderItem from '@/components/OrderItem.vue'
     import Ordering from '@/views/Ordering.vue'
-    import sharedVueStuff from ' @/mixins/sharedVueStuff.js'
+    import sharedVueStuff from '@/mixins/sharedVueStuff.js'
 
     export default {
         name: "Checkout",
