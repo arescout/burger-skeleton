@@ -55,10 +55,7 @@
 
         created: function () {
             this.$store.state.socket.on('toKitchen', function (order) {
-                console.log("in kitchen - on order")
-                console.log(order)
                 this.orders = order;
-                console.log(this.orders)
             }.bind(this));
         },
 

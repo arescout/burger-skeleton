@@ -94,6 +94,9 @@ Data.prototype.getAllOrders = function () {
 };
 
 Data.prototype.markOrderDone = function (orderId) {
+  console.log("in data handler")
+  console.log(orderId)
+  console.log(this.orders);
   this.orders[orderId].status = "done";
 };
 
