@@ -105,7 +105,7 @@
     import Ingredient from '@/components/Ingredient.vue'
     import OrderItem from '@/components/OrderItem.vue'
     import sharedVueStuff from '../mixins/sharedVueStuff.js'
-    import utilityFunctions from '../mixins/utilityFunctions'
+    import utilityFunctions from '../mixins/UtilityFunctions'
 
     export default {
         name: 'Ordering',
@@ -118,7 +118,6 @@
         data: function () { //Not that data is a function!
             return {
                 chosenIngredients: [],
-                totalPrice: 0,
                 currentPrice: 0,
                 orderNumber: "",
                 count: 0,
@@ -253,13 +252,13 @@
                     ingredients: this.countPlacedIngredients(this.currentOrder.burgers)
                 });
                 this.$store.commit('setCheckoutOrder', this.aggregatedOrders);
+                this.$store.commit('addToTotal', this.currentPrice);
 
                 //set all counters to 0. Notice the use of $refs
                 for (let i = 0; i < this.$refs.ingredient.length; i += 1) {
                     this.$refs.ingredient[i].resetCounter();
                 }
                 this.chosenIngredients = [];
-                this.totalPrice += this.currentPrice;
                 this.currentPrice = 0;
                 this.noOrder = false;  //reset counters
                 this.orderReady = false;
@@ -269,7 +268,7 @@
             },
             placeOrder: function () {
                 // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
-                this.$store.commit('setCheckoutOrder', this.aggregatedOrders);
+                this.$store.commit('addToCheckoutOrder', this.aggregatedOrders.burgers);
                 console.log(this.checkoutOrder);
                 this.currentOrder = [];
                 this.category = 1;
