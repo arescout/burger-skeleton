@@ -57,13 +57,15 @@
                     </div>
                     <div class="orderSummaryContainer">
                         <div>
-                            <b>{{uiLabels.yourOrder}}:</b>
-                            <div v-for="(burger, key) in aggregatedOrders.burgers" :key="key">
-                                <b>{{uiLabels.burgNr}} {{key + 1}}</b>
+                            <b>{{uiLabels.yourOrder}}:</b><br>
+                            <div v-for="(burger, key) in aggregatedOrders.burgers" :key="key" >
+                                <b>{{uiLabels.burgNr}} {{key + 1}}</b><button v-on:click="hideInfo()">^</button>
                                 <!-- Key + 1 so it doesn't say "burger 0" on customers page -->
-                                <span v-for="(item, key2) in burger.ingredients" :key="key2">
-                                <br/>{{ item["ingredient_" + lang]}}: {{ item["count"] }} {{uiLabels.unit}}
-                            </span>
+                                <div class = "burgerInfo" v-show="!hideBurg">
+                                    <span v-for="(item, key2) in burger.ingredients" :key="key2">
+                                        <br/>{{ item["ingredient_" + lang]}}: {{ item["count"] }} {{uiLabels.unit}}
+                                    </span>
+                                </div>
                             </div>
                             <!--<br><button class = "placeOrderButton" v-if = "chosenIngredients.length > 0" v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>-->
                             <h4>{{uiLabels.tally}}: {{totalPrice}}:-</h4>
@@ -123,6 +125,7 @@
                 orderReady: false,
                 noOrder: true,
                 noShow: false,
+                hideBurg: false,
                 patties: 0,
                 currentCategory: 4, // Category deciding what ingredients to show
                 numbOfBurgers: 0,
@@ -292,6 +295,15 @@
                 }
                 this.numbOfBurgers += 1;
                 return ingredientTuples;
+            },
+            // Function for hiding BurgerInfo in your orders
+            hideInfo: function () {
+                if (this.hideBurg === false) {
+                    this.hideBurg = true;
+                }
+                else {
+                    this.hideBurg = false;
+                }
             }
         }
     }
