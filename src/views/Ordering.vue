@@ -45,7 +45,7 @@
                     </div>
                     <div class="orderSelectedWrapper">
                         <div>
-                            <div v-for="(item, key) in groupIngredients(chosenIngredients)">
+                            <div v-for="item in groupIngredients(chosenIngredients)">
                                 {{item.count}} x {{item.ing['ingredient_' + lang]}}
                                 <button class="plusButton" v-show = "!breadChosen || currentCategory !== 4" v-on:click="addToBurger(item.ing)">+</button>
                                 <button class = "minusButton" v-on:click="removeFromBurger(item.ing)">-</button> <!--tried to make a functional decrease button in the ordering tab-->
@@ -58,7 +58,7 @@
                     <div class="orderSummaryContainer">
                         <div>
                             <b>{{uiLabels.yourOrder}}:</b>
-                            <div v-for="(burger, key) in aggregatedOrders.burgers" :key="key">
+                            <div v-for="(burger, key) in checkoutOrder.burgers" :key="key">
                                 <b>{{uiLabels.burgNr}} {{key + 1}}</b>
                                 <!-- Key + 1 so it doesn't say "burger 0" on customers page -->
                                 <span v-for="(item, key2) in groupIngredients(burger.ingredients)" :key="key2">
@@ -151,6 +151,10 @@
             totalPrice: function() {
                 return this.$store.state.totalPrice
             },
+            checkoutOrder: function() {
+                return this.$store.state.checkoutOrder
+            },
+
             //Nytt Taken from burger-skeleton/severalBurgers/src/views/Kitchen.vue and changed ingredients to our array chosenIngredients
             countAllIngredients: function () {
                 let ingredientTuples = [];
@@ -234,6 +238,8 @@
 
             addToOrder: function () {
                 // Add the burger to an order array
+
+
                 if(this.chosenIngredients.length === 0){
                     return;
                 }
@@ -246,6 +252,7 @@
                 this.aggregatedOrders.burgers.push({
                     ingredients: this.countPlacedIngredients(this.currentOrder.burgers)
                 });
+                this.$store.commit('setCheckoutOrder', this.aggregatedOrders);
 
                 //set all counters to 0. Notice the use of $refs
                 for (let i = 0; i < this.$refs.ingredient.length; i += 1) {
@@ -263,6 +270,7 @@
             placeOrder: function () {
                 // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
                 this.$store.commit('setCheckoutOrder', this.aggregatedOrders);
+                console.log(this.checkoutOrder);
                 this.currentOrder = [];
                 this.category = 1;
             },
