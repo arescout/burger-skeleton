@@ -12,7 +12,7 @@ export default {
                     }
                 }
                 if (newIngredient)
-                    grouped.push({ing: ingredients [i], count: 1});
+                    grouped.push({ing: ingredients[i], count: 1});
             }
             return grouped;
         }

@@ -67,7 +67,6 @@
 
                 if (ev.target.id === "inc") {
                     this.$emit('increment');
-                    console.log(this.itemCount)
                 }
                 // See if order already is on the chosen ingredients list
                 // If so, increase currentOrderCounter. If not, create currentOrderCounter

@@ -49,14 +49,14 @@
                     </div>
                     <div class="orderSelectedWrapper">
                         <div>
-                            <div v-for="item in groupIngredients(chosenIngredients)">
+                            <div v-for="item in this.groupIngredients(chosenIngredients)">
                                 {{item.count}} x {{item.ing['ingredient_' + lang]}}
                                 <button class="plusButton" v-show = "!breadChosen || currentCategory !== 4" v-on:click="addToBurger(item.ing)">+</button>
                                 <button class = "minusButton" v-on:click="removeFromBurger(item.ing)">-</button> <!--tried to make a functional decrease button in the ordering tab-->
                             </div>
                             <b>{{uiLabels.currentPriceLabel}}: {{this.currentPrice}}:-</b>
                         </div>
-                        <button class="orderButton" v-show="this.orderReady" v-on:click="addToOrder()">
+                        <button class="orderButton" v-show="this.orderReady" v-on:click="placeOrder">
                             {{ uiLabels.newBurger }}</button>
                     </div>
                     <div class="orderSummaryContainer">
@@ -65,7 +65,7 @@
                             <div v-for="(burger, key) in checkoutOrder.burgers" :key="key">
                                 <b>{{uiLabels.burgNr}} {{key + 1}}</b>
                                 <!-- Key + 1 so it doesn't say "burger 0" on customers page -->
-                                <span v-for="(item, key2) in groupIngredients(burger.ingredients)" :key="key2">
+                                <span v-for="(item, key2) in burger" :key="key2">
                                 <br/>{{ item.ing["ingredient_" + lang]}}: {{ item.count }} {{uiLabels.unit}}
                             </span>
                             </div>
@@ -81,7 +81,7 @@
                                     :key="key3">
                             </OrderItem>
                         </div>
-                        <button class="orderButton" v-show="!this.noOrder" v-on:click="placeOrder()"> <!-- no order if no burger is added to the tab-->
+                        <button class="orderButton" v-show="!this.noOrder"> <!-- no order if no burger is added to the tab-->
                             <router-link class="routerButton" to="/checkout" v>
                                 {{uiLabels.proceedToCO}}</router-link>
                         </button>
@@ -102,8 +102,8 @@
 <script>
     import Ingredient from '@/components/Ingredient.vue'
     import OrderItem from '@/components/OrderItem.vue'
-    import sharedVueStuff from '../mixins/sharedVueStuff.js'
-    import utilityFunctions from '../mixins/UtilityFunctions.js'
+    import sharedVueStuff from '@/mixins/sharedVueStuff.js'
+    import UtilityFunctions from '@/mixins/UtilityFunctions.js'
 
 
     export default {
@@ -112,7 +112,7 @@
             Ingredient,
             OrderItem,
         },
-        mixins: [sharedVueStuff, utilityFunctions], // include stuff that is used in both
+        mixins: [sharedVueStuff, UtilityFunctions], // include stuff that is used in both
                                   // the ordering system and the kitchen
         data: function () { //Not that data is a function!
             return {
@@ -217,6 +217,8 @@
                 if (this.pattyChosen && this.breadChosen || this.sideChosen || this.drinkChosen){  //order can only be made if burger and bread is chosen
                     this.orderReady = true;
                 }
+                console.log("In add to burger")
+                console.log(this.chosenIngredients)
 
             },
             removeFromBurger: function (item) {
@@ -242,12 +244,12 @@
                 }
                 this.chosenIngredients.splice(removeIndex, 1);
                 this.currentPrice -= +item.selling_price;
+                console.log("In remove")
             },
 
             addToOrder: function () {
                 // Add the burger to an order array
-
-
+                console.log(this.chosenIngredients)
                 if(this.chosenIngredients.length === 0){
                     return;
                 }
@@ -260,7 +262,7 @@
                 this.aggregatedOrders.burgers.push({
                     ingredients: this.countPlacedIngredients(this.currentOrder.burgers)
                 });
-                this.$store.commit('setCheckoutOrder', this.aggregatedOrders);
+                this.$store.commit('addToCheckoutOrder', this.groupIngredients(this.chosenIngredients));
                 this.$store.commit('addToTotal', this.currentPrice);
 
                 //set all counters to 0. Notice the use of $refs
@@ -276,9 +278,20 @@
 
             },
             placeOrder: function () {
+                console.log("In place")
+                console.log(this.chosenIngredients)
                 // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
-                this.$store.commit('addToCheckoutOrder', this.aggregatedOrders.burgers);
-                console.log(this.checkoutOrder);
+                this.$store.commit('addToCheckoutOrder', this.groupIngredients(this.chosenIngredients));
+                this.$store.commit('addToTotal', this.currentPrice);
+
+                this.chosenIngredients = [];
+                this.currentPrice = 0;
+                this.noOrder = false;  //reset counters
+                this.orderReady = false;
+                this.breadChosen = false;
+                this.pattyChosen = false;
+
+
                 this.currentOrder = [];
                 this.category = 1;
             },
