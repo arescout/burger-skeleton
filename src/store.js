@@ -22,6 +22,7 @@ export default new Vuex.Store({
       },
     addToCheckoutOrder: function (state, order) {
       state.checkoutOrder.burgers.push(order);
+      console.log(state.checkoutOrder)
     }
   },
   actions: {
