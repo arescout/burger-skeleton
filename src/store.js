@@ -28,8 +28,14 @@ export default new Vuex.Store({
       console.log(order)
       console.log(state.checkoutOrder)
     },
+    removeFromCheckoutOrder: function(state, key) {
+      state.checkoutOrder.burgers.splice(key, 1);
+    },
     addToTotal: function (state, numb) {
       state.totalPrice += numb;
+    },
+    removeFromTotal: function (state, numb) {
+      state.totalPrice -= numb;
     }
   },
   actions: {

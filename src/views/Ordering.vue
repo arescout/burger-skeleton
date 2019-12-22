@@ -60,12 +60,17 @@
                             {{ uiLabels.newBurger }}</button>
                     </div>
                     <div class="orderSummaryContainer">
+                        <b>{{uiLabels.yourOrder}}:</b>
                         <div>
-                            <b>{{uiLabels.yourOrder}}:</b>
-                            <div v-for="(burger, key) in checkoutOrder.burgers" :key="key">
-                                <b>{{uiLabels.burgNr}} {{key + 1}}</b>
+
+                            <div class = "readyBurger" v-for="(burger, key) in checkoutOrder.burgers" :key="key">
+                                <button v-on:click="hideBurger()">^</button><b>{{uiLabels.burgNr}} {{key + 1}}</b><button class = "delBurg" v-on:click="deleteBurger(checkoutOrder.burgers, key)">X</button>
+                                <!--
+                                Above to the left is an attempt to hide the content of each burger, but I don't know how to
+                                separate the burgers from each other-->
+
                                 <!-- Key + 1 so it doesn't say "burger 0" on customers page -->
-                                <span v-for="(item, key2) in burger" :key="key2">
+                                <span v-show="!hideBurg" v-for="(item, key2) in burger" :key="key2">
                                 <br/>{{ item.ing["ingredient_" + lang]}}: {{ item.count }} {{uiLabels.unit}}
                             </span>
                             </div>
@@ -127,6 +132,7 @@
                 drinkChosen:false,
                 noOrder: true,
                 noShow: false,
+                hideBurg: false,
                 patties: 0,
                 currentCategory: 4, // Category deciding what ingredients to show
                 numbOfBurgers: 0,
@@ -333,6 +339,23 @@
                 }
                 this.numbOfBurgers += 1;
                 return ingredientTuples;
+            },
+            hideBurger: function () {
+                this.hideBurg = !this.hideBurg;
+                console.log();
+            },
+            deleteBurger: function(burgers, key) { //this function deletes the burger from the order container, however
+                console.log(burgers);              //the total price is not updated
+                console.log(key);
+
+                for (let i = 0; i < burgers.length; i++){
+                    if (i === key){
+                        console.log(burgers[i].totalPrice);
+                        this.$store.commit('removeFromCheckoutOrder', key);
+                        //this.$store.commit('addToTotal', -1 * this.currentPrice);
+                        //remove burger might work? :)
+                    }
+                }
             }
         }
     }
@@ -510,6 +533,7 @@
         font-weight: bold;
         font-size: 2rem;
         padding: 0.25rem;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
 
     .orderSelectedWrapper {
@@ -521,6 +545,7 @@
         border: 3px var(--border-color) solid;
         border-radius: 5px;
         padding: 0.25rem;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
 
     .orderSummaryContainer {
@@ -532,6 +557,31 @@
         border: 3px var(--border-color) solid;
         border-radius: 5px;
         padding: 0.25rem;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .orderSummaryContainer b {
+        border-bottom: black solid 3px;
+    }
+
+    .orderSummaryContainer span {
+        color: black;
+    }
+
+    .readyBurger {
+        border: black solid 3px;
+        border-radius: 10px;
+        padding: 0.2rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+        background-color: var(--primary-light-color);
+    }
+
+    .delBurg {
+        border-radius: 50%;
+        background-image: linear-gradient(to bottom right, #a10000, #ff2e2e);
+        background-color: red;
+        border:solid black 1px;
     }
 
     .minusButton {
@@ -573,6 +623,7 @@
         border: 3px var(--border-color) solid;
         border-radius: 10px;
         padding: 1rem;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
 
     .allergyBox p {
