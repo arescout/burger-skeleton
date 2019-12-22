@@ -8,7 +8,8 @@ export default new Vuex.Store({
   state: {
     socket: io(),
     checkoutOrder: {},
-    eatHere: false
+    eatHere: false,
+    totalPrice: 0
   },
   getters: {
     getSocket: state => state.socket
@@ -22,7 +23,9 @@ export default new Vuex.Store({
       },
     addToCheckoutOrder: function (state, order) {
       state.checkoutOrder.burgers.push(order);
-      console.log(state.checkoutOrder)
+    },
+    addToTotal: function (state, numb) {
+      state.totalPrice += numb;
     }
   },
   actions: {
