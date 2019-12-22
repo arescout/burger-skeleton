@@ -6,6 +6,10 @@
         <button>
             <router-link to="/" class="routerButton">{{uiLabels.startpage}}</router-link>
         </button>
+            <button class = "eatButton" v-on:click="changeEatHere()" v-if="this.eatHere">
+                {{uiLabels.eatHere}} </button>
+            <button class = "eatButton" v-on:click="changeEatHere()" v-if="!this.eatHere">
+                {{uiLabels.eatAway}} </button> <!--Mandus test om jag får info från startsidan-->
 
         <!-- Add buttons for navigating through categories -->
         <div class="wrapper">
@@ -82,12 +86,6 @@
                                 {{uiLabels.proceedToCO}}</router-link>
                         </button>
                     </div>
-                    <div>
-                        <button class = "eatButton" v-on:click="changeEatHere()" v-if="this.eatHere">
-                            {{uiLabels.eatHere}} </button>
-                        <button class = "eatButton" v-on:click="changeEatHere()" v-if="!this.eatHere">
-                            {{uiLabels.eatAway}} </button> <!--Mandus test om jag får infoo från startsidan-->
-                    </div>
                     <div class="allergyContainer">
                         <div class="allergyBox">{{uiLabels.allergies}}:<br>
                             <p class="vegan">V</p> = {{uiLabels.vegan}}<br>
@@ -105,7 +103,8 @@
     import Ingredient from '@/components/Ingredient.vue'
     import OrderItem from '@/components/OrderItem.vue'
     import sharedVueStuff from '../mixins/sharedVueStuff.js'
-    import utilityFunctions from '../mixins/UtilityFunctions'
+    import utilityFunctions from '../mixins/UtilityFunctions.js'
+
 
     export default {
         name: 'Ordering',
@@ -124,6 +123,8 @@
                 breadChosen: false,
                 pattyChosen: false,
                 orderReady: false,
+                sideChosen:false,
+                drinkChosen:false,
                 noOrder: true,
                 noShow: false,
                 patties: 0,
@@ -188,7 +189,7 @@
                 if (this.eatHere){
                     this.$store.commit('setEatHere', false);
                 }
-                if (!this.eatHere){
+                else {
                     this.$store.commit('setEatHere', true);
                 }
             },
@@ -203,11 +204,17 @@
                     if (this.chosenIngredients[i].category === 1) {
                         this.pattyChosen = true;
                     }
+                    if (this.chosenIngredients[i].category === 5) {
+                        this.sideChosen = true;
+                    }
+                    if (this.chosenIngredients[i].category === 6) {
+                        this.drinkChosen = true;
+                    }
                 }
                 if (item.category === 1) {
                     this.patties += 1;
                 }
-                if (this.pattyChosen && this.breadChosen){  //order can only be made if burger and bread is chosen
+                if (this.pattyChosen && this.breadChosen || this.sideChosen || this.drinkChosen){  //order can only be made if burger and bread is chosen
                     this.orderReady = true;
                 }
 
@@ -226,10 +233,12 @@
                         this.orderReady = false;
                     }
                 }
-                if (item.category === 4 || item.category === 1) {
+                if (item.category === 4 || item.category === 1 || item.category === 5 || item.category === 6) {
                     this.orderReady = false;
                     this.breadChosen = false;
                     this.pattyChosen = false;
+                    this.sideChosen=false;
+                    this.drinkChosen=false;
                 }
                 this.chosenIngredients.splice(removeIndex, 1);
                 this.currentPrice -= +item.selling_price;
