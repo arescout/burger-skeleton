@@ -6,6 +6,10 @@
         <button>
             <router-link to="/" class="routerButton">{{uiLabels.startpage}}</router-link>
         </button>
+            <button class = "eatButton" v-on:click="changeEatHere()" v-if="this.eatHere">
+                {{uiLabels.eatHere}} </button>
+            <button class = "eatButton" v-on:click="changeEatHere()" v-if="!this.eatHere">
+                {{uiLabels.eatAway}} </button> <!--Mandus test om jag får info från startsidan-->
 
         <!-- Add buttons for navigating through categories -->
         <div class="wrapper">
@@ -30,7 +34,7 @@
                             v-on:increment="addToBurger(item)"
                             v-on:decrease="removeFromBurger(item)"
                             :item="item"
-                            :count="item.counter"
+                            v-bind:itemCount="ingredientCount(item)"
                             :lang="lang"
                             :key="item.ingredient_id">
                     </Ingredient>
@@ -45,27 +49,25 @@
                     </div>
                     <div class="orderSelectedWrapper">
                         <div>
-                            <div v-for="countIng in countAllIngredients"
-                                 v-if="countIng.count>0"
-                                 :key="countAllIngredients.indexOf(countIng)">
-                                {{countIng.name}}: {{countIng.count}} {{uiLabels.unit}},
-                                <button class = "minusButton" v-on:click="this.$children[1].decrementCounter()">-</button> <!--tried to make a functional decrease button in the ordering tab-->
+                            <div v-for="item in this.groupIngredients(chosenIngredients)">
+                                {{item.count}} x {{item.ing['ingredient_' + lang]}}
+                                <button class="plusButton" v-show = "!breadChosen || currentCategory !== 4" v-on:click="addToBurger(item.ing)">+</button>
+                                <button class = "minusButton" v-on:click="removeFromBurger(item.ing)">-</button> <!--tried to make a functional decrease button in the ordering tab-->
                             </div>
                             <b>{{uiLabels.currentPriceLabel}}: {{this.currentPrice}}:-</b>
                         </div>
-                        <button class="orderButton" v-show="this.orderReady" v-on:click="addToOrder()">{{ uiLabels.newBurger }}</button>
+                        <button class="orderButton" v-show="this.orderReady" v-on:click="placeOrder">
+                            {{ uiLabels.newBurger }}</button>
                     </div>
                     <div class="orderSummaryContainer">
                         <div>
-                            <b>{{uiLabels.yourOrder}}:</b><br>
-                            <div v-for="(burger, key) in aggregatedOrders.burgers" :key="key" >
-                                <b>{{uiLabels.burgNr}} {{key + 1}}</b><button v-on:click="hideInfo()">^</button>
+                            <b>{{uiLabels.yourOrder}}:</b>
+                            <div v-for="(burger, key) in checkoutOrder.burgers" :key="key">
+                                <b>{{uiLabels.burgNr}} {{key + 1}}</b>
                                 <!-- Key + 1 so it doesn't say "burger 0" on customers page -->
-                                <div class = "burgerInfo" v-show="!hideBurg">
-                                    <span v-for="(item, key2) in burger.ingredients" :key="key2">
-                                        <br/>{{ item["ingredient_" + lang]}}: {{ item["count"] }} {{uiLabels.unit}}
-                                    </span>
-                                </div>
+                                <span v-for="(item, key2) in burger" :key="key2">
+                                <br/>{{ item.ing["ingredient_" + lang]}}: {{ item.count }} {{uiLabels.unit}}
+                            </span>
                             </div>
                             <!--<br><button class = "placeOrderButton" v-if = "chosenIngredients.length > 0" v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>-->
                             <h4>{{uiLabels.tally}}: {{totalPrice}}:-</h4>
@@ -79,13 +81,10 @@
                                     :key="key3">
                             </OrderItem>
                         </div>
-                        <button class="orderButton" v-show="!this.noOrder" v-on:click="placeOrder()"> <!-- no order if no burger is added to the tab-->
-                            <router-link class="routerButton" to="/checkout" v>{{uiLabels.proceedToCO}}</router-link>
+                        <button class="orderButton" v-show="!this.noOrder"> <!-- no order if no burger is added to the tab-->
+                            <router-link class="routerButton" to="/checkout" v>
+                                {{uiLabels.proceedToCO}}</router-link>
                         </button>
-                    </div>
-                    <div>
-                        <button class = "eatButton" v-on:click="changeEatHere()" v-if="this.eatHere"> {{uiLabels.eatHere}} </button>
-                        <button class = "eatButton" v-on:click="changeEatHere()" v-if="!this.eatHere"> {{uiLabels.eatAway}} </button> <!--Mandus test om jag får infoo från startsidan-->
                     </div>
                     <div class="allergyContainer">
                         <div class="allergyBox">{{uiLabels.allergies}}:<br>
@@ -103,7 +102,9 @@
 <script>
     import Ingredient from '@/components/Ingredient.vue'
     import OrderItem from '@/components/OrderItem.vue'
-    import sharedVueStuff from '@/components/sharedVueStuff.js'
+    import sharedVueStuff from '@/mixins/sharedVueStuff.js'
+    import UtilityFunctions from '@/mixins/UtilityFunctions.js'
+
 
     export default {
         name: 'Ordering',
@@ -111,21 +112,21 @@
             Ingredient,
             OrderItem,
         },
-        mixins: [sharedVueStuff], // include stuff that is used in both
+        mixins: [sharedVueStuff, UtilityFunctions], // include stuff that is used in both
                                   // the ordering system and the kitchen
         data: function () { //Not that data is a function!
             return {
                 chosenIngredients: [],
-                totalPrice: 0,
                 currentPrice: 0,
                 orderNumber: "",
                 count: 0,
                 breadChosen: false,
                 pattyChosen: false,
                 orderReady: false,
+                sideChosen:false,
+                drinkChosen:false,
                 noOrder: true,
                 noShow: false,
-                hideBurg: false,
                 patties: 0,
                 currentCategory: 4, // Category deciding what ingredients to show
                 numbOfBurgers: 0,
@@ -150,6 +151,10 @@
             totalPrice: function() {
                 return this.$store.state.totalPrice
             },
+            checkoutOrder: function() {
+                return this.$store.state.checkoutOrder
+            },
+
             //Nytt Taken from burger-skeleton/severalBurgers/src/views/Kitchen.vue and changed ingredients to our array chosenIngredients
             countAllIngredients: function () {
                 let ingredientTuples = [];
@@ -172,17 +177,26 @@
             },
         },
         methods: {
+            ingredientCount: function (item){
+              let counter = 0;
+              for(let i = 0; i < this.chosenIngredients.length; i += 1) {
+                  if (this.chosenIngredients[i] === item)
+                      counter += 1;
+              }
+              return counter;
+            },
             changeEatHere: function(){
                 if (this.eatHere){
                     this.$store.commit('setEatHere', false);
                 }
-                if (this.eatHere){
+                else {
                     this.$store.commit('setEatHere', true);
                 }
             },
             addToBurger: function (item) {
                 this.chosenIngredients.push(item);
                 this.currentPrice += +item.selling_price;
+
                 for (let i = 0; i < this.chosenIngredients.length; i += 1) {
                     if (this.chosenIngredients[i].category === 4) {
                         this.breadChosen = true;
@@ -190,14 +204,21 @@
                     if (this.chosenIngredients[i].category === 1) {
                         this.pattyChosen = true;
                     }
+                    if (this.chosenIngredients[i].category === 5) {
+                        this.sideChosen = true;
+                    }
+                    if (this.chosenIngredients[i].category === 6) {
+                        this.drinkChosen = true;
+                    }
                 }
                 if (item.category === 1) {
                     this.patties += 1;
                 }
-
-                if (this.pattyChosen && this.breadChosen){  //order can only be made if burger and bread is chosen
+                if (this.pattyChosen && this.breadChosen || this.sideChosen || this.drinkChosen){  //order can only be made if burger and bread is chosen
                     this.orderReady = true;
                 }
+                console.log("In add to burger")
+                console.log(this.chosenIngredients)
 
             },
             removeFromBurger: function (item) {
@@ -214,17 +235,21 @@
                         this.orderReady = false;
                     }
                 }
-                if (item.category === 4 || item.category === 1) {
+                if (item.category === 4 || item.category === 1 || item.category === 5 || item.category === 6) {
                     this.orderReady = false;
                     this.breadChosen = false;
                     this.pattyChosen = false;
+                    this.sideChosen=false;
+                    this.drinkChosen=false;
                 }
                 this.chosenIngredients.splice(removeIndex, 1);
                 this.currentPrice -= +item.selling_price;
+                console.log("In remove")
             },
 
             addToOrder: function () {
                 // Add the burger to an order array
+                console.log(this.chosenIngredients)
                 if(this.chosenIngredients.length === 0){
                     return;
                 }
@@ -237,13 +262,14 @@
                 this.aggregatedOrders.burgers.push({
                     ingredients: this.countPlacedIngredients(this.currentOrder.burgers)
                 });
+                this.$store.commit('addToCheckoutOrder', this.groupIngredients(this.chosenIngredients));
+                this.$store.commit('addToTotal', this.currentPrice);
 
                 //set all counters to 0. Notice the use of $refs
                 for (let i = 0; i < this.$refs.ingredient.length; i += 1) {
                     this.$refs.ingredient[i].resetCounter();
                 }
                 this.chosenIngredients = [];
-                this.totalPrice += this.currentPrice;
                 this.currentPrice = 0;
                 this.noOrder = false;  //reset counters
                 this.orderReady = false;
@@ -252,8 +278,20 @@
 
             },
             placeOrder: function () {
+                console.log("In place")
+                console.log(this.chosenIngredients)
                 // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
-                this.$store.commit('setCheckoutOrder', this.aggregatedOrders);
+                this.$store.commit('addToCheckoutOrder', this.groupIngredients(this.chosenIngredients));
+                this.$store.commit('addToTotal', this.currentPrice);
+
+                this.chosenIngredients = [];
+                this.currentPrice = 0;
+                this.noOrder = false;  //reset counters
+                this.orderReady = false;
+                this.breadChosen = false;
+                this.pattyChosen = false;
+
+
                 this.currentOrder = [];
                 this.category = 1;
             },
@@ -295,15 +333,6 @@
                 }
                 this.numbOfBurgers += 1;
                 return ingredientTuples;
-            },
-            // Function for hiding BurgerInfo in your orders
-            hideInfo: function () {
-                if (this.hideBurg === false) {
-                    this.hideBurg = true;
-                }
-                else {
-                    this.hideBurg = false;
-                }
             }
         }
     }
@@ -340,7 +369,7 @@
         background-image: repeating-linear-gradient(transparent, transparent 50px, rgba(0, 0, 0, .4) 50px, rgba(0, 0, 0, .4) 53px, transparent 53px, transparent 63px, rgba(0, 0, 0, .4) 63px, rgba(0, 0, 0, .4) 66px, transparent 66px, transparent 116px, rgba(0, 0, 0, .5) 116px, rgba(0, 0, 0, .5) 166px, rgba(255, 255, 255, .2) 166px, rgba(255, 255, 255, .2) 169px, rgba(0, 0, 0, .5) 169px, rgba(0, 0, 0, .5) 179px, rgba(255, 255, 255, .2) 179px, rgba(255, 255, 255, .2) 182px, rgba(0, 0, 0, .5) 182px, rgba(0, 0, 0, .5) 232px, transparent 232px),
         repeating-linear-gradient(270deg, transparent, transparent 50px, rgba(0, 0, 0, .4) 50px, rgba(0, 0, 0, .4) 53px, transparent 53px, transparent 63px, rgba(0, 0, 0, .4) 63px, rgba(0, 0, 0, .4) 66px, transparent 66px, transparent 116px, rgba(0, 0, 0, .5) 116px, rgba(0, 0, 0, .5) 166px, rgba(255, 255, 255, .2) 166px, rgba(255, 255, 255, .2) 169px, rgba(0, 0, 0, .5) 169px, rgba(0, 0, 0, .5) 179px, rgba(255, 255, 255, .2) 179px, rgba(255, 255, 255, .2) 182px, rgba(0, 0, 0, .5) 182px, rgba(0, 0, 0, .5) 232px, transparent 232px),
         repeating-linear-gradient(125deg, transparent, transparent 2px, rgba(0, 0, 0, .2) 2px, rgba(0, 0, 0, .2) 3px, transparent 3px, transparent 5px, rgba(0, 0, 0, .2) 5px);
-        position: relative; /* Seems like this fixes the background*/
+        position: absolute; /* Seems like this fixes the background*/
         width: 100%;
         height: 100%;
         top: 0;
@@ -506,9 +535,20 @@
     }
 
     .minusButton {
-        background-color: var(--primary-color);
+        order: 1;
+        background-color: rgba(255, 28, 31, 0.36);
+        -webkit-transition-duration: 0.4s; /* transition to color */
+        transition-duration: 0.4s;
         border-radius: 50%;
-
+        font-size: 1.5em;
+    }
+    .plusButton {
+        order: 1;
+        background-color: rgba(124, 255, 96, 0.36);
+        border-radius: 50%;
+        -webkit-transition-duration: 0.4s; /* transition to color */
+        transition-duration: 0.4s;
+        font-size: 1.5em;
     }
 
     .orderButton {

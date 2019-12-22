@@ -33,7 +33,7 @@
 <script>
     import OrderItem from '@/components/OrderItem.vue'
     import OrderItemToPrepare from '@/components/OrderItemToPrepare.vue'
-    import sharedVueStuff from '../components/sharedVueStuff.js'
+    import sharedVueStuff from '@/mixins/sharedVueStuff.js'
 
     export default {
         name: 'Ordering',

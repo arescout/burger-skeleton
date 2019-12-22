@@ -8,13 +8,13 @@
             </div>
             <div class="orderItem">
                 <div class="checkOutTable">
-                    <h1>Your total order: </h1>
+                    <h1>Your total order: </h1> 
                     <div class="finalOrder">
                         <div v-for="(burger, key) in checkoutOrder.burgers" :key="key">
                             <b>{{uiLabels.burgNr}} {{key + 1}}</b>
                             <!-- Key + 1 so it doesn't say "burger 0" on customers page -->
-                            <span v-for="(item, key2) in burger.ingredients" :key="key2">
-                                <br/>{{ item["ingredient_" + lang]}}: {{ item["count"] }} {{uiLabels.unit}}
+                            <span v-for="(item, key2) in burger" :key="key2">
+                                <br/>{{ item.ing["ingredient_" + lang]}}: {{ item.count }} {{uiLabels.unit}}
                             </span>
                         </div>
                     <br><br>
@@ -36,7 +36,7 @@
     import Ingredient from '@/components/Ingredient.vue'
     import OrderItem from '@/components/OrderItem.vue'
     import Ordering from '@/views/Ordering.vue'
-    import sharedVueStuff from '../components/sharedVueStuff.js'
+    import sharedVueStuff from '@/mixins/sharedVueStuff.js'
 
     export default {
         name: "Checkout",
