@@ -8,7 +8,7 @@
             </div>
             <div class="orderItem">
                 <div class="checkOutTable">
-                    <h1>Your total order: </h1>
+                    <h1>Your total order: </h1> 
                     <div class="finalOrder">
                         <div v-for="(burger, key) in checkoutOrder.burgers" :key="key">
                             <b>{{uiLabels.burgNr}} {{key + 1}}</b>
