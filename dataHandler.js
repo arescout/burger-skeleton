@@ -68,8 +68,8 @@ Data.prototype.getOrderNumber = function () {
 }
 
 Data.prototype.addOrder = function (order) {
-  var orderId = this.getOrderNumber();
-  this.orders[orderId] = order.order;
+  let orderId = this.getOrderNumber();
+  this.orders[orderId] = order;
   this.orders[orderId].orderId = orderId;
   this.orders[orderId].status = "not-started";
   var transactions = this.data[transactionsDataName],

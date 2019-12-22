@@ -77,8 +77,7 @@
 
             placeOrder: function () {
                 this.confirmedPayment = true;
-                this.$store.state.socket.emit('order', {order: this.aggregatedOrders});
-                console.log({order: this.aggregatedOrders});
+                this.$store.state.socket.emit('order', this.checkoutOrder);
             }
         }
     };

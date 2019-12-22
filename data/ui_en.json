@@ -40,5 +40,6 @@
   "currentPriceLabel": "Current burger price",
   "lactose": "Contains lactose",
   "gluten": "Contains gluten",
-  "vegan": "vegan"
+  "vegan": "vegan",
+  "orderNr" : "Order number"
 }

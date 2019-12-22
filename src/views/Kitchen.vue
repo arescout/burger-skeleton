@@ -27,6 +27,7 @@
                     :ui-labels="uiLabels"
                     :key="key">
             </OrderItem>
+
         </ul>
     </div>
 </template>
@@ -36,20 +37,31 @@
     import sharedVueStuff from '@/mixins/sharedVueStuff.js'
 
     export default {
-        name: 'Ordering',
+        name: 'Kitchen',
         components: {
             OrderItem,
             OrderItemToPrepare
         },
+
         mixins: [sharedVueStuff], // include stuff that is used in both
                                   //the ordering system and the kitchen
         data: function () {
             return {
-                chosenIngredients: [],
+                orders: {},
                 currentSection: 1,
                 price: 0
             }
         },
+
+        created: function () {
+            this.$store.state.socket.on('toKitchen', function (order) {
+                console.log("in kitchen - on order")
+                console.log(order)
+                this.orders = order;
+                console.log(this.orders)
+            }.bind(this));
+        },
+
         methods: {
             markDone: function (orderid) {
                 this.$store.state.socket.emit("orderDone", orderid);
