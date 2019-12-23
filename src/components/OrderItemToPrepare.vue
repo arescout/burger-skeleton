@@ -5,18 +5,17 @@
     :ui-labels="uiLabels"
     :lang="lang"
     :order-id="orderId"
-    :order="order"
-    :key="key">
+    :order="orders">
   </OrderItem>
-  <div v-for="(item, key) in order.burgers" :key="key3">
+  <div v-for="(item, key3) in order" :key="key3">
     {{uiLabels.orderNr}}: {{key3 +1}}
    <span v-for="(burger, key2) in item" :key="key2">
      <br/> {{burger.count}} x {{burger.ing["ingredient_" + lang]}}
    </span>
-  </div>
   <button v-on:click="orderDone">
     {{uiLabels.ready}}
   </button>
+  </div>
 </div>
 </template>
 <script>
