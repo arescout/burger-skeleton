@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<!-- The following line promts errors and don't seem to do anything so i commented it away -->
-		{{orderId}} {{order.type}}}: {{ order.ingredients.map(item=>item["ingredient_"+ lang]).join(", ") }}
+		<!--{{orderId}} {{order.type}}}:-->
 	</div>
 </template>
 <script>

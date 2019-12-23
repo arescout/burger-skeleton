@@ -51,7 +51,7 @@
                         <div>
                             <div v-for="item in this.groupIngredients(chosenIngredients)">
                                 {{item.count}} x {{item.ing['ingredient_' + lang]}}
-                                <button class="plusButton" v-show = "item.category !== 4 " v-on:click="addToBurger(item.ing)">+</button>
+                                <button class="plusButton" v-show = "!breadChosen || currentCategory !== 4" v-on:click="addToBurger(item.ing)">+</button>
                                 <button class = "minusButton" v-on:click="removeFromBurger(item.ing)">-</button> <!--tried to make a functional decrease button in the ordering tab-->
                             </div>
                             <b>{{uiLabels.currentPriceLabel}}: {{this.currentPrice}}:-</b>
@@ -101,6 +101,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 </template>
 <script>
@@ -215,7 +216,6 @@
                     if (this.chosenIngredients[i].category === 6) {
                         this.drinkChosen = true;
                     }
-                    console.log(item.category);
                 }
                 if (item.category === 1) {
                     this.patties += 1;
@@ -255,8 +255,6 @@
                     this.breadChosen = false;
                     this.orderReady = false;
                 }
-                console.log("remove from "+this.breadChosen);
-                console.log(item.category);
                 this.chosenIngredients.splice(removeIndex, 1);
                 this.currentPrice -= +item.selling_price;
                 console.log("In remove")
@@ -293,8 +291,6 @@
 
             },
             placeOrder: function () {
-                console.log("In place")
-                console.log(this.chosenIngredients)
                 // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
                 this.$store.commit('addToCheckoutOrder', this.groupIngredients(this.chosenIngredients));
                 this.$store.commit('addToTotal', this.currentPrice);

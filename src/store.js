@@ -25,8 +25,6 @@ export default new Vuex.Store({
       },
     addToCheckoutOrder: function (state, order) {
       state.checkoutOrder.burgers.push(order);
-      console.log(order)
-      console.log(state.checkoutOrder)
     },
     removeFromCheckoutOrder: function(state, key) {
       state.checkoutOrder.burgers.splice(key, 1);

@@ -8,10 +8,10 @@
         <ul class="ordersContainer wrap">
             <OrderItemToPrepare
                     li class="ordersItem"
-                    v-for="(order, key) in orders"
+                    v-for="(order, key) in this.placedOrders"
                     v-if="order.status !== 'done' && currentSection===1"
                     v-on:done="markDone(key)"
-                    :order-id="key"
+                    :orderId="key"
                     :order="order"
                     :ui-labels="uiLabels"
                     :lang="lang"
@@ -19,7 +19,7 @@
             </OrderItemToPrepare>
             <OrderItem
                     li class="ordersItem"
-                    v-for="(order, key) in orders"
+                    v-for="(order, key) in placedOrders"
                     v-if="order.status === 'done' && currentSection===2"
                     :order-id="key"
                     :order="order"
@@ -34,24 +34,39 @@
     import OrderItem from '@/components/OrderItem.vue'
     import OrderItemToPrepare from '@/components/OrderItemToPrepare.vue'
     import sharedVueStuff from '@/mixins/sharedVueStuff.js'
+    import UtilityFunctions from '@/mixins/UtilityFunctions'
 
     export default {
-        name: 'Ordering',
+        name: 'Kitchen',
         components: {
             OrderItem,
             OrderItemToPrepare
         },
-        mixins: [sharedVueStuff], // include stuff that is used in both
+
+        mixins: [sharedVueStuff, UtilityFunctions], // include stuff that is used in both
                                   //the ordering system and the kitchen
         data: function () {
             return {
-                chosenIngredients: [],
+                placedOrders: {},
                 currentSection: 1,
                 price: 0
             }
         },
+
+        created: function () {
+            // Function for recieving order from checkout and adding to placedOrder via server
+            this.$store.state.socket.on('currentQueue', function (order) {
+                for(let item  in order.orders){
+                    this.placedOrders[order.orders[item].orderId] = order.orders[item];
+                    console.log("Newest placedOrders")
+                    console.log(this.placedOrders)
+                }
+            }.bind(this));
+        },
+
         methods: {
             markDone: function (orderid) {
+                orderid += 1; // Orderid +1 because server starts counting orders on 1, kitchen starts on 0
                 this.$store.state.socket.emit("orderDone", orderid);
             },
             setSection: function (newSec) {
