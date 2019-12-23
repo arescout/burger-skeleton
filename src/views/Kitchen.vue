@@ -10,7 +10,7 @@
                     li class="ordersItem"
                     v-for="(order, key) in placedOrders.order"
                     v-if="order.status !== 'done' && currentSection===1"
-                    v-on:done="markDone(key)"
+                    v-on:done="markDone(order)"
                     :order-id="key"
                     :order="order"
                     :ui-labels="uiLabels"
@@ -75,6 +75,7 @@
 
         methods: {
             markDone: function (orderid) {
+                console.log(orderid);
                 this.$store.state.socket.emit("orderDone", orderid);
             },
             setSection: function (newSec) {

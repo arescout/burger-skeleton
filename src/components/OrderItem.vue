@@ -1,7 +1,8 @@
 <template>
 	<div>
 		<!-- The following line promts errors and don't seem to do anything so i commented it away -->
-		{{orderId}} {{order.type}}}:
+		<!--{{orderId}} {{order.type}}}:-->
+		{{order}}
 	</div>
 </template>
 <script>
