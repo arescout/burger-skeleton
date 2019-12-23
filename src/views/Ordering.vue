@@ -247,12 +247,12 @@
                 }
                 this.chosenIngredients.splice(removeIndex, 1);
                 this.currentPrice -= +item.selling_price;
-                console.log("In remove")
+                //console.log("In remove")
             },
 
             addToOrder: function () {
                 // Add the burger to an order array
-                console.log(this.chosenIngredients)
+                //console.log(this.chosenIngredients)
                 if(this.chosenIngredients.length === 0){
                     return;
                 }
@@ -337,15 +337,15 @@
             },
             hideBurger: function () {
                 this.hideBurg = !this.hideBurg;
-                console.log();
+                //console.log();
             },
             deleteBurger: function(burgers, key) { //this function deletes the burger from the order container, however
-                console.log(burgers);              //the total price is not updated
-                console.log(key);
+                //console.log(burgers);              //the total price is not updated
+                //console.log(key);
 
                 for (let i = 0; i < burgers.length; i++){
                     if (i === key){
-                        console.log(burgers[i].totalPrice);
+                        //console.log(burgers[i].totalPrice);
                         this.$store.commit('removeFromCheckoutOrder', key);
                         //this.$store.commit('addToTotal', -1 * this.currentPrice);
                         //remove burger might work? :)
