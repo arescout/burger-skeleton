@@ -8,10 +8,10 @@
         <ul class="ordersContainer wrap">
             <OrderItemToPrepare
                     li class="ordersItem"
-                    v-for="(order, key) in placedOrders.order"
+                    v-for="(order, key) in placedOrders.orders"
                     v-if="order.status !== 'done' && currentSection===1"
-                    v-on:done="markDone(order)"
-                    :order-id="key"
+                    v-on:done="markDone(key)"
+                    :orderId="key"
                     :order="order"
                     :ui-labels="uiLabels"
                     :lang="lang"
@@ -19,7 +19,7 @@
             </OrderItemToPrepare>
             <OrderItem
                     li class="ordersItem"
-                    v-for="(order, key) in orders"
+                    v-for="(order, key) in placedOrders.orders"
                     v-if="order.status === 'done' && currentSection===2"
                     :order-id="key"
                     :order="order"
@@ -47,7 +47,7 @@
                                   //the ordering system and the kitchen
         data: function () {
             return {
-                placedOrders: {},
+                placedOrders: {orders: []},
                 currentSection: 1,
                 price: 0
             }
@@ -56,8 +56,11 @@
         created: function () {
             // Function for recieving order from checkout and adding to placedOrder
             this.$store.state.socket.on('toKitchen', function (order) {
-                // If placedOrder is empty (it doesn't contain any order property)
-                if (!this.placedOrders.hasOwnProperty('order')) {
+
+                for(let item  in order.order){
+                    this.placedOrders.orders.push(order.order[item])
+                }
+                /**if (!this.placedOrders.hasOwnProperty('order')) {
                     // Add order to placedOrder
                     this.placedOrders = order;
                 }
@@ -68,7 +71,7 @@
                         // Append to placedOrder's array burgers
                         this.placedOrders.order.burgers.push(order.order.burgers[key]);
                     }
-                }
+                }**/
                 console.log(this.placedOrders)
             }.bind(this));
         },
