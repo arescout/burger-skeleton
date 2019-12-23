@@ -51,7 +51,7 @@
                         <div>
                             <div v-for="item in this.groupIngredients(chosenIngredients)">
                                 {{item.count}} x {{item.ing['ingredient_' + lang]}}
-                                <button class="plusButton" v-show = "!breadChosen || currentCategory !== 4" v-on:click="addToBurger(item.ing)">+</button>
+                                <button class="plusButton" v-show = "item.category !== 4 " v-on:click="addToBurger(item.ing)">+</button>
                                 <button class = "minusButton" v-on:click="removeFromBurger(item.ing)">-</button> <!--tried to make a functional decrease button in the ordering tab-->
                             </div>
                             <b>{{uiLabels.currentPriceLabel}}: {{this.currentPrice}}:-</b>
@@ -101,7 +101,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </template>
 <script>
@@ -216,6 +215,7 @@
                     if (this.chosenIngredients[i].category === 6) {
                         this.drinkChosen = true;
                     }
+                    console.log(item.category);
                 }
                 if (item.category === 1) {
                     this.patties += 1;
@@ -223,8 +223,7 @@
                 if (this.pattyChosen && this.breadChosen || this.sideChosen || this.drinkChosen){  //order can only be made if burger and bread is chosen
                     this.orderReady = true;
                 }
-                console.log("In add to burger")
-                console.log(this.chosenIngredients)
+                console.log("add to " + this.breadChosen);
 
             },
             removeFromBurger: function (item) {
@@ -241,13 +240,23 @@
                         this.orderReady = false;
                     }
                 }
-                if (item.category === 4 || item.category === 1 || item.category === 5 || item.category === 6) {
-                    this.orderReady = false;
-                    this.breadChosen = false;
+                //if (item.category === 4 || item.category === 1 || item.category === 5 || item.category === 6) {
+                //    this.orderReady = false;
+                //    this.breadChosen = false;
+                //    this.pattyChosen = false;
+                //    this.sideChosen=false;
+                //    this.drinkChosen=false;
+                //}
+                if (item.category === 1) {
                     this.pattyChosen = false;
-                    this.sideChosen=false;
-                    this.drinkChosen=false;
+                    this.orderReady = false;
                 }
+                if (item.category === 4){
+                    this.breadChosen = false;
+                    this.orderReady = false;
+                }
+                console.log("remove from "+this.breadChosen);
+                console.log(item.category);
                 this.chosenIngredients.splice(removeIndex, 1);
                 this.currentPrice -= +item.selling_price;
                 console.log("In remove")
@@ -353,7 +362,8 @@
                         console.log(burgers[i].totalPrice);
                         this.$store.commit('removeFromCheckoutOrder', key);
                         //this.$store.commit('addToTotal', -1 * this.currentPrice);
-                        //remove burger might work? :)
+                        //remove burger might work? :) can't figure out how to subtract
+                        //the price of the burger from the total
                     }
                 }
             }
