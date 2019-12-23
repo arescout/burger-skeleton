@@ -223,9 +223,6 @@
                 if (this.pattyChosen && this.breadChosen || this.sideChosen || this.drinkChosen){  //order can only be made if burger and bread is chosen
                     this.orderReady = true;
                 }
-                console.log("In add to burger")
-                console.log(this.chosenIngredients)
-
             },
             removeFromBurger: function (item) {
                 let removeIndex = 0;
@@ -284,8 +281,6 @@
 
             },
             placeOrder: function () {
-                console.log("In place")
-                console.log(this.chosenIngredients)
                 // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
                 this.$store.commit('addToCheckoutOrder', this.groupIngredients(this.chosenIngredients));
                 this.$store.commit('addToTotal', this.currentPrice);

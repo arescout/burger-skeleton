@@ -8,7 +8,7 @@
         <ul class="ordersContainer wrap">
             <OrderItemToPrepare
                     li class="ordersItem"
-                    v-for="(order, key) in placedOrders.orders"
+                    v-for="(order, key) in this.placedOrders"
                     v-if="order.status !== 'done' && currentSection===1"
                     v-on:done="markDone(key)"
                     :orderId="key"
@@ -19,7 +19,7 @@
             </OrderItemToPrepare>
             <OrderItem
                     li class="ordersItem"
-                    v-for="(order, key) in placedOrders.orders"
+                    v-for="(order, key) in placedOrders"
                     v-if="order.status === 'done' && currentSection===2"
                     :order-id="key"
                     :order="order"
@@ -47,38 +47,26 @@
                                   //the ordering system and the kitchen
         data: function () {
             return {
-                placedOrders: {orders: []},
+                placedOrders: {},
                 currentSection: 1,
                 price: 0
             }
         },
 
         created: function () {
-            // Function for recieving order from checkout and adding to placedOrder
-            this.$store.state.socket.on('toKitchen', function (order) {
-
-                for(let item  in order.order){
-                    this.placedOrders.orders.push(order.order[item])
+            // Function for recieving order from checkout and adding to placedOrder via server
+            this.$store.state.socket.on('currentQueue', function (order) {
+                for(let item  in order.orders){
+                    this.placedOrders[order.orders[item].orderId] = order.orders[item];
+                    console.log("Newest placedOrders")
+                    console.log(this.placedOrders)
                 }
-                /**if (!this.placedOrders.hasOwnProperty('order')) {
-                    // Add order to placedOrder
-                    this.placedOrders = order;
-                }
-                // If placedOrder already has order attribute
-                else {
-                    // Cycle through placed burgers in array burgers
-                    for (let key in order.order.burgers){
-                        // Append to placedOrder's array burgers
-                        this.placedOrders.order.burgers.push(order.order.burgers[key]);
-                    }
-                }**/
-                console.log(this.placedOrders)
             }.bind(this));
         },
 
         methods: {
             markDone: function (orderid) {
-                console.log(orderid);
+                orderid += 1; // Orderid +1 because server starts counting orders on 1, kitchen starts on 0
                 this.$store.state.socket.emit("orderDone", orderid);
             },
             setSection: function (newSec) {
