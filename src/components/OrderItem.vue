@@ -1,7 +1,12 @@
 <template>
 	<div>
-		<!-- The following line promts errors and don't seem to do anything so i commented it away -->
-		<!--{{orderId}} {{order.type}}}:-->
+		{{uiLabels.orderNr}}: {{orderId}}
+		<div v-for="(burger,key2) in order.burgers" :key2="key2">
+			{{uiLabels.burgNr}}: {{key2 + 1}}
+			<span v-for="ingredient in burger">
+      <br/> {{ingredient.count}} x {{ingredient.ing["ingredient_" + lang]}}
+      </span>
+		</div>
 	</div>
 </template>
 <script>
