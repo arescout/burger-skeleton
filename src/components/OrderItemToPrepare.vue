@@ -1,17 +1,16 @@
 <template>
-  <!-- Note in this component that it is using another component -->
-<div>
-  {{uiLabels.orderNr}}: {{orderId}}
-  <div v-for="(burger,key2) in order.burgers" :key2="key2">
-    {{uiLabels.burgNr}}: {{key2 + 1}}
-    <span v-for="ingredient in burger">
-      <br/> {{ingredient.count}} x {{ingredient.ing["ingredient_" + lang]}}
+  <div>
+    {{uiLabels.orderNr}}: {{orderId}}
+    <div v-for="(burger,key2) in order.burgers" :key2="key2">
+      {{uiLabels.burgNr}}: {{key2 + 1}}
+      <span v-for="ingredient in burger">
+        <br/> {{ingredient.count}} x {{ingredient.ing["ingredient_" + lang]}}
       </span>
+    </div>
+    <button v-on:click="orderDone">
+      {{uiLabels.ready}}
+    </button>
   </div>
-  <button v-on:click="orderDone">
-    {{uiLabels.ready}}
-  </button>
-</div>
 </template>
 <script>
 import OrderItem from '@/components/OrderItem.vue'
