@@ -8,7 +8,7 @@
         <ul class="ordersContainer wrap">
             <OrderItemToPrepare
                     li class="ordersItem"
-                    v-for="(order, key) in orders"
+                    v-for="(order, key) in placedOrders.order"
                     v-if="order.status !== 'done' && currentSection===1"
                     v-on:done="markDone(key)"
                     :order-id="key"
@@ -27,7 +27,6 @@
                     :ui-labels="uiLabels"
                     :key="key">
             </OrderItem>
-
         </ul>
     </div>
 </template>
@@ -35,6 +34,7 @@
     import OrderItem from '@/components/OrderItem.vue'
     import OrderItemToPrepare from '@/components/OrderItemToPrepare.vue'
     import sharedVueStuff from '@/mixins/sharedVueStuff.js'
+    import UtilityFunctions from '@/mixins/UtilityFunctions'
 
     export default {
         name: 'Kitchen',
@@ -43,19 +43,33 @@
             OrderItemToPrepare
         },
 
-        mixins: [sharedVueStuff], // include stuff that is used in both
+        mixins: [sharedVueStuff, UtilityFunctions], // include stuff that is used in both
                                   //the ordering system and the kitchen
         data: function () {
             return {
-                orders: {},
+                placedOrders: {},
                 currentSection: 1,
                 price: 0
             }
         },
 
         created: function () {
+            // Function for recieving order from checkout and adding to placedOrder
             this.$store.state.socket.on('toKitchen', function (order) {
-                this.orders = order;
+                // If placedOrder is empty (it doesn't contain any order property)
+                if (!this.placedOrders.hasOwnProperty('order')) {
+                    // Add order to placedOrder
+                    this.placedOrders = order;
+                }
+                // If placedOrder already has order attribute
+                else {
+                    // Cycle through placed burgers in array burgers
+                    for (let key in order.order.burgers){
+                        // Append to placedOrder's array burgers
+                        this.placedOrders.order.burgers.push(order.order.burgers[key]);
+                    }
+                }
+                console.log(this.placedOrders)
             }.bind(this));
         },
 

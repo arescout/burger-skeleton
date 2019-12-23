@@ -15,7 +15,15 @@ export default {
                     grouped.push({ing: ingredients[i], count: 1});
             }
             return grouped;
-        }
+        },
 
+        isEmpty: function (obj) {
+         for (let key in obj){
+             if(obj.hasOwnProperty(key)){
+                 return false;
+             }
+             return true;
+         }
+        }
     }
 }
