@@ -1,12 +1,6 @@
 <template>
   <!-- Note in this component that it is using another component -->
 <div>
-  <OrderItem
-    :ui-labels="uiLabels"
-    :lang="lang"
-    :orderId="orderId"
-    :order="order">
-  </OrderItem>
   {{uiLabels.orderNr}}: {{orderId}}
   <div v-for="(burger,key2) in order.burgers" :key2="key2">
     {{uiLabels.burgNr}}: {{key2 + 1}}
@@ -17,7 +11,6 @@
   <button v-on:click="orderDone">
     {{uiLabels.ready}}
   </button>
-  </div>
 </div>
 </template>
 <script>
