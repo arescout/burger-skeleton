@@ -14,6 +14,8 @@ var sharedVueStuff = {
   created: function () {
     this.$store.state.socket.on('initialize', function (data) {
       this.orders = data.orders;
+      console.log("in initialize");
+      console.log(this.orders)
       this.uiLabels = data.uiLabels;
       this.ingredients = data.ingredients;
     }.bind(this));
