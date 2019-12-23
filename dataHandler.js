@@ -95,10 +95,11 @@ Data.prototype.getAllOrders = function () {
 };
 
 Data.prototype.markOrderDone = function (orderId) {
-  console.log("in data handler")
+  console.log("in mark order done")
+  console.log(this.orders)
   console.log(orderId)
-  console.log(this.orders);
   this.orders[orderId].status = "done";
+  console.log(this.orders)
 };
 
 Data.prototype.markOrderCleared = function (item) {
