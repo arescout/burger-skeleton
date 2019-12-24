@@ -69,18 +69,15 @@ Data.prototype.getOrderNumber = function () {
 
 Data.prototype.addOrder = function (order) {
   let orderId = this.getOrderNumber();
-  console.log("oderId")
-  console.log(orderId);
   this.orders[orderId] = order;
   this.orders[orderId].orderId = orderId;
   this.orders[orderId].status = "not-started";
-  console.log(this.orders[orderId])
   var transactions = this.data[transactionsDataName],
     //find out the currently highest transaction id
     transId =  transactions[transactions.length - 1].transaction_id,
-      //i = order.order.ingredients,
-    k;
-    //console.log(i);
+     // i = order.order.ingredients,
+      k;
+
     return orderId;
 };
 
@@ -97,11 +94,7 @@ Data.prototype.getAllOrders = function () {
 };
 
 Data.prototype.markOrderDone = function (orderId) {
-  console.log("in mark order done")
-  console.log(this.orders)
-  console.log(orderId)
   this.orders[orderId].status = "done";
-  console.log(this.orders)
 };
 
 Data.prototype.markOrderStarted = function (orderId) {

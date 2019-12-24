@@ -17,11 +17,9 @@ export default new Vuex.Store({
   mutations: {
     setCheckoutOrder: function (state, order) {
       state.checkoutOrder.burgers.push(order);
-      console.log("In set")
-      console.log(state.checkoutOrder)
       },
-      setEatHere: function (state, bool) {
-        state.eatHere = bool;
+    setEatHere: function (state, bool) {
+      state.eatHere = bool;
       },
     addToCheckoutOrder: function (state, order) {
       state.checkoutOrder.burgers.push(order);

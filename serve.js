@@ -43,15 +43,11 @@ io.on('connection', function (socket) {
 
   // When someone orders something
   socket.on('order', function (order) {
-      console.log("in addorder")
-      console.log(order)
     var orderIdAndName = data.addOrder(order);
     // send updated info to all connected clients, note the use of io instead of socket
     socket.emit('orderNumber', orderIdAndName);
-    console.log("data.getallorders")
-    console.log(data.getAllOrders())
     io.emit('currentQueue', { orders: data.getAllOrders(),
-                          /**ingredients: data.getIngredients()**/ });
+                          ingredients: data.getIngredients() });
   });
 
   // send UI labels in the chosen language

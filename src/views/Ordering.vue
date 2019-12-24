@@ -259,12 +259,10 @@
                 }
                 this.chosenIngredients.splice(removeIndex, 1);
                 this.currentPrice -= +item.selling_price;
-                //console.log("In remove")
             },
 
             addToOrder: function () {
                 // Add the burger to an order array
-                //console.log(this.chosenIngredients)
                 if(this.chosenIngredients.length === 0){
                     return;
                 }
@@ -350,7 +348,6 @@
 
             hideBurger: function () {
                 this.hideBurg = !this.hideBurg;
-                //console.log();
             },
             deleteBurger: function(burgers, key) { //this function deletes the burger from the order container, however
                 //console.log(burgers);              //the total price is not updated
