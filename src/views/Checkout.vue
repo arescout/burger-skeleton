@@ -189,7 +189,8 @@
         background-color: #ff0000;
         border-radius: 50%;
         border: solid black 2px;
-        position: absolute;
+        /*position: absolute;*/
+        float:right;
         /*top: 0px;
         right: 0px;*/
     }
