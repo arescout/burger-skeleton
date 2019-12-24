@@ -124,6 +124,7 @@
                 currentPrice: 0,
                 orderNumber: "",
                 count: 0,
+                tempPrice: 0,
                 breadChosen: false,
                 pattyChosen: false,
                 orderReady: false,
@@ -359,9 +360,12 @@
                     if (i === key){
                         //console.log(burgers[i].totalPrice);
                         this.$store.commit('removeFromCheckoutOrder', key);
-                        this.$store.commit('addToTotal', -1 * this.currentPrice);
                         //remove burger might work? :) can't figure out how to subtract
                         //the price of the burger from the total
+                        //for (let j = 0; j < burgers[i].length; j++){
+                        //    this.tempPrice += burgers[i][j].price;
+                        //}
+                        //this.$store.commit('addToTotal', -1 * this.tempPrice);
                     }
                 }
             }
