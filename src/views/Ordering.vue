@@ -217,15 +217,13 @@
                         this.drinkChosen = true;
                     }
                 }
-                if (item.category === 1) {
-                    this.patties += 1;
-                }
                 if (this.pattyChosen && this.breadChosen || this.sideChosen || this.drinkChosen){  //order can only be made if burger and bread is chosen
                     this.orderReady = true;
                 }
-                console.log("add to " + this.breadChosen);
-                console.log(item);
-                console.log(item.category);
+                if (item.category === 1){
+                    this.patties += 1;
+
+                }
 
             },
             removeFromBurger: function (item) {
@@ -250,8 +248,12 @@
                 //    this.drinkChosen=false;
                 //}
                 if (item.category === 1) {
-                    this.pattyChosen = false;
-                    this.orderReady = false;
+                    this.patties -= 1;
+                    console.log(this.patties);
+                    if (this.patties === 0){
+                        this.pattyChosen = false;
+                        this.orderReady = false;
+                    }
                 }
                 if (item.category === 4){
                     this.breadChosen = false;
@@ -301,6 +303,7 @@
                 this.orderReady = false;
                 this.breadChosen = false;
                 this.pattyChosen = false;
+                this.patties = 0;
 
 
                 this.currentOrder = [];
@@ -401,7 +404,7 @@
         background-image: repeating-linear-gradient(transparent, transparent 50px, rgba(0, 0, 0, .4) 50px, rgba(0, 0, 0, .4) 53px, transparent 53px, transparent 63px, rgba(0, 0, 0, .4) 63px, rgba(0, 0, 0, .4) 66px, transparent 66px, transparent 116px, rgba(0, 0, 0, .5) 116px, rgba(0, 0, 0, .5) 166px, rgba(255, 255, 255, .2) 166px, rgba(255, 255, 255, .2) 169px, rgba(0, 0, 0, .5) 169px, rgba(0, 0, 0, .5) 179px, rgba(255, 255, 255, .2) 179px, rgba(255, 255, 255, .2) 182px, rgba(0, 0, 0, .5) 182px, rgba(0, 0, 0, .5) 232px, transparent 232px),
         repeating-linear-gradient(270deg, transparent, transparent 50px, rgba(0, 0, 0, .4) 50px, rgba(0, 0, 0, .4) 53px, transparent 53px, transparent 63px, rgba(0, 0, 0, .4) 63px, rgba(0, 0, 0, .4) 66px, transparent 66px, transparent 116px, rgba(0, 0, 0, .5) 116px, rgba(0, 0, 0, .5) 166px, rgba(255, 255, 255, .2) 166px, rgba(255, 255, 255, .2) 169px, rgba(0, 0, 0, .5) 169px, rgba(0, 0, 0, .5) 179px, rgba(255, 255, 255, .2) 179px, rgba(255, 255, 255, .2) 182px, rgba(0, 0, 0, .5) 182px, rgba(0, 0, 0, .5) 232px, transparent 232px),
         repeating-linear-gradient(125deg, transparent, transparent 2px, rgba(0, 0, 0, .2) 2px, rgba(0, 0, 0, .2) 3px, transparent 3px, transparent 5px, rgba(0, 0, 0, .2) 5px);
-        position: absolute; /* Seems like this fixes the background*/
+        position: absolute;
         width: 100%;
         height: 100%;
         top: 0;
@@ -488,11 +491,16 @@
         color: var(--primary-text-color);
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
+    .ingredient :hover {
+        background-color: #e9dccb;
+    }
 
     .itemsWrapper {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
         grid-gap: 0.5rem;
+        text-transform: capitalize;
+        overflow: scroll;
     }
 
     .itemsContainer {

@@ -160,6 +160,9 @@
     .buttonBox {
         order: 1;
     }
+    .buttonBox button:hover{
+        font-size: 170%;
+    }
 
     .plusButton {
         order: 1;
