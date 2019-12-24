@@ -18,7 +18,7 @@
                             </span>
                         </div>
                     <br><br>
-                    <b>{{uiLabels.tally}}: {{this.price}}</b>:-<br>
+                    <b>{{uiLabels.tally}}: {{this.totalPrice}}</b>:-<br>
                     <button class="paymentButton"
                             v-on:click="placeOrder">Ready for payment</button>
                     <div class="paymentBox" v-show="confirmedPayment">
@@ -51,24 +51,18 @@
         data: function () { //Not that data is a function!
             return {
                 confirmedPayment: false,
-                order: {},
-                price: 0,
                 orderNumber: "",
-
             }
         },
 
         computed: {
             checkoutOrder: function () {
                 return this.$store.state.checkoutOrder;
+            },
+            totalPrice : function () {
+                return this.$store.state.totalPrice;
             }
         },
-
-        created: function() {
-            // Method for receiving order from Ordering page
-
-        },
-
 
         methods: {
             alertFunction: function () {

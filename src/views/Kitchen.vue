@@ -8,7 +8,7 @@
         <ul class="ordersContainer wrap">
             <OrderItemToPrepare
                     li class="ordersItem"
-                    v-for="(order, key) in placedOrders"
+                    v-for="(order, key) in orders"
                     v-if="order.status !== 'done' && currentSection===1"
                     v-on:done="markDone(key)"
                     :orderId="key"
@@ -19,7 +19,7 @@
             </OrderItemToPrepare>
             <OrderItem
                     li class="ordersItem"
-                    v-for="(order, key) in placedOrders"
+                    v-for="(order, key) in orders"
                     v-if="order.status === 'done' && currentSection===2"
                     :order-id="key"
                     :order="order"
@@ -47,32 +47,28 @@
                                   //the ordering system and the kitchen
         data: function () {
             return {
-                placedOrders: {},
                 currentSection: 1,
                 price: 0
             }
         },
 
-        created: function () {
+        computed: {
             // Function for recieving order from checkout and adding to placedOrder via server
-            this.$store.state.socket.on('currentQueue', function (order) {
-                for(let item  in order.orders){
-                    this.placedOrders[order.orders[item].orderId] = order.orders[item];
-                    console.log("Newest placedOrders")
-                    console.log(this.placedOrders)
+            placedOrders: function () {
+                let po = {};
+                for(let item in this.orders){
+                    po[item] = this.orders[item];
                 }
-            }.bind(this));
+                return po;
+            }
         },
 
         methods: {
             markDone: function (orderid) {
-                console.log(orderid)
-               // orderid += 1; // Orderid +1 because server starts counting orders on 1, kitchen starts on 0
                 this.$store.state.socket.emit("orderDone", orderid);
             },
             setSection: function (newSec) {
                 this.currentSection = newSec;
-                console.log(this.currentSection)
             }
         }
     }
