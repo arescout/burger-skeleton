@@ -13,9 +13,9 @@
                 <div class="buttonWrapper">
                     <div class="buttonBox">
                         <!--<div v-if="this.$parent.currentCategory === 4">
-                            <button class="breadButton"></button>
-
-                        <div v-else></div>-->
+                            <button class = "breadButton" id="breadInc" v-on:click="incrementCounter($event)"></button>
+                        </div>
+                        <div v-else>-->
                             <button class="plusButton" id="inc" v-show = "!this.$parent.breadChosen || this.$parent.currentCategory !== 4" v-on:click="incrementCounter($event)">
                                 + <!-- only one bread can be selected -->
                             </button>
@@ -160,7 +160,7 @@
     .buttonBox {
         order: 1;
     }
-    .buttonBox button:hover{
+    .plusButton, .minusButton :hover{
         font-size: 170%;
     }
 

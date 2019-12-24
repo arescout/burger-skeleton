@@ -495,7 +495,6 @@
         grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
         grid-gap: 0.5rem;
         text-transform: capitalize;
-        overflow: scroll;
     }
 
     .itemsContainer {
@@ -504,6 +503,8 @@
         border: 3px var(--border-color) solid;
         padding: 0.25rem;
         border-radius: 10px;
+        height: 30em;
+        overflow: scroll;
     }
 
     /*ORDER*/
