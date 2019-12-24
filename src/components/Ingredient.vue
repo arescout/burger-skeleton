@@ -89,6 +89,9 @@ export default {
     .buttonBox button:hover{
         font-size: 170%;
     }
+    .buttonBox button:hover{
+        font-size: 170%;
+    }
 
     .plusButton {
       /*grid-row: 1;
