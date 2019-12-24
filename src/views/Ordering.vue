@@ -124,7 +124,6 @@
                 currentPrice: 0,
                 orderNumber: "",
                 count: 0,
-                tempPrice: 0,
                 breadChosen: false,
                 pattyChosen: false,
                 orderReady: false,
@@ -249,7 +248,6 @@
                 //}
                 if (item.category === 1) {
                     this.patties -= 1;
-                    console.log(this.patties);
                     if (this.patties === 0){
                         this.pattyChosen = false;
                         this.orderReady = false;
@@ -294,7 +292,9 @@
             },
             placeOrder: function () {
                 // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
-                this.$store.commit('addToCheckoutOrder', this.groupIngredients(this.chosenIngredients));
+                let thisBurger = this.groupIngredients(this.chosenIngredients);
+                thisBurger.price = this.currentPrice;
+                this.$store.commit('addToCheckoutOrder', thisBurger);
                 this.$store.commit('addToTotal', this.currentPrice);
 
                 this.chosenIngredients = [];
@@ -352,20 +352,15 @@
             hideBurger: function () {
                 this.hideBurg = !this.hideBurg;
             },
-            deleteBurger: function(burgers, key) { //this function deletes the burger from the order container, however
-                //console.log(burgers);              //the total price is not updated
+            deleteBurger: function(burgers, key) { //this function deletes the burger from the order container
+                //console.log(burgers);
                 //console.log(key);
-
+                // No need for the for-loop, burgers[key] will find the right object
                 for (let i = 0; i < burgers.length; i++){
                     if (i === key){
-                        //console.log(burgers[i].totalPrice);
+                        let thisPrice = burgers[i].price;
                         this.$store.commit('removeFromCheckoutOrder', key);
-                        //remove burger might work? :) can't figure out how to subtract
-                        //the price of the burger from the total
-                        //for (let j = 0; j < burgers[i].length; j++){
-                        //    this.tempPrice += burgers[i][j].price;
-                        //}
-                        //this.$store.commit('addToTotal', -1 * this.tempPrice);
+                        this.$store.commit('removeFromTotal', thisPrice)
                     }
                 }
             }
