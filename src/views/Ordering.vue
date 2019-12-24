@@ -51,7 +51,7 @@
                         <div>
                             <div v-for="item in this.groupIngredients(chosenIngredients)">
                                 {{item.count}} x {{item.ing['ingredient_' + lang]}}
-                                <button class="plusButton" v-show = "!breadChosen || currentCategory !== 4" v-on:click="addToBurger(item.ing)">+</button>
+                                <button class="plusButton" v-show = "item.ing.category !== 4" v-on:click="addToBurger(item.ing)">+</button>
                                 <button class = "minusButton" v-on:click="removeFromBurger(item.ing)">-</button> <!--tried to make a functional decrease button in the ordering tab-->
                             </div>
                             <b>{{uiLabels.currentPriceLabel}}: {{this.currentPrice}}:-</b>
@@ -62,7 +62,6 @@
                     <div class="orderSummaryContainer">
                         <b>{{uiLabels.yourOrder}}:</b>
                         <div>
-
                             <div class = "readyBurger" v-for="(burger, key) in checkoutOrder.burgers" :key="key">
                                 <button v-on:click="hideBurger()">^</button><b>{{uiLabels.burgNr}} {{key + 1}}</b><button class = "delBurg" v-on:click="deleteBurger(checkoutOrder.burgers, key)">X</button>
                                 <!--
@@ -224,6 +223,8 @@
                     this.orderReady = true;
                 }
                 console.log("add to " + this.breadChosen);
+                console.log(item);
+                console.log(item.category);
 
             },
             removeFromBurger: function (item) {
@@ -345,6 +346,7 @@
                 this.numbOfBurgers += 1;
                 return ingredientTuples;
             },
+
             hideBurger: function () {
                 this.hideBurg = !this.hideBurg;
                 console.log();
@@ -357,7 +359,7 @@
                     if (i === key){
                         console.log(burgers[i].totalPrice);
                         this.$store.commit('removeFromCheckoutOrder', key);
-                        //this.$store.commit('addToTotal', -1 * this.currentPrice);
+                        this.$store.commit('addToTotal', -1 * this.currentPrice);
                         //remove burger might work? :) can't figure out how to subtract
                         //the price of the burger from the total
                     }
