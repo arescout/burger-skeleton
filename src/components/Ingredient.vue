@@ -73,6 +73,9 @@ export default {
       grid-gap: 5px;
 
     }
+    .buttonBox button:hover{
+        font-size: 170%;
+    }
 
     .plusButton {
       /*grid-row: 1;
