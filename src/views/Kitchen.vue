@@ -8,7 +8,7 @@
         <ul class="ordersContainer wrap">
             <OrderItemToPrepare
                     li class="ordersItem"
-                    v-for="(order, key) in this.placedOrders"
+                    v-for="(order, key) in placedOrders"
                     v-if="order.status !== 'done' && currentSection===1"
                     v-on:done="markDone(key)"
                     :orderId="key"
@@ -66,11 +66,13 @@
 
         methods: {
             markDone: function (orderid) {
-                orderid += 1; // Orderid +1 because server starts counting orders on 1, kitchen starts on 0
+                console.log(orderid)
+               // orderid += 1; // Orderid +1 because server starts counting orders on 1, kitchen starts on 0
                 this.$store.state.socket.emit("orderDone", orderid);
             },
             setSection: function (newSec) {
                 this.currentSection = newSec;
+                console.log(this.currentSection)
             }
         }
     }
