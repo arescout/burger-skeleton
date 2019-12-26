@@ -96,6 +96,8 @@
         grid-row-start: 2;
         grid-row-end: 3;
         font-size: 1.3em;
+        padding-right: 2em;
+        padding-left: 2em;
     }
     .whereToEat button:hover {
         background-color: #ffd4a4;

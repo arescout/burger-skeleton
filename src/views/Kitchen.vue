@@ -4,8 +4,10 @@
             <button class="buttonRight" v-on:click="setSection(1)">{{uiLabels.ordersInQueue}}</button>
             <button class="buttonRight" v-on:click="setSection(2)">{{uiLabels.ordersFinished}}</button>
             <button class="buttonLeft" v-on:click="switchLang()">{{uiLabels.language}}</button>
+            <button v-show="currentSection === 2" v-on:click="clearOrders">Clear</button>
         </div>
         <ul class="ordersContainer wrap">
+            {{this.timeStamp}}
             <OrderItemToPrepare
                     li class="ordersItem"
                     v-for="(order, key) in orders"
@@ -69,6 +71,9 @@
             },
             setSection: function (newSec) {
                 this.currentSection = newSec;
+            },
+            clearOrders: function () {
+
             }
         }
     }
@@ -92,6 +97,7 @@
         color: white;
         order: 1;
         padding: 1em 0.6em 1em 0.6em;
+        outline: none;
     }
 
     .menuTabs button:hover {

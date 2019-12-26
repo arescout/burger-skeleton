@@ -85,7 +85,7 @@
                                     :key="key3">
                             </OrderItem>
                         </div>
-                        <button class="orderButton" v-show="!this.noOrder"> <!-- no order if no burger is added to the tab-->
+                        <button class="orderButton" v-show="!this.noOrder" v-on:click="getNow"> <!-- no order if no burger is added to the tab-->
                             <router-link class="routerButton" to="/checkout" v>
                                 {{uiLabels.proceedToCO}}</router-link>
                         </button>
@@ -158,6 +158,9 @@
             },
             checkoutOrder: function() {
                 return this.$store.state.checkoutOrder
+            },
+            giveTime: function() {
+              return this.$store.state.giveTime
             },
 
             //Nytt Taken from burger-skeleton/severalBurgers/src/views/Kitchen.vue and changed ingredients to our array chosenIngredients
@@ -233,12 +236,12 @@
                         break;
                     }
                 }
-                for (let i = 1; i < this.chosenIngredients.length; i += 1) {
-                    if (this.chosenIngredients[i].category === 4) {
-                        this.breadChosen = false;
-                        this.orderReady = false;
-                    }
-                }
+                //for (let i = 1; i < this.chosenIngredients.length; i += 1) {
+                    //if (this.chosenIngredients[i].category === 4) {
+                    //    this.breadChosen = false;
+                    //    this.orderReady = false;
+                    //}
+                //}
                 //if (item.category === 4 || item.category === 1 || item.category === 5 || item.category === 6) {
                 //    this.orderReady = false;
                 //    this.breadChosen = false;
@@ -255,6 +258,9 @@
                 }
                 if (item.category === 4){
                     this.breadChosen = false;
+                    this.orderReady = false;
+                }
+                if (item.category === 5 || item.category === 6){
                     this.orderReady = false;
                 }
                 this.chosenIngredients.splice(removeIndex, 1);
@@ -363,6 +369,12 @@
                         this.$store.commit('removeFromTotal', thisPrice)
                     }
                 }
+            },
+            getNow: function() { //this function gets the time for when the order is made
+                const today = new Date();
+                const timeStamp = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                console.log(timeStamp);
+                this.$store.commit('setTime', timeStamp);
             }
         }
     }
@@ -470,6 +482,7 @@
         flex-grow: 1;
         order: 1;
         padding: 1rem 0.6rem 1rem 0.6rem;
+        outline: none;
     }
 
     .categoryTabs button:hover {
