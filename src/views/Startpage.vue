@@ -1,8 +1,8 @@
 <template>
     <div id = "startPage">
     <div class = "IntroText">
-        <button class="routerButton" v-on:click="switchLang()"><img src=https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width=20px>
-            {{uiLabels.language }}</button>
+        <button class="routerButton" v-on:click="switchLang()"><img src= width=20px>
+            {{uiLabels.language }} {{uiLabels.flagOnButton }} </button>
     <div class="welcomeText">{{uiLabels.welcomeShort}}</div>
         <section class = "welcomeSection">
             <div class="whereToEat" >
@@ -31,7 +31,7 @@
         computed: {
             eatHere: function () {
                 return this.$store.state.eatHere;
-            }
+            },
         },
         created: function () {
             this.$store.state.socket.on('orderNumber', function (data) {
