@@ -1,5 +1,8 @@
 <template>
     <div id="checkout">
+        <button class="routerButton" v-on:click="switchLang()">
+            <img src=https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width=20px>{{uiLabels.language}}
+        </button>
         <div class="itemsWrapper">
             <div class="buttonItem">
                 <button class="backButton">
@@ -8,7 +11,7 @@
             </div>
             <div class="orderItem">
                 <div class="checkOutTable">
-                    <h1>Your total order: </h1>
+                    <h1>{{uiLabels.yourOrder}} </h1>
                     <div class="finalOrder">
                         <div v-for="(burger, key) in checkoutOrder.burgers" :key="key">
                             <b>{{uiLabels.burgNr}} {{key + 1}}</b>
@@ -20,10 +23,10 @@
                     <br><br>
                     <b>{{uiLabels.tally}}: {{this.totalPrice}}</b>:-<br>
                     <button class="paymentButton"
-                            v-on:click="placeOrder">Ready for payment</button>
+                            v-on:click="placeOrder">{{uiLabels.payButton}}</button>
                     <div class="paymentBox" v-show="confirmedPayment">
                         <button class="xButton"  v-on:click="confirmedPayment=false">X</button>
-                        Follow instructions in the card terminal...
+                        {{uiLabels.cardTerminal}}
                     </div>
                 </div>
             </div>
@@ -154,6 +157,8 @@
         background-color: bisque;
         text-align: center;
         border: solid black 5px;
+        width: 70%;
+
         /*margin-left: 20em;*/
         /*margin-right: 20em;*/
         /*padding-bottom: 5em;*/
@@ -171,6 +176,9 @@
     .paymentBox {
         background-color: #efff9a;
         border: solid black 3px;
+        width: 70%;
+        hight:70%;
+        margin: auto;
         /*margin-right: 5vw;
         margin-left: 5vw;
         padding: 5vw;

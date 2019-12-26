@@ -6,10 +6,12 @@
         <button>
             <router-link to="/" class="routerButton">{{uiLabels.startpage}}</router-link>
         </button>
-            <button class = "eatButton" v-on:click="changeEatHere()" v-if="this.eatHere">
-                {{uiLabels.eatHere}} </button>
-            <button class = "eatButton" v-on:click="changeEatHere()" v-if="!this.eatHere">
-                {{uiLabels.eatAway}} </button> <!--Mandus test om jag får info från startsidan-->
+        <button class="eatButton" v-on:click="changeEatHere()" v-if="this.eatHere">
+            {{uiLabels.eatHere}}
+        </button>
+        <button class="eatButton" v-on:click="changeEatHere()" v-if="!this.eatHere">
+            {{uiLabels.eatAway}}
+        </button>
 
         <!-- Add buttons for navigating through categories -->
         <div class="wrapper">
@@ -51,19 +53,25 @@
                         <div>
                             <div v-for="item in this.groupIngredients(chosenIngredients)">
                                 {{item.count}} x {{item.ing['ingredient_' + lang]}}
-                                <button class="plusButton" v-show = "item.ing.category !== 4" v-on:click="addToBurger(item.ing)">+</button>
-                                <button class = "minusButton" v-on:click="removeFromBurger(item.ing)">-</button> <!--tried to make a functional decrease button in the ordering tab-->
+                                <button class="plusButton" v-show="item.ing.category !== 4"
+                                        v-on:click="addToBurger(item.ing)">+
+                                </button>
+                                <button class="minusButton" v-on:click="removeFromBurger(item.ing)">-</button>
+                                <!--tried to make a functional decrease button in the ordering tab-->
                             </div>
                             <b>{{uiLabels.currentPriceLabel}}: {{this.currentPrice}}:-</b>
                         </div>
                         <button class="orderButton" v-show="this.orderReady" v-on:click="placeOrder">
-                            {{ uiLabels.newBurger }}</button>
+                            {{ uiLabels.newBurger }}
+                        </button>
                     </div>
                     <div class="orderSummaryContainer">
                         <b>{{uiLabels.yourOrder}}:</b>
                         <div>
-                            <div class = "readyBurger" v-for="(burger, key) in checkoutOrder.burgers" :key="key">
-                                <button v-on:click="hideBurger()">^</button><b>{{uiLabels.burgNr}} {{key + 1}}</b><button class = "delBurg" v-on:click="deleteBurger(checkoutOrder.burgers, key)">X</button>
+                            <div class="readyBurger" v-for="(burger, key) in checkoutOrder.burgers" :key="key">
+                                <button v-on:click="hideBurger()">^</button>
+                                <b>{{uiLabels.burgNr}} {{key + 1}}</b>
+                                <button class="delBurg" v-on:click="deleteBurger(checkoutOrder.burgers, key)">X</button>
                                 <!--
                                 Above to the left is an attempt to hide the content of each burger, but I don't know how to
                                 separate the burgers from each other-->
@@ -85,9 +93,11 @@
                                     :key="key3">
                             </OrderItem>
                         </div>
-                        <button class="orderButton" v-show="!this.noOrder" v-on:click="getNow"> <!-- no order if no burger is added to the tab-->
+                        <button class="orderButton" v-show="!this.noOrder" v-on:click="getNow">
+                            <!-- no order if no burger is added to the tab-->
                             <router-link class="routerButton" to="/checkout" v>
-                                {{uiLabels.proceedToCO}}</router-link>
+                                {{uiLabels.proceedToCO}}
+                            </router-link>
                         </button>
                     </div>
                     <div class="allergyContainer">
@@ -117,7 +127,7 @@
             OrderItem,
         },
         mixins: [sharedVueStuff, UtilityFunctions], // include stuff that is used in both
-                                  // the ordering system and the kitchen
+        // the ordering system and the kitchen
         data: function () { //Not that data is a function!
             return {
                 chosenIngredients: [],
@@ -126,10 +136,10 @@
                 count: 0,
                 breadChosen: false,
                 pattyChosen: false,
-                orderReady: false,
-                sideChosen:false,
-                drinkChosen:false,
-                noOrder: true,
+                //orderReady: false,
+                sideChosen: false,
+                drinkChosen: false,
+                //noOrder: false,
                 noShow: false,
                 hideBurg: false,
                 patties: 0,
@@ -153,16 +163,40 @@
             eatHere: function () {
                 return this.$store.state.eatHere
             },
-            totalPrice: function() {
+            totalPrice: function () {
                 return this.$store.state.totalPrice
             },
-            checkoutOrder: function() {
+            checkoutOrder: function () {
                 return this.$store.state.checkoutOrder
             },
-            giveTime: function() {
-              return this.$store.state.giveTime
+            giveTime: function () {
+                return this.$store.state.giveTime
             },
-
+            orderReady: function(){
+                    for (let i = 0; i < this.chosenIngredients.length; i += 1) {
+                        if (this.chosenIngredients[i].category === 4) {
+                            this.breadChosen = true;
+                        }
+                        if (this.chosenIngredients[i].category === 1) {
+                            this.pattyChosen = true;
+                        }
+                        if (this.chosenIngredients[i].category === 5) {
+                            this.sideChosen = true;
+                        }
+                        if (this.chosenIngredients[i].category === 6) {
+                            this.drinkChosen = true;
+                        }
+                    }
+                    if (this.pattyChosen && this.breadChosen || this.sideChosen || this.drinkChosen) {  //order can only be made if burger and bread or drink or side is chosen
+                        return this.orderReady = true;
+                    }
+            },
+            noOrder:function(){
+                let noOrder;
+                if (this.totalPrice === 0) {
+                    return noOrder = true;
+                }
+            },
             //Nytt Taken from burger-skeleton/severalBurgers/src/views/Kitchen.vue and changed ingredients to our array chosenIngredients
             countAllIngredients: function () {
                 let ingredientTuples = [];
@@ -185,44 +219,25 @@
             },
         },
         methods: {
-            ingredientCount: function (item){
-              let counter = 0;
-              for(let i = 0; i < this.chosenIngredients.length; i += 1) {
-                  if (this.chosenIngredients[i] === item)
-                      counter += 1;
-              }
-              return counter;
-            },
-            changeEatHere: function(){
-                if (this.eatHere){
-                    this.$store.commit('setEatHere', false);
+            ingredientCount: function (item) {
+                let counter = 0;
+                for (let i = 0; i < this.chosenIngredients.length; i += 1) {
+                    if (this.chosenIngredients[i] === item)
+                        counter += 1;
                 }
-                else {
+                return counter;
+            },
+            changeEatHere: function () {
+                if (this.eatHere) {
+                    this.$store.commit('setEatHere', false);
+                } else {
                     this.$store.commit('setEatHere', true);
                 }
             },
             addToBurger: function (item) {
                 this.chosenIngredients.push(item);
                 this.currentPrice += +item.selling_price;
-
-                for (let i = 0; i < this.chosenIngredients.length; i += 1) {
-                    if (this.chosenIngredients[i].category === 4) {
-                        this.breadChosen = true;
-                    }
-                    if (this.chosenIngredients[i].category === 1) {
-                        this.pattyChosen = true;
-                    }
-                    if (this.chosenIngredients[i].category === 5) {
-                        this.sideChosen = true;
-                    }
-                    if (this.chosenIngredients[i].category === 6) {
-                        this.drinkChosen = true;
-                    }
-                }
-                if (this.pattyChosen && this.breadChosen || this.sideChosen || this.drinkChosen){  //order can only be made if burger and bread is chosen
-                    this.orderReady = true;
-                }
-                if (item.category === 1){
+                if (item.category === 1) {
                     this.patties += 1;
 
                 }
@@ -236,32 +251,20 @@
                         break;
                     }
                 }
-                //for (let i = 1; i < this.chosenIngredients.length; i += 1) {
-                    //if (this.chosenIngredients[i].category === 4) {
-                    //    this.breadChosen = false;
-                    //    this.orderReady = false;
-                    //}
-                //}
-                //if (item.category === 4 || item.category === 1 || item.category === 5 || item.category === 6) {
-                //    this.orderReady = false;
-                //    this.breadChosen = false;
-                //    this.pattyChosen = false;
-                //    this.sideChosen=false;
-                //    this.drinkChosen=false;
-                //}
                 if (item.category === 1) {
                     this.patties -= 1;
-                    if (this.patties === 0){
+                    if (this.patties === 0) {
                         this.pattyChosen = false;
-                        this.orderReady = false;
                     }
                 }
-                if (item.category === 4){
+                if (item.category === 4) {
                     this.breadChosen = false;
-                    this.orderReady = false;
                 }
-                if (item.category === 5 || item.category === 6){
-                    this.orderReady = false;
+                if (item.category === 5) {
+                    this.sideChosen = false;
+                }
+                if (item.category === 6){
+                    this.drinkChosen=false;
                 }
                 this.chosenIngredients.splice(removeIndex, 1);
                 this.currentPrice -= +item.selling_price;
@@ -269,7 +272,7 @@
 
             addToOrder: function () {
                 // Add the burger to an order array
-                if(this.chosenIngredients.length === 0){
+                if (this.chosenIngredients.length === 0) {
                     return;
                 }
 
@@ -294,6 +297,7 @@
                 this.orderReady = false;
                 this.breadChosen = false;
                 this.pattyChosen = false;
+                console.log(orderReady)
 
             },
             placeOrder: function () {
@@ -305,22 +309,18 @@
 
                 this.chosenIngredients = [];
                 this.currentPrice = 0;
-                this.noOrder = false;  //reset counters
-                this.orderReady = false;
+                //this.noOrder = false;  //reset counters
+                //this.orderReady = false;
                 this.breadChosen = false;
                 this.pattyChosen = false;
                 this.patties = 0;
-
-
                 this.currentOrder = [];
                 this.category = 1;
             },
-
             // Function for changing category. Called on at buttons in <Ingredient
             setCategory: function (newCat) {
                 this.currentCategory = newCat;
             },
-
             countNumberOfIngredients: function (id) {
                 //Nytt Taken from burger-skeleton/severalBurgers/src/views/Kitchen.vue
                 let counter = 0;
@@ -358,12 +358,12 @@
             hideBurger: function () {
                 this.hideBurg = !this.hideBurg;
             },
-            deleteBurger: function(burgers, key) { //this function deletes the burger from the order container
+            deleteBurger: function (burgers, key) { //this function deletes the burger from the order container
                 //console.log(burgers);
                 //console.log(key);
                 // No need for the for-loop, burgers[key] will find the right object
-                for (let i = 0; i < burgers.length; i++){
-                    if (i === key){
+                for (let i = 0; i < burgers.length; i++) {
+                    if (i === key) {
                         let thisPrice = burgers[i].price;
                         this.$store.commit('removeFromCheckoutOrder', key);
                         this.$store.commit('removeFromTotal', thisPrice)
@@ -499,6 +499,7 @@
         color: var(--primary-text-color);
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
+
     .ingredient :hover {
         background-color: #e9dccb;
     }
@@ -607,7 +608,7 @@
         border-radius: 50%;
         background-image: linear-gradient(to bottom right, #a10000, #ff2e2e);
         background-color: red;
-        border:solid black 1px;
+        border: solid black 1px;
     }
 
     .minusButton {
@@ -618,6 +619,7 @@
         border-radius: 50%;
         font-size: 1.5em;
     }
+
     .plusButton {
         order: 1;
         background-color: rgba(124, 255, 96, 0.36);
