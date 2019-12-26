@@ -13,7 +13,9 @@
                 <div class="buttonWrapper">
                     <div class="buttonBox">
                         <!--<div v-if="this.$parent.currentCategory === 4">
-                            <button class = "breadButton" id="breadInc" v-on:click="incrementCounter($event)"></button>
+                                <button class = "breadButton" id="breadInc" v-on:click="incrementCounter($event)"></button>
+                            <div class = "chosenBread" v-show="this.chosen">
+                            </div>
                         </div>
                         <div v-else>-->
                             <button class="plusButton" id="inc" v-show = "!this.$parent.breadChosen || this.$parent.currentCategory !== 4" v-on:click="incrementCounter($event)">
@@ -56,6 +58,7 @@
                 patties: 0,
                 doublePatty: false,
                 burgerAndBread: false,
+                chosen: false
             };
         },
 
@@ -67,6 +70,11 @@
 
                 if (ev.target.id === "inc") {
                     this.$emit('increment');
+                }
+                if (ev.target.id === "breadInc") {
+                    this.$emit('increment');
+                    this.chosen = true;
+
                 }
                 // See if order already is on the chosen ingredients list
                 // If so, increase currentOrderCounter. If not, create currentOrderCounter
@@ -180,6 +188,20 @@
         transition-duration: 0.4s;
         border-radius: 50%;
         font-size: 1.5em;
+    }
+    .chosenBread {
+        background-color: whitesmoke;
+        border: #347cff solid 3px;
+        height: auto;
+        width: auto;
+    }
+    .breadButton {
+        opacity: 50%;
+        width: 100px;
+        height: 100px;
+        position: relative;
+        top: 0px;
+        right: 0px;
     }
 
     .ingredient button:hover {

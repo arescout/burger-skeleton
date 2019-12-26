@@ -7,7 +7,7 @@
             <button v-show="currentSection === 2" v-on:click="clearOrders">Clear</button>
         </div>
         <ul class="ordersContainer wrap">
-            {{this.timeStamp}}
+
             <OrderItemToPrepare
                     li class="ordersItem"
                     v-for="(order, key) in orders"
@@ -18,7 +18,7 @@
                     :ui-labels="uiLabels"
                     :lang="lang"
                     :key="key">
-            </OrderItemToPrepare>
+            </OrderItemToPrepare>{{this.timeStamp}}
             <OrderItem
                     li class="ordersItem"
                     v-for="(order, key) in orders"
@@ -62,6 +62,9 @@
                     po[item] = this.orders[item];
                 }
                 return po;
+            },
+            timeStamp: function() {
+                return this.$store.state.timeStamp;
             }
         },
 
@@ -72,6 +75,7 @@
             setSection: function (newSec) {
                 this.currentSection = newSec;
             },
+
             clearOrders: function () {
 
             }
