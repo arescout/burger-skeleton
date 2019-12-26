@@ -9,6 +9,7 @@ export default new Vuex.Store({
     socket: io(),
     checkoutOrder: {burgers: []},
     eatHere: false,
+    timeStamp: "",
     totalPrice: 0
   },
   getters: {
@@ -32,6 +33,9 @@ export default new Vuex.Store({
     },
     removeFromTotal: function (state, numb) {
       state.totalPrice -= numb;
+    },
+    setTime: function (state, time) {
+      state.timeStamp = time;
     }
   },
   actions: {
