@@ -61,7 +61,7 @@
                             </div>
                             <b>{{uiLabels.currentPriceLabel}}: {{this.currentPrice}}:-</b>
                         </div>
-                        <button class="orderButton" v-show="this.orderReady" v-on:click="placeOrder">
+                        <button class="orderButton" v-show="orderReady" v-on:click="placeOrder">
                             {{ uiLabels.newBurger }}
                         </button>
                     </div>
@@ -83,7 +83,8 @@
                             </div>
                             <!--<br><button class = "placeOrderButton" v-if = "chosenIngredients.length > 0" v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>-->
                             <h4>{{uiLabels.tally}}: {{totalPrice}}:-</h4>
-                            <OrderItem
+                            <!-- Why is this OrderItem added here?? / Oskar  -->
+                            <!--<OrderItem
                                     v-for="(order, key3) in this.orders"
                                     v-if="order.status !== 'done'"
                                     :order-id="key3"
@@ -91,7 +92,7 @@
                                     :ui-labels="uiLabels"
                                     :lang="lang"
                                     :key="key3">
-                            </OrderItem>
+                            </OrderItem> -->
                         </div>
                         <button class="orderButton" v-show="!this.noOrder" v-on:click="getNow">
                             <!-- no order if no burger is added to the tab-->
@@ -188,7 +189,7 @@
                         }
                     }
                     if (this.pattyChosen && this.breadChosen || this.sideChosen || this.drinkChosen) {  //order can only be made if burger and bread or drink or side is chosen
-                        return this.orderReady = true;
+                        return true;
                     }
             },
             noOrder:function(){
