@@ -28,11 +28,17 @@ export default new Vuex.Store({
     removeFromCheckoutOrder: function(state, key) {
       state.checkoutOrder.burgers.splice(key, 1);
     },
+    clearCheckoutOrder: function (state){
+      state.checkoutOrder = {};
+    },
     addToTotal: function (state, numb) {
       state.totalPrice += numb;
     },
     removeFromTotal: function (state, numb) {
       state.totalPrice -= numb;
+    },
+    clearTotal: function (state) {
+      state.totalPrice = 0;
     },
     setTime: function (state, time) {
       state.timeStamp = time;
