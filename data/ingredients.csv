@@ -60,3 +60,18 @@ ingredient_id,ingredient_sv,ingredient_en,category,milk_free,gluten_free,vegan,s
 59,Läsk,Soda,6,1,1,1,20
 60,Jordgubbsmilkshake,Strawberry milk shake,6,0,1,0,40
 61,Vegansk mango lassi,Vegan mango lassi,6,1,1,1,40
+62,Aioli,Aioli,7,1,1,0,5
+63,Bearnaise,Bearnaise,7,0,0,0,5
+64,Barbecuesås,Barbecue sauce,7,1,1,1,5
+65,Klassisk sås,Classic dressing,7,1,1,0,5
+66,Guacamole,Guacamole,7,1,1,1,15
+67,Hot salsa,Hot salsa,7,1,1,1,5
+68,Hummus,Hummus,7,1,1,1,10
+69,Ketchup,Ketchup,7,1,1,1,0
+70,Majonnäs,Mayonnaise,7,1,1,0,5
+71,Senap,Mustard,7,1,1,1,5
+72,Sriracha,Sriracha,7,1,1,1,5
+73,Teriyakisås,Teriyaki sauce,7,1,1,1,5
+74,Tryffelmajonnäs,Truffle mayonnaise,7,1,1,0,10
+75,Tzatziki,Tzatziki,7,0,1,0,5
+76,Sourcream Pepper,Sourcream Pepper,7,0,1,0,5

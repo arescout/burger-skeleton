@@ -34,12 +34,15 @@
   "welcomeShort": "Welcome to Indie Burgers",
   "eatHere": "Eat here",
   "eatAway": "Take-away",
-  "newBurger": "Add burger to order",
+  "newBurger": "Add to order",
   "burgNr": "Burger number",
   "companyName": "Kraft Burgers",
   "currentPriceLabel": "Current burger price",
   "lactose": "Contains lactose",
   "gluten": "Contains gluten",
   "vegan": "Vegan",
-  "orderNr" : "Order number"
+  "orderNr" : "Order number",
+  "payButton" : "Ready for payment",
+  "flagOnButton": "https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg",
+  "cardTerminal": "Follow instructions in the card terminal..."
 }
