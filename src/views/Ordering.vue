@@ -23,7 +23,7 @@
                 <button v-on:click="setCategory(3)">{{uiLabels.sauce}}</button>
                 <button v-on:click="setCategory(5)">{{uiLabels.sides}}</button>
                 <button v-on:click="setCategory(6)">{{uiLabels.drinks}}</button>
-                <button v-on:click="setCategory(3)">{{uiLabels.dip}}</button>
+                <button v-on:click="setCategory(7)">{{uiLabels.dip}}</button>
             </div>
 
             <!-- Add list of ingredients -->
@@ -52,7 +52,7 @@
                     <div class="orderSelectedWrapper">
                         <div>
                             <div v-for="item in this.groupIngredients(chosenIngredients)">
-                                {{item.count}} x {{item.ing['ingredient_' + lang]}}
+                                <span v-show="item.ing.category==7"> Dipp</span> {{item.count}} x {{item.ing['ingredient_' + lang]}}
                                 <button class="plusButton" v-show="item.ing.category !== 4"
                                         v-on:click="addToBurger(item.ing)">+
                                 </button>
@@ -144,7 +144,7 @@
                 noShow: false,
                 hideBurg: false,
                 patties: 0,
-                currentCategory: 4, // Category deciding what ingredients to show
+                currentCategory: 4, // Category deciding what ingredients to show first
                 numbOfBurgers: 0,
                 currentOrder: {
                     burgers: []
@@ -173,26 +173,26 @@
             giveTime: function () {
                 return this.$store.state.giveTime
             },
-            orderReady: function(){
-                    for (let i = 0; i < this.chosenIngredients.length; i += 1) {
-                        if (this.chosenIngredients[i].category === 4) {
-                            this.breadChosen = true;
-                        }
-                        if (this.chosenIngredients[i].category === 1) {
-                            this.pattyChosen = true;
-                        }
-                        if (this.chosenIngredients[i].category === 5) {
-                            this.sideChosen = true;
-                        }
-                        if (this.chosenIngredients[i].category === 6) {
-                            this.drinkChosen = true;
-                        }
+            orderReady: function () {
+                for (let i = 0; i < this.chosenIngredients.length; i += 1) {
+                    if (this.chosenIngredients[i].category === 4) {
+                        this.breadChosen = true;
                     }
-                    if (this.pattyChosen && this.breadChosen || this.sideChosen || this.drinkChosen) {  //order can only be made if burger and bread or drink or side is chosen
-                        return true;
+                    if (this.chosenIngredients[i].category === 1) {
+                        this.pattyChosen = true;
                     }
+                    if (this.chosenIngredients[i].category === 5) {
+                        this.sideChosen = true;
+                    }
+                    if (this.chosenIngredients[i].category === 6) {
+                        this.drinkChosen = true;
+                    }
+                }
+                if (this.pattyChosen && this.breadChosen || this.sideChosen || this.drinkChosen) {  //order can only be made if burger and bread or drink or side is chosen
+                    return true;
+                }
             },
-            noOrder:function(){
+            noOrder: function () {
                 let noOrder;
                 if (this.totalPrice === 0) {
                     return noOrder = true;
@@ -264,8 +264,8 @@
                 if (item.category === 5) {
                     this.sideChosen = false;
                 }
-                if (item.category === 6){
-                    this.drinkChosen=false;
+                if (item.category === 6) {
+                    this.drinkChosen = false;
                 }
                 this.chosenIngredients.splice(removeIndex, 1);
                 this.currentPrice -= +item.selling_price;
@@ -371,7 +371,7 @@
                     }
                 }
             },
-            getNow: function() { //this function gets the time for when the order is made,
+            getNow: function () { //this function gets the time for when the order is made,
                 const today = new Date(); // trying to figure out how to send it to kitchen
                 const timeStamp = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
                 console.log(timeStamp);
@@ -506,7 +506,7 @@
     }
 
     .ingredient :hover {
-        background-color: #e9dccb;
+        /*background-color: #e9dccb;  Vid test på andra var det inte klart att man inte kunde trycka på hela sectionen något som kan göras    */
     }
 
     .itemsWrapper {

@@ -34,12 +34,15 @@
   "welcomeShort": "Välkommen till Indie Burgers",
   "eatHere": "Äta-här",
   "eatAway": "Take-away",
-  "newBurger": "Lägg till burgare i beställningen",
+  "newBurger": "Lägg till i beställningen",
   "burgNr" : "Burgarnummer",
   "companyName": "Indie Burgers",
   "currentPriceLabel": "Pris på vald burgare",
   "lactose": "Innehåller laktos",
   "gluten": "Innehåller gluten",
-  "vegan": "Vegansk",
-  "orderNr" : "Order nummer"
+  "vegan": "V egansk",
+  "orderNr" : "Order nummer",
+  "payButton" : "Gå vidare till betalning",
+  "flagOnButton": "https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg",
+  "cardTerminal":"Följ betalningsinstruktionerna i terminalen"
 }

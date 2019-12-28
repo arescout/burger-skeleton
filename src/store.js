@@ -31,6 +31,9 @@ export default new Vuex.Store({
     clearCheckoutOrder: function (state){
       state.checkoutOrder = {burgers: []};
     },
+    clearFinishedOrder: function (state){
+      state.order = {};
+    },
     addToTotal: function (state, numb) {
       state.totalPrice += numb;
     },
