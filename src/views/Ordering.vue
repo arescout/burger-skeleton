@@ -484,6 +484,10 @@
         padding: 1rem 0.6rem 1rem 0.6rem;
         outline: none;
     }
+    .categoryTabs button:active {
+        background-color: yellow;
+        color: var(--secondary-text-color);
+    }
 
     .categoryTabs button:hover {
         background-color: var(--secondary-dark-color);
