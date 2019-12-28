@@ -1,7 +1,7 @@
 <template>
     <div id = "startPage">
     <div class = "IntroText">
-        <button class="routerButton" v-on:click="switchLang()"><img src= width=20px>
+        <button class="routerButton" v-on:click="switchLang()"><img src= width="20px">
             {{uiLabels.language }} {{uiLabels.flagOnButton }} </button>
     <div class="welcomeText">{{uiLabels.welcomeShort}}</div>
         <section class = "welcomeSection">

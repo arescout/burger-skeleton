@@ -75,6 +75,8 @@
             placeOrder: function () {
                 this.confirmedPayment = true;
                 this.$store.state.socket.emit('order', this.checkoutOrder);
+                this.$store.commit('clearCheckoutOrder');
+                this.$store.commit('clearTotal');
             }
         }
     };
