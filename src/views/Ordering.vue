@@ -41,7 +41,10 @@
                             :key="item.ingredient_id">
                     </Ingredient>
                 </div>
+                <button class ="nextButton" v-show="currentCategory < 68" v-on:click="nextTab(currentCategory)">-></button>
             </div>
+
+
 
             <!-- Order information -->
             <div class="orderContainer">
@@ -318,6 +321,25 @@
                 this.currentOrder = [];
                 this.category = 1;
             },
+            nextTab: function (cat){
+                console.log(cat);
+                if (cat < 3 || 6 > cat > 4){
+                    let newCat = cat + 1;
+                    this.setCategory(newCat);
+                }
+                else if (cat === 4) {
+                    let newCat = 1;
+                    this.setCategory(newCat);
+                }
+                else if (cat === 3){
+                    let newCat = cat + 2;
+                    this.setCategory(newCat);
+                }
+                else if (cat === 6){
+                    let newCat = 3;
+                    this.setCategory(newCat);
+                }
+            },
             // Function for changing category. Called on at buttons in <Ingredient
             setCategory: function (newCat) {
                 this.currentCategory = newCat;
@@ -526,6 +548,11 @@
         overflow: scroll;
     }
 
+    .nextButton {
+        position: relative;
+        right: 0px;
+        bottom: 0px;
+    }
     /*ORDER*/
 
     .orderContainer {
