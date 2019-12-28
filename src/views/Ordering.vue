@@ -52,7 +52,7 @@
                     <div class="orderSelectedWrapper">
                         <div>
                             <div v-for="item in this.groupIngredients(chosenIngredients)">
-                                <span v-show="item.ing.category==7"> Dipp</span> {{item.count}} x {{item.ing['ingredient_' + lang]}}
+                                <span v-show="item.ing.category==7"> Dipp</span> {{item.count}} x {{item.ing['ingredient_' + lang]}} {{item.stock}}
                                 <button class="plusButton" v-show="item.ing.category !== 4"
                                         v-on:click="addToBurger(item.ing)">+
                                 </button>
@@ -307,6 +307,7 @@
                 thisBurger.price = this.currentPrice;
                 this.$store.commit('addToCheckoutOrder', thisBurger);
                 this.$store.commit('addToTotal', this.currentPrice);
+                this.$store.commit('order');
 
                 this.chosenIngredients = [];
                 this.currentPrice = 0;
