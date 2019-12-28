@@ -131,6 +131,10 @@ Data.prototype.markOrderCleared = function (item) {
   this.orders[item].status = "hide";
 };
 
+Data.prototype.markOrderCleared = function (item) {
+  this.orders[item].status = "hide";
+};
+
 Data.prototype.markOrderStarted = function (orderId) {
   this.orders[orderId].status = "started";
 };
