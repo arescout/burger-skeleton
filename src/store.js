@@ -29,7 +29,7 @@ export default new Vuex.Store({
       state.checkoutOrder.burgers.splice(key, 1);
     },
     clearCheckoutOrder: function (state){
-      state.checkoutOrder = {};
+      state.checkoutOrder = {burgers: []};
     },
     addToTotal: function (state, numb) {
       state.totalPrice += numb;

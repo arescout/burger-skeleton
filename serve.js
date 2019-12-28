@@ -60,6 +60,11 @@ io.on('connection', function (socket) {
     io.emit('currentQueue', {orders: data.getAllOrders() });
   });
 
+  socket.on('clearOrder', function (item) {
+      data.markOrderCleared(item);
+      io.emit('currentQueue', {orders: data.getAllOrders()});
+  });
+
   socket.on('orderStarted', function (orderId) {
     data.markOrderStarted(orderId);
     io.emit('currentQueue', {orders: data.getAllOrders() });

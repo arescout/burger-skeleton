@@ -11,7 +11,7 @@
             <OrderItemToPrepare
                     li class="ordersItem"
                     v-for="(order, key) in orders"
-                    v-if="order.status !== 'done' && currentSection===1"
+                    v-if="order.status !== 'done' && order.status !== 'hide' && currentSection===1"
                     v-on:done="markDone(key)"
                     :orderId="key"
                     :order="order"
@@ -77,6 +77,11 @@
             },
 
             clearOrders: function () {
+                for (let item in this.orders){
+                    if (this.orders[item].status==='done'){
+                        this.$store.state.socket.emit("clearOrder", item);
+                    }
+                }
 
             }
         }
