@@ -72,6 +72,7 @@ Data.prototype.addOrder = function (order) {
   this.orders[orderId] = order;
   this.orders[orderId].orderId = orderId;
   this.orders[orderId].status = "not-started";
+  console.log(this.orders);
   var transactions = this.data[transactionsDataName],
     //find out the currently highest transaction id
     transId =  transactions[transactions.length - 1].transaction_id,
@@ -95,6 +96,10 @@ Data.prototype.getAllOrders = function () {
 
 Data.prototype.markOrderDone = function (orderId) {
   this.orders[orderId].status = "done";
+};
+
+Data.prototype.markOrderCleared = function (item) {
+  this.orders[item].status = "hide";
 };
 
 Data.prototype.markOrderStarted = function (orderId) {
