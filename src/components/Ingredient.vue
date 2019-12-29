@@ -13,8 +13,8 @@
                 <div class="buttonWrapper">
                     <div class="buttonBox">
                         <!--<div v-if="this.$parent.currentCategory === 4">
-                                <button class = "breadButton" id="breadInc" v-on:click="incrementCounter($event)"></button>
                             <div class = "chosenBread" v-show="this.chosen">
+                                <button class = "breadButton" id="breadInc" v-on:click="incrementCounter($event)"></button>
                             </div>
                         </div>
                         <div v-else>-->
@@ -169,7 +169,7 @@
         order: 1;
     }
     .plusButton, .minusButton :hover{
-        font-size: 170%;
+        font-size: 180%;
     }
 
     .plusButton {
@@ -179,6 +179,7 @@
         -webkit-transition-duration: 0.4s; /* transition to color */
         transition-duration: 0.4s;
         font-size: 1.5em;
+        outline: none;
     }
 
     .minusButton {
@@ -188,6 +189,7 @@
         transition-duration: 0.4s;
         border-radius: 50%;
         font-size: 1.5em;
+        outline: none;
     }
     .chosenBread {
         background-color: whitesmoke;
@@ -207,6 +209,7 @@
     .ingredient button:hover {
         background-color: rgba(255, 223, 26, 0.36);
         color: black;
+        font-size: 1.7em;
     }
 
     .allergicBox {

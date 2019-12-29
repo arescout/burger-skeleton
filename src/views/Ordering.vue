@@ -41,7 +41,7 @@
                             :key="item.ingredient_id">
                     </Ingredient>
                 </div>
-                <button class ="nextButton" v-show="currentCategory < 68" v-on:click="nextTab(currentCategory)">-></button>
+                <button class ="nextButton" v-show="currentCategory < 68" v-on:click="nextTab(currentCategory)">&#9658;</button>
             </div>
 
 
@@ -243,9 +243,8 @@
                 this.currentPrice += +item.selling_price;
                 if (item.category === 1) {
                     this.patties += 1;
-
                 }
-
+                console.log(item);
             },
             removeFromBurger: function (item) {
                 let removeIndex = 0;
@@ -531,6 +530,9 @@
     .ingredient :hover {
         /*background-color: #e9dccb;  Vid test på andra var det inte klart att man inte kunde trycka på hela sectionen något som kan göras    */
     }
+    .ingredient :focus {
+        background-color: #d1c4b2;
+    }
 
     .itemsWrapper {
         display: grid;
@@ -550,9 +552,19 @@
     }
 
     .nextButton {
-        position: relative;
-        right: 0px;
-        bottom: 0px;
+        float: right;
+        border-radius: 50%;
+        background-color: #4ce966;
+        color: white;
+        font-size: 1.5em;
+        outline: none;
+        box-shadow: 	0 0 0 2px #000,
+        0 0 0 2px #999,
+        0 0 0 6px white,
+        0 0 0 7px black,
+        0 0 0 2px black,
+        0 0 0 3px black,
+        0 2px 2px 2px rgba(0,0,0,0.5);;
     }
     /*ORDER*/
 
