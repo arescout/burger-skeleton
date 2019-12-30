@@ -3,11 +3,11 @@
         <div class="menuTabs">
             <button class="buttonRight" v-on:click="setSection(1)">{{uiLabels.ordersInQueue}}</button>
             <button class="buttonRight" v-on:click="setSection(2)">{{uiLabels.ordersFinished}}</button>
+            <button class="buttonIngr" v-on:click="setSection(3)">{{uiLabels.ingredients    }}</button>
             <button class="buttonLeft" v-on:click="switchLang()">{{uiLabels.language}}</button>
             <button v-show="currentSection === 2" v-on:click="clearOrders">Clear</button>
         </div>
         <ul class="ordersContainer wrap">
-
             <OrderItemToPrepare
                     li class="ordersItem"
                     v-for="(order, key) in orders"
@@ -30,6 +30,14 @@
                     :key="key">
             </OrderItem>
         </ul>
+        <div
+                v-if="currentSection===3"
+                v-for="(item,key) in ingredients"
+                :key="key">
+            {{item.ingredient_id}}: {{item["ingredient_" + lang]}} -> {{uiLabels.inStock}} -- {{item.stock}} {{uiLabels.unit}} ~~
+            <input type="number" v-model="change" placeholder="0">
+            <button v-on:click="changeStock(item)">Change</button>
+        </div>
     </div>
 </template>
 <script>
@@ -50,7 +58,8 @@
         data: function () {
             return {
                 currentSection: 1,
-                price: 0
+                price: 0,
+                change: 0
             }
         },
 
@@ -82,7 +91,10 @@
                         this.$store.state.socket.emit("clearOrder", item);
                     }
                 }
-
+            },
+            changeStock: function (item) {
+                this.$store.state.socket.emit("updateStock", {ingredient: item}, Number(this.change));
+                this.change = 0;    
             }
         }
     }

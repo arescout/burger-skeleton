@@ -93,7 +93,7 @@ Data.prototype.changeStock = function (item, saldo) {
   var transId = transactions[transactions.length - 1].transaction_id
   transactions.push({transaction_id: transId,
                      ingredient_id: item.ingredient.ingredient_id,
-                     change: saldo - item.ingredient.stock});
+                     change: saldo /**- item.ingredient.stock**/}); // Commented away so the change is saldo rather than the actual saldo becomes saldo
 };
 
 Data.prototype.getAllOrders = function () {
