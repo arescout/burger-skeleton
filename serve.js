@@ -85,6 +85,10 @@ io.on('connection', function (socket) {
           uiLabels: data.getUILabels(),
           ingredients: data.getIngredients() })
   });
+  socket.on('addIngredient', function (ingredient) {
+      data.newIngredient(ingredient);
+      io.emit('currentQueue', {ingredients: data.getIngredients() });
+  })
 });
 
 

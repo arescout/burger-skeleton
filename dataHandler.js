@@ -96,6 +96,13 @@ Data.prototype.changeStock = function (item, saldo) {
                      change: saldo /**- item.ingredient.stock**/}); // Commented away so the change is saldo rather than the actual saldo becomes saldo
 };
 
+Data.prototype.newIngredient = function (item) {
+  let ingredients = this.data[ingredientsDataName];
+  console.log(ingredients)
+  ingredients.push(item);
+  console.log(ingredients)
+};
+
 Data.prototype.getAllOrders = function () {
   return this.orders;
 };
