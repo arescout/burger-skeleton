@@ -73,7 +73,7 @@
                         <b>{{uiLabels.yourOrder}}:</b>
                         <div>
                             <div class="readyBurger" v-for="(burger, key) in checkoutOrder.burgers" :key="key">
-                                <button v-on:click="hideBurger()">^</button>
+                                <button v-on:click="hideBurger(key)">^</button><button class ="edit">Edit</button>
                                 <b>{{uiLabels.burgNr}} {{key + 1}}</b>
                                 <button class="delBurg" v-on:click="deleteBurger(checkoutOrder.burgers, key)">X</button>
                                 <!--
@@ -181,9 +181,13 @@
                 for (let i = 0; i < this.chosenIngredients.length; i += 1) {
                     if (this.chosenIngredients[i].category === 4) {
                         this.breadChosen = true;
+                        this.sideChosen = false;
+                        this.drinkChosen = false;
                     }
                     if (this.chosenIngredients[i].category === 1) {
                         this.pattyChosen = true;
+                        this.sideChosen = false;
+                        this.drinkChosen = false;
                     }
                     if (this.chosenIngredients[i].category === 5) {
                         this.sideChosen = true;
@@ -245,7 +249,7 @@
                 if (item.category === 1) {
                     this.patties += 1;
                 }
-                console.log(item);
+                console.log(this.chosenIngredients);
             },
             removeFromBurger: function (item) {
                 let removeIndex = 0;
@@ -394,7 +398,8 @@
                 return ingredientTuples;
             },
 
-            hideBurger: function () {
+            hideBurger: function (key) {
+
                 this.hideBurg = !this.hideBurg;
             },
             deleteBurger: function (burgers, key) { //this function deletes the burger from the order container
