@@ -1,0 +1,2 @@
+order_id,order_ingredients,order_price
+1,{ing: [{ingredient_en: "Beef patty 100g"}{ingredient_en: "Brioche bread"}]}, 50
