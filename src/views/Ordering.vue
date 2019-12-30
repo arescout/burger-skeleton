@@ -41,6 +41,7 @@
                             :key="item.ingredient_id">
                     </Ingredient>
                 </div>
+                <button class = "prevButton" v-show="currentCategory !== 4" v-on:click="prevTab(currentCategory)">&#9668;</button>
                 <button class ="nextButton" v-show="currentCategory < 68" v-on:click="nextTab(currentCategory)">&#9658;</button>
             </div>
 
@@ -322,9 +323,12 @@
                 this.category = 1;
             },
             nextTab: function (cat){
-                console.log(cat);
                 if (cat < 3 || 6 > cat > 4){
                     let newCat = cat + 1;
+                    this.setCategory(newCat);
+                }
+                else if (cat === 5){
+                    let newCat = 6;
                     this.setCategory(newCat);
                 }
                 else if (cat === 4) {
@@ -337,6 +341,16 @@
                 }
                 else if (cat === 6){
                     let newCat = 3;
+                    this.setCategory(newCat);
+                }
+            },
+            prevTab: function(cat) {
+                if (cat === 1){
+                    let newCat = 4;
+                    this.setCategory(newCat);
+                }
+                else if (1 < cat < 3 || 6 > cat > 4){
+                    let newCat = cat - 1;
                     this.setCategory(newCat);
                 }
             },
@@ -507,8 +521,8 @@
         padding: 1rem 0.6rem 1rem 0.6rem;
         outline: none;
     }
-    .categoryTabs button:active {
-        background-color: yellow;
+    .categoryTabs button:focus {
+        background-color: var(--secondary-dark-color);
         color: var(--secondary-text-color);
     }
 
@@ -553,8 +567,25 @@
 
     .nextButton {
         float: right;
+        right: 1em;
+        bottom: 1em;
         border-radius: 50%;
         background-color: #4ce966;
+        color: white;
+        font-size: 1.5em;
+        outline: none;
+        box-shadow: 	0 0 0 2px #000,
+        0 0 0 2px #999,
+        0 0 0 6px white,
+        0 0 0 7px black,
+        0 0 0 2px black,
+        0 0 0 3px black,
+        0 2px 2px 2px rgba(0,0,0,0.5);;
+    }
+    .prevButton {
+        float: left;
+        border-radius: 50%;
+        background-color: #d1523b;
         color: white;
         font-size: 1.5em;
         outline: none;
