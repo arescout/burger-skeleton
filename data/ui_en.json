@@ -44,5 +44,6 @@
   "orderNr" : "Order number",
   "payButton" : "Ready for payment",
   "flagOnButton": "https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg",
-  "cardTerminal": "Follow instructions in the card terminal..."
+  "cardTerminal": "Follow instructions in the card terminal...",
+  "inStock" : "in stock"
 }
