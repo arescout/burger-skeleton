@@ -3,11 +3,11 @@
         <div class="menuTabs">
             <button class="buttonRight" v-on:click="setSection(1)">{{uiLabels.ordersInQueue}}</button>
             <button class="buttonRight" v-on:click="setSection(2)">{{uiLabels.ordersFinished}}</button>
+            <button class="buttonIngr" v-on:click="setSection(3)">{{uiLabels.ingredients    }}</button>
             <button class="buttonLeft" v-on:click="switchLang()">{{uiLabels.language}}</button>
             <button v-show="currentSection === 2" v-on:click="clearOrders">Clear</button>
         </div>
         <ul class="ordersContainer wrap">
-
             <OrderItemToPrepare
                     li class="ordersItem"
                     v-for="(order, key) in orders"
@@ -30,6 +30,24 @@
                     :key="key">
             </OrderItem>
         </ul>
+        <div
+                v-if="currentSection===3"
+                v-for="(item,key) in ingredients"
+                :key="key">
+            {{item.ingredient_id}}: {{item["ingredient_" + lang]}} -> {{uiLabels.inStock}} -- {{item.stock}} {{uiLabels.unit}} ~~
+            <input type="number" v-model.number="change" placeholder="0">
+            <button v-on:click="changeStock(item)">Change</button>
+        </div>
+        <div v-show="currentSection===3">
+            <input type="text" v-model="newIngredient.ingredient_sv" placeholder="Swedish name">
+            <input type="text" v-model="newIngredient.ingredient_en" placeholder="English name">
+            <input type="number"  v-model.number="newIngredient.category" placeholder="Ingredient category" min="1" max="7"> <!-- Should change these to choice inputs that is translated -->
+            <input type="number"  v-model.number="newIngredient.milk_free" placeholder="Milk free" min="0" max="1">            <!-- into numbers -->
+            <input type="number"  v-model.number="newIngredient.gluten_free" placeholder="Gluten free" min="0" max="1">
+            <input type="number"  v-model.number="newIngredient.vegan" placeholder="Vegan" min="0" max="1">
+            <input type="number"  v-model.number="newIngredient.selling_price" placeholder="Selling price" min="0">
+            <button v-on:click="addNewIngredient">Add new ingredient</button>
+        </div>
     </div>
 </template>
 <script>
@@ -50,7 +68,16 @@
         data: function () {
             return {
                 currentSection: 1,
-                price: 0
+                price: 0,
+                change: 0,
+                newIngredient: { ingredient_id: 1,
+                            ingredient_sv: "",
+                            ingredient_en: "",
+                            category: 1,
+                            milk_free: 0,
+                            gluten_free: 0,
+                            vegan: 0,
+                            selling_price: 0}
             }
         },
 
@@ -82,7 +109,13 @@
                         this.$store.state.socket.emit("clearOrder", item);
                     }
                 }
-
+            },
+            changeStock: function (item) {
+                this.$store.state.socket.emit("updateStock", {ingredient: item}, this.change);
+                this.change = 0;
+            },
+            addNewIngredient: function () {
+                this.$store.state.socket.emit("addIngredient", this.newIngredient);
             }
         }
     }

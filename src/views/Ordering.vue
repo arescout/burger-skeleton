@@ -322,6 +322,8 @@
                 //this.orderReady = false;
                 this.breadChosen = false;
                 this.pattyChosen = false;
+                this.drinkChosen = false;
+                this.sideChosen = false;
                 this.patties = 0;
                 this.sideChosen = false;
                 this.drinkChosen = false;

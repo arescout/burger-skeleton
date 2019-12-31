@@ -44,5 +44,6 @@
   "orderNr" : "Order nummer",
   "payButton" : "Gå vidare till betalning",
   "flagOnButton": "https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg",
-  "cardTerminal":"Följ betalningsinstruktionerna i terminalen"
+  "cardTerminal":"Följ betalningsinstruktionerna i terminalen",
+  "inStock" : "i lager"
 }
