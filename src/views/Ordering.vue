@@ -323,6 +323,8 @@
                 this.breadChosen = false;
                 this.pattyChosen = false;
                 this.patties = 0;
+                this.sideChosen = false;
+                this.drinkChosen = false;
                 this.currentOrder = [];
                 this.category = 1;
             },
