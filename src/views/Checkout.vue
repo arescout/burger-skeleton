@@ -55,7 +55,6 @@
             return {
                 confirmedPayment: false,
                 orderNumber: "",
-                ingredients: []
             }
         },
 
