@@ -32,7 +32,7 @@
                     <Ingredient
                             ref="ingredient"
                             v-for="item in ingredients"
-                            v-if="item.category===currentCategory"
+                            v-if="item.category===currentCategory && item.stock > 0"
                             v-on:increment="addToBurger(item)"
                             v-on:decrease="removeFromBurger(item)"
                             :item="item"
