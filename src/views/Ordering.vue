@@ -314,7 +314,6 @@
                 thisBurger.price = this.currentPrice;
                 this.$store.commit('addToCheckoutOrder', thisBurger);
                 this.$store.commit('addToTotal', this.currentPrice);
-                this.$store.commit('order');
 
                 this.chosenIngredients = [];
                 this.currentPrice = 0;
@@ -366,6 +365,7 @@
             setCategory: function (newCat) {
                 this.currentCategory = newCat;
             },
+
             countNumberOfIngredients: function (id) {
                 //Nytt Taken from burger-skeleton/severalBurgers/src/views/Kitchen.vue
                 let counter = 0;
@@ -401,9 +401,9 @@
             },
 
             hideBurger: function (key) {
-
                 this.hideBurg = !this.hideBurg;
             },
+
             deleteBurger: function (burgers, key) { //this function deletes the burger from the order container
                 //console.log(burgers);
                 //console.log(key);
@@ -416,6 +416,7 @@
                     }
                 }
             },
+
             getNow: function () { //this function gets the time for when the order is made,
                 const today = new Date(); // trying to figure out how to send it to kitchen
                 const timeStamp = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
