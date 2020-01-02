@@ -41,11 +41,26 @@
         <div v-show="currentSection===3">
             <input type="text" v-model="newIngredient.ingredient_sv" placeholder="Swedish name">
             <input type="text" v-model="newIngredient.ingredient_en" placeholder="English name">
-            <input type="number"  v-model.number="newIngredient.category" placeholder="Ingredient category" min="1" max="7"> <!-- Should change these to choice inputs that is translated -->
-            <input type="number"  v-model.number="newIngredient.milk_free" placeholder="Milk free" min="0" max="1">            <!-- into numbers -->
-            <input type="number"  v-model.number="newIngredient.gluten_free" placeholder="Gluten free" min="0" max="1">
-            <input type="number"  v-model.number="newIngredient.vegan" placeholder="Vegan" min="0" max="1">
-            <input type="number"  v-model.number="newIngredient.selling_price" placeholder="Selling price" min="0">
+            <select v-model.number="newIngredient.category">
+                <option disabled value="">Category</option>
+                <option value=1>Protein</option>
+                <option value="2">Toppings</option>
+                <option value="3" >Sauce</option>
+                <option value="4">Bread</option>
+                <option value="5">Toppings</option>
+                <option value="6">Sides</option>
+                <option value="7">Dip Sauce</option>
+            </select>
+            <select v-model.number="newIngredient.milk_free">
+                <option value="1">Lactose free</option>
+                <option value="0">Contains Lactose</option></select>
+            <select v-model.number="newIngredient.gluten_free">
+                <option value="1">Gluten free</option>
+                <option value="0">Contains Gluten</option></select>
+            <select v-model.number="newIngredient.vegan" >
+                <option value="1">Vegan</option>
+                <option value="0">Not Vegan</option></select>
+            <input type="number"  v-model.number="newIngredient.selling_price" placeholder="Selling price">
             <button v-on:click="addNewIngredient">Add new ingredient</button>
         </div>
     </div>
@@ -115,6 +130,7 @@
                 this.change = 0;
             },
             addNewIngredient: function () {
+                this.newIngredient.ingredient_id= this.ingredients.length +1
                 this.$store.state.socket.emit("addIngredient", this.newIngredient);
             }
         }
