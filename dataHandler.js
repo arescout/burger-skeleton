@@ -94,16 +94,18 @@ Data.prototype.addOrder = function (order) {
     return orderId;
 };
 
-Data.prototype.changeStockWithOrder = function (order, deleted){
-  let deletedFactor = 1;
-  if (deleted) {
-    deletedFactor = -1;
+// Takes and entire order as input and changes the ingredient stock with its ingredients
+// Also takes into consideration whether order is added or canceled
+Data.prototype.changeStockWithOrder = function (order, canceled){
+  let canceledFactor = 1;
+  if (canceled) {
+    canceledFactor = -1;
   }
   for (let burger in order.burgers ){
     for (let ingr in order.burgers[burger]){
       if (ingr !== 'price'){
         let thisIngredient = order.burgers[burger][ingr];
-        this.changeStock({ingredient: thisIngredient.ing}, (-thisIngredient.count * deletedFactor));
+        this.changeStock({ingredient: thisIngredient.ing}, (-thisIngredient.count * canceledFactor));
       }
     }
   }
@@ -178,6 +180,10 @@ Data.prototype.markOrderStarted = function (orderId) {
 
 Data.prototype.markOrderNotStarted = function (orderId) {
   this.orders[orderId].status = "not-started";
+};
+
+Data.prototype.markOrderCanceled = function (orderId) {
+  this.orders[orderId].status = "canceled";
 };
 
 module.exports = Data;
