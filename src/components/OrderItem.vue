@@ -17,7 +17,6 @@ export default {
     order: Object,
     orderId: String,
     lang: String,
-	  eatHere:bool
   }
 }
 </script>

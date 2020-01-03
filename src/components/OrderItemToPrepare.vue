@@ -6,7 +6,7 @@
       <span v-for="ingredient in burger">
         <br/> {{ingredient.count}} x {{ingredient.ing["ingredient_" + lang]}}
       </span>
-      {{order.eatHere}}
+
     </div>
     <button v-on:click="orderDone">
       {{uiLabels.ready}}
