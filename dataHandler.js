@@ -78,7 +78,8 @@ Data.prototype.addOrder = function (order) {
   this.orders[orderId].orderId = orderId;
   this.orders[orderId].status = "not-started";
   this.orders[orderId].eatHere= whereEat;
-  //console.log(this.orders);
+
+
   /**var transactions = this.data[transactionsDataName],
     //find out the currently highest transaction id
     transId =  transactions[transactions.length - 1].transaction_id,
@@ -91,6 +92,21 @@ Data.prototype.addOrder = function (order) {
       change: - 1});
   } **/
     return orderId;
+};
+
+Data.prototype.changeStockWithOrder = function (order, deleted){
+  let deletedFactor = 1;
+  if (deleted) {
+    deletedFactor = -1;
+  }
+  for (let burger in order.burgers ){
+    for (let ingr in order.burgers[burger]){
+      if (ingr !== 'price'){
+        let thisIngredient = order.burgers[burger][ingr];
+        this.changeStock({ingredient: thisIngredient.ing}, (-thisIngredient.count * deletedFactor));
+      }
+    }
+  }
 };
 
 Data.prototype.changeStock = function (item, saldo) {

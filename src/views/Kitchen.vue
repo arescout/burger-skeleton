@@ -13,6 +13,7 @@
                     v-for="(order, key) in orders"
                     v-if="order.status !== 'done' && order.status !== 'hide' && currentSection===1"
                     v-on:done="markDone(key)"
+                    v-on:cancel="cancelOrder(key)"
                     :orderId="key"
                     :order="order"
                     :ui-labels="uiLabels"
@@ -105,8 +106,8 @@
                     vegan: 0,
                     selling_price: 0,
                     stock: 0,
-                    initSaldo: 0
-                }
+                    },
+                initSaldo: 0
             }
         },
 
@@ -131,6 +132,10 @@
                 } else if (this.orders[orderid].status === 'started') {
                     this.$store.state.socket.emit("orderDone", orderid);
                 }
+            },
+            cancelOrder: function (orderid) {
+                this.$store.state.socket.emit("cancelOrder", this.orders[orderid]);
+                this.orders[orderid].status = 'canceled';
             },
             setSection: function (newSec) {
                 this.currentSection = newSec;
