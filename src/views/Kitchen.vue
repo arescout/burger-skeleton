@@ -68,7 +68,7 @@
                 <option value="0">{{uiLabels.noVegan}}</option>
             </select>
             <input type="number" v-model.number="newIngredient.selling_price" placeholder="Selling price">
-                <option value="0">{{uiLabels.noVegan}}</option></select>
+                <option value="0">{{uiLabels.noVegan}}</option>
             <input type="number"  v-model.number="newIngredient.selling_price" :placeholder="uiLabels.sellingPrice">
             <input type="number" v-model.number="initSaldo" :placeholder="uiLabels.initSaldo">
             <button v-on:click="addNewIngredient">{{uiLabels.addIngr}}</button>
@@ -103,21 +103,11 @@
                     milk_free: 0,
                     gluten_free: 0,
                     vegan: 0,
-                    selling_price: 0
+                    selling_price: 0,
+                    stock: 0,
+                    initSaldo: 0
                 }
             }
-                newIngredient: { ingredient_id: 1,
-                            ingredient_sv: "",
-                            ingredient_en: "",
-                            category: 1,
-                            milk_free: 0,
-                            gluten_free: 0,
-                            vegan: 0,
-                            selling_price: 0,
-                            stock: 0},
-                initSaldo: 0
-                }
-
         },
 
         computed: {
@@ -199,6 +189,19 @@
     .buttonLeft {
         justify-content: flex-end;
         margin-left: auto;
+    }
+
+    @media only screen and (max-width: 768px) {
+        .menuTabs {
+            background: #2860c3;
+            display: flex;
+            flex-flow: column wrap;
+            width: 100%;
+        }
+        .buttonLeft {
+            justify-content: flex-start;
+            margin-left: 0;
+        }
     }
 
     /*ORDER SECTION*/
