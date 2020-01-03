@@ -33,14 +33,13 @@
         <div v-if="currentSection===3" >
             {{uiLabels.updateInstr}}
             <input type="number" v-model.number="change" placeholder="0">
-        <div
+            <div
                 v-for="(item,key) in ingredients"
                 :key="key">
             {{item.ingredient_id}}: {{item["ingredient_" + lang]}} -> {{uiLabels.inStock}} -- {{item.stock}} {{uiLabels.unit}} ~~
-            <button v-on:click="changeStock(item)">{{uiLabels.updateSaldo}}</button>
+            <button v-on:click="changeStock(item)">{{uiLabels.update}}</button>
+            </div>
         </div>
-        </div>
-
         <div v-show="currentSection===3">
             <input type="text" v-model="newIngredient.ingredient_sv" :placeholder="uiLabels.seName">
             <input type="text" v-model="newIngredient.ingredient_en" :placeholder="uiLabels.enName">
@@ -115,12 +114,15 @@
 
         methods: {
             markDone: function (orderid) {
-                this.$store.state.socket.emit("orderDone", orderid);
+                if (this.orders[orderid].status === 'not-started'){
+                    this.$store.state.socket.emit("orderStarted", orderid);
+                } else if (this.orders[orderid].status  === 'started'){
+                    this.$store.state.socket.emit("orderDone", orderid);
+                }
             },
             setSection: function (newSec) {
                 this.currentSection = newSec;
             },
-
             clearOrders: function () {
                 for (let item in this.orders){
                     if (this.orders[item].status==='done'){
@@ -133,7 +135,7 @@
                 this.change = 0;
             },
             addNewIngredient: function () {
-                this.newIngredient.ingredient_id= this.ingredients.length +1
+                this.newIngredient.ingredient_id= this.ingredients.length +1;
                 this.$store.state.socket.emit("addIngredient", this.newIngredient);
             }
         }
