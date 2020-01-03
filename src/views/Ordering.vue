@@ -17,13 +17,20 @@
         <div class="wrapper">
             <div class="header"><h1>{{ uiLabels.companyName }}</h1></div>
             <div class="categoryTabs">
-                <button v-on:click="setCategory(4)">{{uiLabels.bread}}</button>
-                <button v-on:click="setCategory(1)">{{uiLabels.protein}}</button>
-                <button v-on:click="setCategory(2)">{{uiLabels.toppings}}</button>
-                <button v-on:click="setCategory(3)">{{uiLabels.sauce}}</button>
-                <button v-on:click="setCategory(5)">{{uiLabels.sides}}</button>
-                <button v-on:click="setCategory(6)">{{uiLabels.drinks}}</button>
-                <button v-on:click="setCategory(7)">{{uiLabels.dip}}</button>
+                <button v-on:click="setCategory(4)"
+                        v-bind:class="[this.currentCategory === 4 ? 'catAct' : 'catInact']">{{uiLabels.bread}}</button>
+                <button v-on:click="setCategory(1)"
+                        v-bind:class="[this.currentCategory === 1 ? 'catAct' : 'catInact']">{{uiLabels.protein}}</button>
+                <button v-on:click="setCategory(2)"
+                        v-bind:class="[this.currentCategory === 2 ? 'catAct' : 'catInact']">{{uiLabels.toppings}}</button>
+                <button v-on:click="setCategory(3)"
+                        v-bind:class="[this.currentCategory === 3 ? 'catAct' : 'catInact']">{{uiLabels.sauce}}</button>
+                <button v-on:click="setCategory(5)"
+                        v-bind:class="[this.currentCategory === 5 ? 'catAct' : 'catInact']">{{uiLabels.sides}}</button>
+                <button v-on:click="setCategory(6)"
+                        v-bind:class="[this.currentCategory === 6 ? 'catAct' : 'catInact']">{{uiLabels.drinks}}</button>
+                <button v-on:click="setCategory(7)"
+                        v-bind:class="[this.currentCategory === 7 ? 'catAct' : 'catInact']">{{uiLabels.dip}}</button>
             </div>
 
             <!-- Add list of ingredients -->
@@ -42,7 +49,7 @@
                     </Ingredient>
                 </div>
                 <button class = "prevButton" v-show="currentCategory !== 4" v-on:click="prevTab(currentCategory)">&#9668;</button>
-                <button class ="nextButton" v-show="currentCategory < 68" v-on:click="nextTab(currentCategory)">&#9658;</button>
+                <button class ="nextButton" v-show="currentCategory < 7" v-on:click="nextTab(currentCategory)">&#9658;</button>
             </div>
 
 
@@ -57,7 +64,7 @@
                         <div>
                             <div v-for="item in this.groupIngredients(chosenIngredients)">
                                 <span v-show="item.ing.category==7"> Dipp</span> {{item.count}} x {{item.ing['ingredient_' + lang]}} {{item.stock}}
-                                <button class="plusButton" v-show="item.ing.category !== 4"
+                                <button class="plusButton" v-show="item.ing.category == 4 && breadChosen==false|| item.ing.category == 1 && doublePatty==false"
                                         v-on:click="addToBurger(item.ing)">+
                                 </button>
                                 <button class="minusButton" v-on:click="removeFromBurger(item.ing)">-</button>
@@ -73,7 +80,7 @@
                         <b>{{uiLabels.yourOrder}}:</b>
                         <div>
                             <div class="readyBurger" v-for="(burger, key) in checkoutOrder.burgers" :key="key">
-                                <button v-on:click="hideBurger(key)">^</button> <!-- Denna blir bara krånglig eller? <button class ="edit">Edit</button> -->
+                                <button v-on:click="hideBurger(key)">^</button>
                                 <b>{{uiLabels.burgNr}} {{key + 1}}</b>
                                 <button class="delBurg" v-on:click="deleteBurger(checkoutOrder.burgers, key)">X</button>
                                 <!--
@@ -141,6 +148,7 @@
                 count: 0,
                 breadChosen: false,
                 pattyChosen: false,
+                doublePatty: false,
                 //orderReady: false,
                 sideChosen: false,
                 drinkChosen: false,
@@ -149,6 +157,8 @@
                 hideBurg: false,
                 patties: 0,
                 currentCategory: 4, // Category deciding what ingredients to show first
+                activeCat: 0,
+                isActive: false,
                 numbOfBurgers: 0,
                 currentOrder: {
                     burgers: []
@@ -184,6 +194,9 @@
                         this.sideChosen = false;
                         this.drinkChosen = false;
                     }
+/*                    if (this.chosenIngredients[i].category === 1 && this.pattyChosen == true){
+                        this.doublePatty = true;
+                    }*/
                     if (this.chosenIngredients[i].category === 1) {
                         this.pattyChosen = true;
                         this.sideChosen = false;
@@ -259,6 +272,10 @@
                 if (item.category === 1) {
                     this.patties += 1;
                 }
+                if (this.patties==2){
+                    this.doublePatty=true;
+                }
+
                 //console.log(this.chosenIngredients);
             },
             removeFromBurger: function (item) {
@@ -273,6 +290,9 @@
                     this.patties -= 1;
                     if (this.patties === 0) {
                         this.pattyChosen = false;
+                    }
+                    if (this.patties <2) {
+                        this.doublePatty = false;
                     }
                 }
                 if (item.category === 4) {
@@ -529,7 +549,7 @@
     }
 
     .categoryTabs button {
-        background-color: var(--secondary-color);
+        /*background-color: var(--secondary-color);*/
         border: 2px var(--border-color) solid;
         text-align: center;
         text-transform: uppercase;
@@ -540,10 +560,16 @@
         padding: 1rem 0.6rem 1rem 0.6rem;
         outline: none;
     }
-    .categoryTabs button:focus {
+    .catInact{
+        background-color: var(--secondary-color);
+    }
+    .catAct {
+        background-color: var(--secondary-dark-color);
+    }
+    /*.categoryTabs button:focus {
         background-color: var(--secondary-dark-color);
         color: var(--secondary-text-color);
-    }
+    }*/
 
     .categoryTabs button:hover {
         background-color: var(--secondary-dark-color);
