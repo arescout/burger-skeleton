@@ -86,7 +86,7 @@
         data: function () {
             return {
                 currentSection: 1,
-                price: 0,
+                price:0,
                 change: 0,
                 newIngredient: { ingredient_id: 1,
                             ingredient_sv: "",
