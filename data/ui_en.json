@@ -53,5 +53,7 @@
   "update" : "update",
   "addIngr" : "Add new ingredient",
   "seName" : "Swedish name",
-  "enName" : "English name"
+  "enName" : "English name",
+  "description": "We believe in individual people who want the opportunity to choose, to make personalized burgers.\nYou choose ingredients with the plus-button and when you have made a burger you are happy with use the \"add to order\" button. Then you can continue making one more burger if you wish. Otherwise go to checkout for payment.\nWe have a requirement that a burger may contain a maximum of one bread and two steaks/patties. Best regards Indie Burgers"
+
 }
