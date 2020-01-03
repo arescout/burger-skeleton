@@ -50,7 +50,7 @@
   "cardTerminal": "Follow instructions in the card terminal...",
   "inStock" : "in stock",
   "updateInstr": "To update stock of an ingredient, fill in the difference here and press the 'update' button corresponding to said ingredient:",
-  "updateSaldo" : "update",
+  "update" : "update",
   "addIngr" : "Add new ingredient",
   "seName" : "Swedish name",
   "enName" : "English name"

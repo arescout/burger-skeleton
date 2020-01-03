@@ -50,7 +50,7 @@
   "cardTerminal":"Följ betalningsinstruktionerna i terminalen",
   "inStock" : "i lager",
   "updateInstr" : "För att uppdatera saldot av en ingrediens, fyll i differensen här och tryck på 'uppdatera'-knappen för sagda ingrediens:",
-  "updateSaldo" : "uppdatera",
+  "update" : "uppdatera",
   "addIngr" : "Lägg till ingrediens",
   "seName" : "Svenskt namn",
   "enName" : "Engelskt namn"
