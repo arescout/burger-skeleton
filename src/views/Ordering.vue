@@ -73,7 +73,7 @@
                         <b>{{uiLabels.yourOrder}}:</b>
                         <div>
                             <div class="readyBurger" v-for="(burger, key) in checkoutOrder.burgers" :key="key">
-                                <button v-on:click="hideBurger(key)">^</button><button class ="edit">Edit</button>
+                                <button v-on:click="hideBurger(key)">^</button> <!-- Denna blir bara krånglig eller? <button class ="edit">Edit</button> -->
                                 <b>{{uiLabels.burgNr}} {{key + 1}}</b>
                                 <button class="delBurg" v-on:click="deleteBurger(checkoutOrder.burgers, key)">X</button>
                                 <!--
@@ -197,7 +197,7 @@
                     }
                 }
                 if (this.pattyChosen && this.breadChosen || this.sideChosen || this.drinkChosen) {  //order can only be made if burger and bread or drink or side is chosen
-                    return true;
+                    return true;// kanske göra en elsif så man inte kan beställa bröd och dricka.
                 }
             },
             noOrder: function () {
@@ -305,13 +305,13 @@
                 this.orderReady = false;
                 this.breadChosen = false;
                 this.pattyChosen = false;
-                console.log(orderReady)
 
             },
             placeOrder: function () {
                 // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
                 let thisBurger = this.groupIngredients(this.chosenIngredients);
                 thisBurger.price = this.currentPrice;
+                thisBurger.eatHere // Mandus
                 this.$store.commit('addToCheckoutOrder', thisBurger);
                 this.$store.commit('addToTotal', this.currentPrice);
 
