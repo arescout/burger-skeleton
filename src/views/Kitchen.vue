@@ -30,38 +30,41 @@
                     :key="key">
             </OrderItem>
         </ul>
+        <div v-if="currentSection===3" >
+            {{uiLabels.updateInstr}}
+            <input type="number" v-model.number="change" placeholder="0">
         <div
-                v-if="currentSection===3"
                 v-for="(item,key) in ingredients"
                 :key="key">
             {{item.ingredient_id}}: {{item["ingredient_" + lang]}} -> {{uiLabels.inStock}} -- {{item.stock}} {{uiLabels.unit}} ~~
-            <input type="number" v-model.number="change" placeholder="0">
-            <button v-on:click="changeStock(item)">Change</button>
+            <button v-on:click="changeStock(item)">{{uiLabels.updateSaldo}}</button>
         </div>
+        </div>
+
         <div v-show="currentSection===3">
-            <input type="text" v-model="newIngredient.ingredient_sv" placeholder="Swedish name">
-            <input type="text" v-model="newIngredient.ingredient_en" placeholder="English name">
+            <input type="text" v-model="newIngredient.ingredient_sv" :placeholder="uiLabels.seName">
+            <input type="text" v-model="newIngredient.ingredient_en" :placeholder="uiLabels.enName">
             <select v-model.number="newIngredient.category">
                 <option disabled value="">Category</option>
-                <option value=1>Protein</option>
-                <option value="2">Toppings</option>
-                <option value="3" >Sauce</option>
-                <option value="4">Bread</option>
-                <option value="5">Toppings</option>
-                <option value="6">Sides</option>
-                <option value="7">Dip Sauce</option>
+                <option value=1>{{uiLabels.protein}}</option>
+                <option value="2">{{uiLabels.toppings}}</option>
+                <option value="3" >{{uiLabels.sauce}}</option>
+                <option value="4">{{uiLabels.bread}}</option>
+                <option value="5">{{uiLabels.sides}}</option>
+                <option value="6">{{uiLabels.drinks}}</option>
+                <option value="7">{{uiLabels.dip}}</option>
             </select>
             <select v-model.number="newIngredient.milk_free">
-                <option value="1">Lactose free</option>
-                <option value="0">Contains Lactose</option></select>
+                <option value="1">{{uiLabels.noLactose}}</option>
+                <option value="0">{{uiLabels.lactose}}</option></select>
             <select v-model.number="newIngredient.gluten_free">
-                <option value="1">Gluten free</option>
-                <option value="0">Contains Gluten</option></select>
+                <option value="1">{{uiLabels.noGluten}}</option>
+                <option value="0">{{uiLabels.gluten}}</option></select>
             <select v-model.number="newIngredient.vegan" >
-                <option value="1">Vegan</option>
-                <option value="0">Not Vegan</option></select>
+                <option value="1">{{uiLabels.vegan}}</option>
+                <option value="0">{{uiLabels.noVegan}}</option></select>
             <input type="number"  v-model.number="newIngredient.selling_price" placeholder="Selling price">
-            <button v-on:click="addNewIngredient">Add new ingredient</button>
+            <button v-on:click="addNewIngredient">{{uiLabels.addIngr}}</button>
         </div>
     </div>
 </template>
