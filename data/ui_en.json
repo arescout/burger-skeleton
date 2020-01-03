@@ -54,5 +54,7 @@
   "cancel" : "cancel",
   "addIngr" : "Add new ingredient",
   "seName" : "Swedish name",
-  "enName" : "English name"
+  "enName" : "English name",
+  "sellingPrice" : "Selling price",
+  "initSaldo" : "Initital saldo"
 }

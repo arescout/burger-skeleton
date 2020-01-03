@@ -13,12 +13,12 @@
                 <div class="buttonWrapper">
                     <div class="buttonBox">
                         <!--<div v-if="this.$parent.currentCategory === 4">
-                            <div class = "chosenBread" v-show="this.chosen">
+                            <div class = "chosenBread">
                                 <button class = "breadButton" id="breadInc" v-on:click="incrementCounter($event)"></button>
                             </div>
                         </div>
                         <div v-else>-->
-                            <button class="plusButton" id="inc" v-show = "!this.$parent.breadChosen || this.$parent.currentCategory !== 4" v-on:click="incrementCounter($event)">
+                            <button class="plusButton" id="inc" v-show = "showPlusOrNot()" v-on:click="incrementCounter($event)">
                                 + <!-- only one bread can be selected -->
                             </button>
                             {{ itemCount }}
@@ -55,8 +55,7 @@
         },
         data: function () {
             return {
-                patties: 0,
-                doublePatty: false,
+                patties: 0, //Ta bort eller allt här henry?
                 burgerAndBread: false,
                 chosen: false
             };
@@ -66,12 +65,19 @@
             this.checkCounter();    // Check if ingredient already is chosen
         },
         methods: {
+            showPlusOrNot: function() {
+                if (this.$parent.breadChosen && this.$parent.currentCategory == 4)
+                    return false ;
+                else if (this.$parent.doublePatty && this.$parent.currentCategory == 1 )
+                    return false;
+                else return true
+            },
             incrementCounter: function (ev) {
 
                 if (ev.target.id === "inc") {
                     this.$emit('increment');
                 }
-                if (ev.target.id === "breadInc") {
+                if (ev.target.id === "breadInc") {   //Henry används denna ens
                     this.$emit('increment');
                     this.chosen = true;
 

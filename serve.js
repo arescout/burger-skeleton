@@ -78,6 +78,7 @@ io.on('connection', function (socket) {
   });
 
   socket.on('updateStock', function (item, saldo) {
+      console.log(item)
     data.changeStock(item, saldo);
     io.emit('currentQueue', {ingredients: data.getIngredients() });
   });
@@ -86,9 +87,10 @@ io.on('connection', function (socket) {
           uiLabels: data.getUILabels(),
           ingredients: data.getIngredients() })
   });
-  socket.on('addIngredient', function (ingredient) {
-      data.newIngredient(ingredient);
-      io.emit('currentQueue', {ingredients: data.getIngredients() });
+  socket.on('addIngredient', function (ingredient, initSaldo) {
+      console.log(ingredient)
+      data.newIngredient(ingredient, initSaldo);
+      io.emit('currentQueue', {ingredients: data.getIngredients()});
   })
 });
 

@@ -3,7 +3,7 @@
         <div class="menuTabs">
             <button class="buttonRight" v-on:click="setSection(1)">{{uiLabels.ordersInQueue}}</button>
             <button class="buttonRight" v-on:click="setSection(2)">{{uiLabels.ordersFinished}}</button>
-            <button class="buttonIngr" v-on:click="setSection(3)">{{uiLabels.ingredients }}</button>
+            <button class="buttonIngr" v-on:click="setSection(3)">{{uiLabels.ingredients    }}</button>
             <button class="buttonLeft" v-on:click="switchLang()">{{uiLabels.language}}</button>
             <button v-show="currentSection === 2" v-on:click="clearOrders">Clear</button>
         </div>
@@ -68,6 +68,9 @@
                 <option value="0">{{uiLabels.noVegan}}</option>
             </select>
             <input type="number" v-model.number="newIngredient.selling_price" placeholder="Selling price">
+                <option value="0">{{uiLabels.noVegan}}</option></select>
+            <input type="number"  v-model.number="newIngredient.selling_price" :placeholder="uiLabels.sellingPrice">
+            <input type="number" v-model.number="initSaldo" :placeholder="uiLabels.initSaldo">
             <button v-on:click="addNewIngredient">{{uiLabels.addIngr}}</button>
         </div>
     </div>
@@ -103,6 +106,18 @@
                     selling_price: 0
                 }
             }
+                newIngredient: { ingredient_id: 1,
+                            ingredient_sv: "",
+                            ingredient_en: "",
+                            category: 1,
+                            milk_free: 0,
+                            gluten_free: 0,
+                            vegan: 0,
+                            selling_price: 0,
+                            stock: 0},
+                initSaldo: 0
+                }
+
         },
 
         computed: {
@@ -144,6 +159,9 @@
             addNewIngredient: function () {
                 this.newIngredient.ingredient_id = this.ingredients.length + 1;
                 this.$store.state.socket.emit("addIngredient", this.newIngredient);
+                this.newIngredient.ingredient_id= this.ingredients.length +1;
+                this.$store.state.socket.emit("addIngredient", this.newIngredient, this.initSaldo); // Add ingredient to stock
+                let ingrId = this.newIngredient.ingredient_id-2;
             }
         }
     }
