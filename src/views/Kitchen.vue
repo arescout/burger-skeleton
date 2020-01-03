@@ -11,7 +11,7 @@
             <OrderItemToPrepare
                     li class="orderItem"
                     v-for="(order, key) in orders"
-                    v-if="order.status !== 'done' && order.status !== 'hide' && currentSection===1"
+                    v-if="order.status !== 'done' && order.status !== 'canceled' && order.status !== 'hide' && currentSection===1"
                     v-on:done="markDone(key)"
                     v-on:cancel="cancelOrder(key)"
                     :orderId="key"
@@ -32,6 +32,7 @@
                     :key="key">
             </OrderItem>
         </ul>
+        <!-- SECTION FOR SHOWING AND ADDING INGREDIENTS -->
         <div v-if="currentSection===3">
             {{uiLabels.updateInstr}}
             <input type="number" v-model.number="change" placeholder="0">
@@ -134,8 +135,7 @@
                 }
             },
             cancelOrder: function (orderid) {
-                this.$store.state.socket.emit("cancelOrder", this.orders[orderid]);
-                this.orders[orderid].status = 'canceled';
+                this.$store.state.socket.emit("cancelOrder", this.orders[orderid], orderid);
             },
             setSection: function (newSec) {
                 this.currentSection = newSec;

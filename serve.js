@@ -62,8 +62,9 @@ io.on('connection', function (socket) {
         io.emit('currentQueue', {orders: data.getAllOrders() });
     });
     // When order is canceled in kitchen, add the item to stock again
-    socket.on('cancelOrder', function (item) {
+    socket.on('cancelOrder', function (item, orderid) {
         data.changeStockWithOrder(item, true);
+        data.markOrderCanceled(orderid);
         io.emit('currentQueue', {orders: data.getAllOrders(),
             ingredients: data.getIngredients(),
         });
