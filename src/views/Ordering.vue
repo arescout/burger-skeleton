@@ -17,13 +17,20 @@
         <div class="wrapper">
             <div class="header"><h1>{{ uiLabels.companyName }}</h1></div>
             <div class="categoryTabs">
-                <button v-on:click="setCategory(4)">{{uiLabels.bread}}</button>
-                <button v-on:click="setCategory(1)">{{uiLabels.protein}}</button>
-                <button v-on:click="setCategory(2)">{{uiLabels.toppings}}</button>
-                <button v-on:click="setCategory(3)">{{uiLabels.sauce}}</button>
-                <button v-on:click="setCategory(5)">{{uiLabels.sides}}</button>
-                <button v-on:click="setCategory(6)">{{uiLabels.drinks}}</button>
-                <button v-on:click="setCategory(7)">{{uiLabels.dip}}</button>
+                <button v-on:click="setCategory(4)"
+                        v-bind:class="[this.currentCategory === 4 ? 'catAct' : 'catInact']">{{uiLabels.bread}}</button>
+                <button v-on:click="setCategory(1)"
+                        v-bind:class="[this.currentCategory === 1 ? 'catAct' : 'catInact']">{{uiLabels.protein}}</button>
+                <button v-on:click="setCategory(2)"
+                        v-bind:class="[this.currentCategory === 2 ? 'catAct' : 'catInact']">{{uiLabels.toppings}}</button>
+                <button v-on:click="setCategory(3)"
+                        v-bind:class="[this.currentCategory === 3 ? 'catAct' : 'catInact']">{{uiLabels.sauce}}</button>
+                <button v-on:click="setCategory(5)"
+                        v-bind:class="[this.currentCategory === 5 ? 'catAct' : 'catInact']">{{uiLabels.sides}}</button>
+                <button v-on:click="setCategory(6)"
+                        v-bind:class="[this.currentCategory === 6 ? 'catAct' : 'catInact']">{{uiLabels.drinks}}</button>
+                <button v-on:click="setCategory(7)"
+                        v-bind:class="[this.currentCategory === 7 ? 'catAct' : 'catInact']">{{uiLabels.dip}}</button>
             </div>
 
             <!-- Add list of ingredients -->
@@ -35,6 +42,7 @@
                             v-if="item.category===currentCategory"
                             v-on:increment="addToBurger(item)"
                             v-on:decrease="removeFromBurger(item)"
+                            v-on:click="addToBurger(item)"
                             :item="item"
                             v-bind:itemCount="ingredientCount(item)"
                             :lang="lang"
@@ -42,7 +50,7 @@
                     </Ingredient>
                 </div>
                 <button class = "prevButton" v-show="currentCategory !== 4" v-on:click="prevTab(currentCategory)">&#9668;</button>
-                <button class ="nextButton" v-show="currentCategory < 68" v-on:click="nextTab(currentCategory)">&#9658;</button>
+                <button class ="nextButton" v-show="currentCategory < 7" v-on:click="nextTab(currentCategory)">&#9658;</button>
             </div>
 
 
@@ -149,6 +157,8 @@
                 hideBurg: false,
                 patties: 0,
                 currentCategory: 4, // Category deciding what ingredients to show first
+                activeCat: 0,
+                isActive: false,
                 numbOfBurgers: 0,
                 currentOrder: {
                     burgers: []
@@ -305,7 +315,7 @@
                 this.orderReady = false;
                 this.breadChosen = false;
                 this.pattyChosen = false;
-                console.log(orderReady)
+                console.log(orderReady);
 
             },
             placeOrder: function () {
@@ -519,7 +529,7 @@
     }
 
     .categoryTabs button {
-        background-color: var(--secondary-color);
+        /*background-color: var(--secondary-color);*/
         border: 2px var(--border-color) solid;
         text-align: center;
         text-transform: uppercase;
@@ -530,10 +540,16 @@
         padding: 1rem 0.6rem 1rem 0.6rem;
         outline: none;
     }
-    .categoryTabs button:focus {
+    .catInact{
+        background-color: var(--secondary-color);
+    }
+    .catAct {
+        background-color: var(--secondary-dark-color);
+    }
+    /*.categoryTabs button:focus {
         background-color: var(--secondary-dark-color);
         color: var(--secondary-text-color);
-    }
+    }*/
 
     .categoryTabs button:hover {
         background-color: var(--secondary-dark-color);
