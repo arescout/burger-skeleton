@@ -14,7 +14,7 @@
             <button class="update" v-on:click="orderDone">
                 {{uiLabels.update}}
             </button>
-            <button class="cancel" v-on:click="orderDone">
+            <button class="cancel" v-on:click="cancelOrder">
                 {{uiLabels.cancel}}
             </button>
         </div>
@@ -39,7 +39,7 @@
                 this.$emit('done');
             },
             cancelOrder: function () {
-                // not implemented
+                this.$emit('cancel');
             }
         }
     }
