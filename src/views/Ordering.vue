@@ -196,9 +196,19 @@
                         this.drinkChosen = true;
                     }
                 }
-                if (this.pattyChosen && this.breadChosen || this.sideChosen || this.drinkChosen) {  //order can only be made if burger and bread or drink or side is chosen
+                if (this.pattyChosen == this.breadChosen && this.sideChosen )
+                    {  //order can only be made if burger and bread or drink or side is chosen
                     return true;// kanske göra en elsif så man inte kan beställa bröd och dricka.
                 }
+                if (this.pattyChosen == this.breadChosen && this.drinkChosen)
+                {  //order can only be made if burger and bread or drink or side is chosen
+                    return true;
+                }
+                if (this.pattyChosen && this.breadChosen)
+                {  //order can only be made if burger and bread or drink or side is chosen
+                    return true;
+                }
+
             },
             noOrder: function () {
                 let noOrder;
@@ -249,7 +259,7 @@
                 if (item.category === 1) {
                     this.patties += 1;
                 }
-                console.log(this.chosenIngredients);
+                //console.log(this.chosenIngredients);
             },
             removeFromBurger: function (item) {
                 let removeIndex = 0;
@@ -311,7 +321,6 @@
                 // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
                 let thisBurger = this.groupIngredients(this.chosenIngredients);
                 thisBurger.price = this.currentPrice;
-                thisBurger.eatHere // Mandus
                 this.$store.commit('addToCheckoutOrder', thisBurger);
                 this.$store.commit('addToTotal', this.currentPrice);
 
