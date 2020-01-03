@@ -16,7 +16,8 @@ export default {
     uiLabels: Object,
     order: Object,
     orderId: String,
-    lang: String
+    lang: String,
+	  eatHere:bool
   }
 }
 </script>

@@ -3,6 +3,12 @@
         <button class="routerButton" v-on:click="switchLang()">
             <img src=https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width=20px>{{uiLabels.language}}
         </button>
+        <button class="eatButton" v-on:click="changeEatHere()" v-if="this.eatHere">
+            {{uiLabels.eatHere}}
+        </button>
+        <button class="eatButton" v-on:click="changeEatHere()" v-if="!this.eatHere">
+            {{uiLabels.eatAway}}
+        </button>
         <div class="itemsWrapper">
             <div class="buttonItem">
                 <button class="backButton">
@@ -17,7 +23,7 @@
                             <b>{{uiLabels.burgNr}} {{key + 1}}</b>
                             <!-- Key + 1 so it doesn't say "burger 0" on customers page -->
                             <span v-for="(item, key2) in burger" :key="key2">
-                                <br/>{{ item.ing["ingredient_" + lang]}}: {{ item.count }} {{uiLabels.unit}}
+                                <br/>{{ item.ing["ingredient_" + lang]}}: {{ item.count }} {{uiLabels.unit}} {{item.stock}}
                             </span>
                         </div>
                     <br><br>
@@ -64,7 +70,10 @@
             },
             totalPrice : function () {
                 return this.$store.state.totalPrice;
-            }
+            },
+            eatHere: function () {
+                return this.$store.state.eatHere;
+            },
         },
 
         methods: {
@@ -75,7 +84,7 @@
             placeOrder: function () {
                 this.withdrawIngredients();
                 this.confirmedPayment = true;
-                this.$store.state.socket.emit('order', this.checkoutOrder);
+                this.$store.state.socket.emit('order', this.checkoutOrder, this.eatHere);
                 this.$store.commit('clearCheckoutOrder');
                 this.$store.commit('clearTotal');
             },
@@ -89,7 +98,14 @@
                         }
                     }
                 }
-            }
+            },
+            changeEatHere: function () {
+                if (this.eatHere) {
+                    this.$store.commit('setEatHere', false);
+                } else {
+                    this.$store.commit('setEatHere', true);
+                }
+            },
         }
     };
 
