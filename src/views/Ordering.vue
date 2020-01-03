@@ -580,7 +580,7 @@
         border: 3px var(--border-color) solid;
         padding: 0.25rem;
         border-radius: 10px;
-        height: 30em;
+        height: 30rem;
         overflow: scroll;
     }
 
