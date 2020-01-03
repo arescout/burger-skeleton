@@ -57,7 +57,7 @@
                         <div>
                             <div v-for="item in this.groupIngredients(chosenIngredients)">
                                 <span v-show="item.ing.category==7"> Dipp</span> {{item.count}} x {{item.ing['ingredient_' + lang]}} {{item.stock}}
-                                <button class="plusButton" v-show="item.ing.category !== 4"
+                                <button class="plusButton" v-show="item.ing.category == 4 && breadChosen==false|| item.ing.category == 1 && doublePatty==false"
                                         v-on:click="addToBurger(item.ing)">+
                                 </button>
                                 <button class="minusButton" v-on:click="removeFromBurger(item.ing)">-</button>
@@ -73,7 +73,7 @@
                         <b>{{uiLabels.yourOrder}}:</b>
                         <div>
                             <div class="readyBurger" v-for="(burger, key) in checkoutOrder.burgers" :key="key">
-                                <button v-on:click="hideBurger(key)">^</button> <!-- Denna blir bara krånglig eller? <button class ="edit">Edit</button> -->
+                                <button v-on:click="hideBurger(key)">^</button>
                                 <b>{{uiLabels.burgNr}} {{key + 1}}</b>
                                 <button class="delBurg" v-on:click="deleteBurger(checkoutOrder.burgers, key)">X</button>
                                 <!--
@@ -141,6 +141,7 @@
                 count: 0,
                 breadChosen: false,
                 pattyChosen: false,
+                doublePatty: false,
                 //orderReady: false,
                 sideChosen: false,
                 drinkChosen: false,
@@ -184,6 +185,9 @@
                         this.sideChosen = false;
                         this.drinkChosen = false;
                     }
+/*                    if (this.chosenIngredients[i].category === 1 && this.pattyChosen == true){
+                        this.doublePatty = true;
+                    }*/
                     if (this.chosenIngredients[i].category === 1) {
                         this.pattyChosen = true;
                         this.sideChosen = false;
@@ -259,6 +263,10 @@
                 if (item.category === 1) {
                     this.patties += 1;
                 }
+                if (this.patties==2){
+                    this.doublePatty=true;
+                }
+
                 //console.log(this.chosenIngredients);
             },
             removeFromBurger: function (item) {
@@ -273,6 +281,9 @@
                     this.patties -= 1;
                     if (this.patties === 0) {
                         this.pattyChosen = false;
+                    }
+                    if (this.patties <2) {
+                        this.doublePatty = false;
                     }
                 }
                 if (item.category === 4) {
