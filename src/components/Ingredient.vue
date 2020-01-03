@@ -13,7 +13,7 @@
                 <div class="buttonWrapper">
                     <div class="buttonBox">
                         <!--<div v-if="this.$parent.currentCategory === 4">
-                            <div class = "chosenBread" v-show="this.chosen">
+                            <div class = "chosenBread">
                                 <button class = "breadButton" id="breadInc" v-on:click="incrementCounter($event)"></button>
                             </div>
                         </div>

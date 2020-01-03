@@ -39,11 +39,19 @@
   "companyName": "Indie Burgers",
   "currentPriceLabel": "Pris på vald burgare",
   "lactose": "Innehåller laktos",
+  "noLactose" : "Laktosfri",
   "gluten": "Innehåller gluten",
-  "vegan": "V egansk",
+  "noGluten" : "Glutenfri",
+  "vegan": "Vegansk",
+  "noVegan" : "Ickevegansk",
   "orderNr" : "Order nummer",
   "payButton" : "Gå vidare till betalning",
   "flagOnButton": "https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg",
   "cardTerminal":"Följ betalningsinstruktionerna i terminalen",
-  "inStock" : "i lager"
+  "inStock" : "i lager",
+  "updateInstr" : "För att uppdatera saldot av en ingrediens, fyll i differensen här och tryck på 'uppdatera'-knappen för sagda ingrediens:",
+  "update" : "uppdatera",
+  "addIngr" : "Lägg till ingrediens",
+  "seName" : "Svenskt namn",
+  "enName" : "Engelskt namn"
 }
