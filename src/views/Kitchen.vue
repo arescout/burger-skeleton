@@ -62,7 +62,8 @@
             <select v-model.number="newIngredient.vegan" >
                 <option value="1">{{uiLabels.vegan}}</option>
                 <option value="0">{{uiLabels.noVegan}}</option></select>
-            <input type="number"  v-model.number="newIngredient.selling_price" placeholder="Selling price">
+            <input type="number"  v-model.number="newIngredient.selling_price" :placeholder="uiLabels.sellingPrice">
+            <input type="number" v-model.number="initSaldo" :placeholder="uiLabels.initSaldo">
             <button v-on:click="addNewIngredient">{{uiLabels.addIngr}}</button>
         </div>
     </div>
@@ -94,8 +95,11 @@
                             milk_free: 0,
                             gluten_free: 0,
                             vegan: 0,
-                            selling_price: 0}
-            }
+                            selling_price: 0,
+                            stock: 0},
+                initSaldo: 0
+                }
+
         },
 
         computed: {
@@ -133,10 +137,11 @@
             changeStock: function (item) {
                 this.$store.state.socket.emit("updateStock", {ingredient: item}, this.change);
                 this.change = 0;
-            },
+            },  
             addNewIngredient: function () {
                 this.newIngredient.ingredient_id= this.ingredients.length +1;
-                this.$store.state.socket.emit("addIngredient", this.newIngredient);
+                this.$store.state.socket.emit("addIngredient", this.newIngredient, this.initSaldo); // Add ingredient to stock
+                let ingrId = this.newIngredient.ingredient_id-2;
             }
         }
     }

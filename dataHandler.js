@@ -94,19 +94,26 @@ Data.prototype.addOrder = function (order) {
 };
 
 Data.prototype.changeStock = function (item, saldo) {
-  var transactions = this.data[transactionsDataName]
-  var transId = transactions[transactions.length - 1].transaction_id
+  var transactions = this.data[transactionsDataName];
+  var transId = transactions[transactions.length - 1].transaction_id;
   transactions.push({transaction_id: transId,
                      ingredient_id: item.ingredient.ingredient_id,
-                     change: saldo /**- item.ingredient.stock**/}); // Commented away so the change is saldo rather than the actual saldo becomes saldo
+                     change: saldo});
 };
 
-Data.prototype.newIngredient = function (item) {
+Data.prototype.setStock = function (item, saldo) {
+  var transactions = this.data[transactionsDataName];
+  var transId = transactions[transactions.length - 1].transaction_id;
+  transactions.push({transaction_id: transId,
+    ingredient_id: item.ingredient.ingredient_id,
+    change: saldo - item.ingredient.stock});
+};
+
+Data.prototype.newIngredient = function (item, saldo) {
   let ingredients = this.data[ingredientsDataName];
-  //console.log(ingredients)
   ingredients.push(item);
-  //
-  // console.log(ingredients)
+  let thisIngredient = ingredients[item.ingredient_id-1];
+  this.setStock({ingredient: thisIngredient}, saldo)
 };
 
 Data.prototype.getAllOrders = function () {

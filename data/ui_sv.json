@@ -54,5 +54,7 @@
   "addIngr" : "Lägg till ingrediens",
   "seName" : "Svenskt namn",
   "enName" : "Engelskt namn",
+  "sellingPrice" : "Försäljningspris",
+  "initSaldo" : "Ursprungligt saldo",
   "description": "Vi tror på individuella människor som vill ha möjligheten att välja, att göra personliga burgare just för dig.\nDu väljer ingredienser med plus knappen och när du gjort en burgare du är nöjd med tryck på \"lägg till i beställning\" knappen. Sedan kan du fortsätta med att göra en till burgare om du önskar. Annars gå till checkout för betalning. \nVi har krav på att en burgare maximalt får innehålla ett bröd och två biffar. Mvh Indie Burgers "
 }
