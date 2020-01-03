@@ -53,5 +53,7 @@
   "update" : "uppdatera",
   "addIngr" : "Lägg till ingrediens",
   "seName" : "Svenskt namn",
-  "enName" : "Engelskt namn"
+  "enName" : "Engelskt namn",
+  "sellingPrice" : "Försäljningspris",
+  "initSaldo" : "Ursprungligt saldo"
 }
