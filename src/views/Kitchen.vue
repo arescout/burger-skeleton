@@ -30,23 +30,40 @@
                     :key="key">
             </OrderItem>
         </ul>
-        <div
-                v-if="currentSection===3"
+        <div v-if="currentSection===3" >
+            {{uiLabels.updateInstr}}
+            <input type="number" v-model.number="change" placeholder="0">
+            <div
                 v-for="(item,key) in ingredients"
                 :key="key">
             {{item.ingredient_id}}: {{item["ingredient_" + lang]}} -> {{uiLabels.inStock}} -- {{item.stock}} {{uiLabels.unit}} ~~
-            <input type="number" v-model.number="change" placeholder="0">
-            <button v-on:click="changeStock(item)">Change</button>
+            <button v-on:click="changeStock(item)">{{uiLabels.update}}</button>
+            </div>
         </div>
         <div v-show="currentSection===3">
-            <input type="text" v-model="newIngredient.ingredient_sv" placeholder="Swedish name">
-            <input type="text" v-model="newIngredient.ingredient_en" placeholder="English name">
-            <input type="number"  v-model.number="newIngredient.category" placeholder="Ingredient category" min="1" max="7"> <!-- Should change these to choice inputs that is translated -->
-            <input type="number"  v-model.number="newIngredient.milk_free" placeholder="Milk free" min="0" max="1">            <!-- into numbers -->
-            <input type="number"  v-model.number="newIngredient.gluten_free" placeholder="Gluten free" min="0" max="1">
-            <input type="number"  v-model.number="newIngredient.vegan" placeholder="Vegan" min="0" max="1">
-            <input type="number"  v-model.number="newIngredient.selling_price" placeholder="Selling price" min="0">
-            <button v-on:click="addNewIngredient">Add new ingredient</button>
+            <input type="text" v-model="newIngredient.ingredient_sv" :placeholder="uiLabels.seName">
+            <input type="text" v-model="newIngredient.ingredient_en" :placeholder="uiLabels.enName">
+            <select v-model.number="newIngredient.category">
+                <option disabled value="">Category</option>
+                <option value=1>{{uiLabels.protein}}</option>
+                <option value="2">{{uiLabels.toppings}}</option>
+                <option value="3" >{{uiLabels.sauce}}</option>
+                <option value="4">{{uiLabels.bread}}</option>
+                <option value="5">{{uiLabels.sides}}</option>
+                <option value="6">{{uiLabels.drinks}}</option>
+                <option value="7">{{uiLabels.dip}}</option>
+            </select>
+            <select v-model.number="newIngredient.milk_free">
+                <option value="1">{{uiLabels.noLactose}}</option>
+                <option value="0">{{uiLabels.lactose}}</option></select>
+            <select v-model.number="newIngredient.gluten_free">
+                <option value="1">{{uiLabels.noGluten}}</option>
+                <option value="0">{{uiLabels.gluten}}</option></select>
+            <select v-model.number="newIngredient.vegan" >
+                <option value="1">{{uiLabels.vegan}}</option>
+                <option value="0">{{uiLabels.noVegan}}</option></select>
+            <input type="number"  v-model.number="newIngredient.selling_price" placeholder="Selling price">
+            <button v-on:click="addNewIngredient">{{uiLabels.addIngr}}</button>
         </div>
     </div>
 </template>
@@ -68,7 +85,7 @@
         data: function () {
             return {
                 currentSection: 1,
-                price: 0,
+                price:0,
                 change: 0,
                 newIngredient: { ingredient_id: 1,
                             ingredient_sv: "",
@@ -97,12 +114,15 @@
 
         methods: {
             markDone: function (orderid) {
-                this.$store.state.socket.emit("orderDone", orderid);
+                if (this.orders[orderid].status === 'not-started'){
+                    this.$store.state.socket.emit("orderStarted", orderid);
+                } else if (this.orders[orderid].status  === 'started'){
+                    this.$store.state.socket.emit("orderDone", orderid);
+                }
             },
             setSection: function (newSec) {
                 this.currentSection = newSec;
             },
-
             clearOrders: function () {
                 for (let item in this.orders){
                     if (this.orders[item].status==='done'){
@@ -115,6 +135,7 @@
                 this.change = 0;
             },
             addNewIngredient: function () {
+                this.newIngredient.ingredient_id= this.ingredients.length +1;
                 this.$store.state.socket.emit("addIngredient", this.newIngredient);
             }
         }

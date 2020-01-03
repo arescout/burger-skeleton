@@ -39,10 +39,9 @@
                     <Ingredient
                             ref="ingredient"
                             v-for="item in ingredients"
-                            v-if="item.category===currentCategory"
+                            v-if="item.category===currentCategory && item.stock > 0"
                             v-on:increment="addToBurger(item)"
                             v-on:decrease="removeFromBurger(item)"
-                            v-on:click="addToBurger(item)"
                             :item="item"
                             v-bind:itemCount="ingredientCount(item)"
                             :lang="lang"
@@ -81,7 +80,7 @@
                         <b>{{uiLabels.yourOrder}}:</b>
                         <div>
                             <div class="readyBurger" v-for="(burger, key) in checkoutOrder.burgers" :key="key">
-                                <button v-on:click="hideBurger(key)">^</button><button class ="edit">Edit</button>
+                                <button v-on:click="hideBurger(key)">^</button> <!-- Denna blir bara krånglig eller? <button class ="edit">Edit</button> -->
                                 <b>{{uiLabels.burgNr}} {{key + 1}}</b>
                                 <button class="delBurg" v-on:click="deleteBurger(checkoutOrder.burgers, key)">X</button>
                                 <!--
@@ -206,9 +205,19 @@
                         this.drinkChosen = true;
                     }
                 }
-                if (this.pattyChosen && this.breadChosen || this.sideChosen || this.drinkChosen) {  //order can only be made if burger and bread or drink or side is chosen
+                if (this.pattyChosen == this.breadChosen && this.sideChosen )
+                    {  //order can only be made if burger and bread or drink or side is chosen
+                    return true;// kanske göra en elsif så man inte kan beställa bröd och dricka.
+                }
+                if (this.pattyChosen == this.breadChosen && this.drinkChosen)
+                {  //order can only be made if burger and bread or drink or side is chosen
                     return true;
                 }
+                if (this.pattyChosen && this.breadChosen)
+                {  //order can only be made if burger and bread or drink or side is chosen
+                    return true;
+                }
+
             },
             noOrder: function () {
                 let noOrder;
@@ -259,7 +268,7 @@
                 if (item.category === 1) {
                     this.patties += 1;
                 }
-                console.log(this.chosenIngredients);
+                //console.log(this.chosenIngredients);
             },
             removeFromBurger: function (item) {
                 let removeIndex = 0;
@@ -315,7 +324,6 @@
                 this.orderReady = false;
                 this.breadChosen = false;
                 this.pattyChosen = false;
-                console.log(orderReady);
 
             },
             placeOrder: function () {
@@ -324,7 +332,6 @@
                 thisBurger.price = this.currentPrice;
                 this.$store.commit('addToCheckoutOrder', thisBurger);
                 this.$store.commit('addToTotal', this.currentPrice);
-                this.$store.commit('order');
 
                 this.chosenIngredients = [];
                 this.currentPrice = 0;
@@ -376,6 +383,7 @@
             setCategory: function (newCat) {
                 this.currentCategory = newCat;
             },
+
             countNumberOfIngredients: function (id) {
                 //Nytt Taken from burger-skeleton/severalBurgers/src/views/Kitchen.vue
                 let counter = 0;
@@ -411,9 +419,9 @@
             },
 
             hideBurger: function (key) {
-
                 this.hideBurg = !this.hideBurg;
             },
+
             deleteBurger: function (burgers, key) { //this function deletes the burger from the order container
                 //console.log(burgers);
                 //console.log(key);
@@ -426,6 +434,7 @@
                     }
                 }
             },
+
             getNow: function () { //this function gets the time for when the order is made,
                 const today = new Date(); // trying to figure out how to send it to kitchen
                 const timeStamp = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();

@@ -11,6 +11,7 @@ function Data() {
   this.data = {};
   this.orders = {};
   this.currentOrderNumber = 0;
+
 }
 
 Data.prototype.getUILabels = function (lang) {
@@ -66,14 +67,19 @@ Data.prototype.getOrderNumber = function () {
   this.currentOrderNumber += 1;
   return this.currentOrderNumber;
 }
+Data.prototype.getWhereToEat= function(){
+  return this.eatHere;
+}
 
 Data.prototype.addOrder = function (order) {
   let orderId = this.getOrderNumber();
+  let whereEat=this.getWhereToEat();
   this.orders[orderId] = order;
   this.orders[orderId].orderId = orderId;
   this.orders[orderId].status = "not-started";
-  console.log(this.orders);
-  var transactions = this.data[transactionsDataName],
+  this.orders[orderId].eatHere= whereEat;
+  //console.log(this.orders);
+  /**var transactions = this.data[transactionsDataName],
     //find out the currently highest transaction id
     transId =  transactions[transactions.length - 1].transaction_id,
       i = order.order.ingredients,
@@ -83,8 +89,7 @@ Data.prototype.addOrder = function (order) {
     transactions.push({transaction_id: transId,
       ingredient_id: i[k].ingredient_id,
       change: - 1});
-  }
-
+  } **/
     return orderId;
 };
 
@@ -98,9 +103,10 @@ Data.prototype.changeStock = function (item, saldo) {
 
 Data.prototype.newIngredient = function (item) {
   let ingredients = this.data[ingredientsDataName];
-  console.log(ingredients)
+  //console.log(ingredients)
   ingredients.push(item);
-  console.log(ingredients)
+  //
+  // console.log(ingredients)
 };
 
 Data.prototype.getAllOrders = function () {

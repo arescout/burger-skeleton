@@ -1,14 +1,15 @@
 <template>
   <div>
-    {{uiLabels.orderNr}}: {{orderId}}
+    {{uiLabels.orderNr}}: {{orderId}} {{eatHere}}
     <div v-for="(burger,key2) in order.burgers" :key2="key2">
       {{uiLabels.burgNr}}: {{key2 + 1}}
       <span v-for="ingredient in burger">
         <br/> {{ingredient.count}} x {{ingredient.ing["ingredient_" + lang]}}
       </span>
+      <br/>Status: {{order.status}}
     </div>
     <button v-on:click="orderDone">
-      {{uiLabels.ready}}
+      {{uiLabels.update}}
     </button>
   </div>
 </template>
