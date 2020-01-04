@@ -1,8 +1,10 @@
 <template id="template">
     <div id="ordering">
-        <button class="routerButton" v-on:click="switchLang()">
-            <img src=https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width=20px>{{uiLabels.language}}
-        </button>
+            <button class="routerButton" v-on:click="switchLang()">
+                    <img id="langPic" v-if="flag_sw" src="https://cdn.countryflags.com/thumbs/sweden/flag-round-250.png" width="20px">
+                    <img id="langPic" v-if="flag_en" src="https://cdn.countryflags.com/thumbs/united-kingdom/flag-round-250.png" width="20px">{{uiLabels.language}}
+
+            </button>
         <button>
             <router-link to="/" class="routerButton">{{uiLabels.startpage}}</router-link>
         </button>
@@ -397,7 +399,9 @@
         text-decoration: none;
         text-transform: uppercase;
         color: black;
+        border: transparent;
     }
+
 
     /*MAIN*/
 

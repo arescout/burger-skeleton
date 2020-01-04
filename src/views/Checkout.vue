@@ -1,7 +1,9 @@
 <template>
     <div id="checkout">
         <button class="routerButton" v-on:click="switchLang()">
-            <img src=https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width=20px>{{uiLabels.language}}
+            <img id="langPic" v-if='flag_sw' src=https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width=20px>{{uiLabels.language}}
+            <img id="langPic" v-if="flag_en" src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" width="20px">{{uiLabels.language}}
+
         </button>
         <button class="eatButton" v-on:click="changeEatHere()" v-if="this.eatHere">
             {{uiLabels.eatHere}}
@@ -228,5 +230,15 @@
         float:right;
         /*top: 0px;
         right: 0px;*/
+    }
+
+    .routerButton {
+        position: absolute;
+        top: 10px;
+        left: 20px;
+        padding: 0;
+        margin: 0;
+        background: transparent;
+        border: transparent;
     }
 </style>

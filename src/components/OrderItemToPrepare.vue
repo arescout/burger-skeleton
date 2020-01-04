@@ -1,5 +1,10 @@
 <template>
     <div>
+        <button class="routerButton" v-on:click="switchLang()">
+            <img id="langPic" v-if="flag_sw" src="https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg" width="20px">
+            <img id="langPic" v-if="flag_en" src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" width="20px">{{uiLabels.language}}
+
+        </button>
         <div class="head">
             <h3>{{uiLabels.orderNr}}: #{{orderId}}</h3><br>
             @ <b>13:37</b>, {{order.status}} <span v-show="order.eatHere">{{uiLabels.eatHere}}</span> <span v-show="!order.eatHere"> {{uiLabels.eatAway}} </span>
@@ -91,4 +96,5 @@
         margin: auto;
         width: 100%;
     }
+
 </style>

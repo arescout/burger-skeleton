@@ -46,7 +46,7 @@
   "noVegan" : "Non vegan",
   "orderNr" : "Order",
   "payButton" : "Ready for payment",
-  "flagOnButton": "https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg",
+  "flagOnButton": "https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg",
   "cardTerminal": "Follow instructions in the card terminal...",
   "inStock" : "in stock",
   "updateInstr": "To update stock of an ingredient, fill in the difference here and press the 'update' button corresponding to said ingredient:",
