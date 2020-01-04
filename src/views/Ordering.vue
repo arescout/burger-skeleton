@@ -2,7 +2,7 @@
     <div id="ordering">
         <div class="wrapper">
             <div class="header">
-                <button class="headerButton">
+                <button class="headerButton" v-on:click="exitClear">
                     <router-link to="/">{{uiLabels.startpage}}</router-link>
                 </button>
                 <div class="headerLabel">
@@ -112,7 +112,7 @@
                                 {{uiLabels.tally}}: {{totalPrice}}:-
                             </div>
                         </div>
-                        <button class="orderButton" v-show="!this.noOrder" v-on:click="getNow">
+                        <button class="orderButton" v-show="!this.noOrder">
                             <!-- no order if no burger is added to the tab-->
                             <router-link class="routerButton" to="/checkout" v>
                                 {{uiLabels.proceedToCO}}
@@ -182,9 +182,6 @@
             },
             checkoutOrder: function () {
                 return this.$store.state.checkoutOrder
-            },
-            giveTime: function () {         //tas bort?
-                return this.$store.state.giveTime
             },
             orderReady: function () {
                 for (let i = 0; i < this.chosenIngredients.length; i += 1) {
@@ -288,7 +285,7 @@
                 // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
                 let thisBurger = this.groupIngredients(this.chosenIngredients);
                 thisBurger.price = this.currentPrice;
-                thisBurger.eatHereBurg=this.eatHere;
+                thisBurger.eatHereBurg = this.eatHere;
                 this.$store.commit('addToCheckoutOrder', thisBurger);
                 this.$store.commit('addToTotal', this.currentPrice);
 
@@ -352,13 +349,10 @@
                     }
                 }
             },
-
-    getNow: function () { //this function gets the time for when the order is made,
-                const today = new Date(); // trying to figure out how to send it to kitchen
-                const timeStamp = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-                //console.log(timeStamp);
-                this.$store.commit('setTime', timeStamp);
-            }//ta bort henry? även ändra ovan där den anropas
+            exitClear: function () {
+                this.$store.commit('clearCheckoutOrder');
+                this.$store.commit('clearTotal');
+            }
         }
     }
 </script>
@@ -492,6 +486,7 @@
     .catAct  {
         background-color: var(--secondary-dark-color);
     }
+
     /*.categoryTabs button:focus {
         background-color: var(--secondary-dark-color);
         color: var(--secondary-text-color);
@@ -515,6 +510,7 @@
     .ingredient :hover {
         /*background-color: #e9dccb;  Vid test på andra var det inte klart att man inte kunde trycka på hela sectionen något som kan göras    */
     }
+
     .ingredient :focus {
         background-color: #d1c4b2;
     }
@@ -553,6 +549,7 @@
         0 0 0 3px black,
         0 2px 2px 2px rgba(0, 0, 0, 0.5);;
     }
+
     .prevButton {
         float: left;
         border-radius: 50%;

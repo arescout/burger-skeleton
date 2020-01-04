@@ -1,5 +1,8 @@
 <template>
     <div id="checkout">
+        <button class="headerButton" v-on:click="exitClear">
+            <router-link to="/">{{uiLabels.startpage}}</router-link>
+        </button>
         <button class="routerButton" v-on:click="switchLang()">
             <img src=https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width=20px>{{uiLabels.language}}
         </button>
@@ -28,16 +31,17 @@
                                 <br/>{{ item.ing["ingredient_" + lang]}}: {{ item.count }} {{uiLabels.unit}} {{item.stock}}
                             </span>
                         </div>
-                    <br><br>
-                    <b>{{uiLabels.tally}}: {{this.totalPrice}}</b>:-<br>
-                    <button class="paymentButton"
-                            v-on:click="placeOrder">{{uiLabels.payButton}}</button>
-                    <div class="paymentBox" v-show="confirmedPayment">
-                        <button class="xButton"  v-on:click="confirmedPayment=false">X</button>
-                        {{uiLabels.cardTerminal}}
+                        <br><br>
+                        <b>{{uiLabels.tally}}: {{this.totalPrice}}</b>:-<br>
+                        <button class="paymentButton"
+                                v-on:click="placeOrder">{{uiLabels.payButton}}
+                        </button>
+                        <div class="paymentBox" v-show="confirmedPayment">
+                            <button class="xButton" v-on:click="confirmedPayment=false">X</button>
+                            {{uiLabels.cardTerminal}}
+                        </div>
                     </div>
                 </div>
-            </div>
             </div>
         </div>
     </div>
@@ -71,7 +75,7 @@
             checkoutOrder: function () {
                 return this.$store.state.checkoutOrder;
             },
-            totalPrice : function () {
+            totalPrice: function () {
                 return this.$store.state.totalPrice;
             },
             eatHere: function () {
@@ -102,12 +106,16 @@
             },
             getPlaceInQueue: function () {
                 let ordersInQueue = 0;
-                for (let order in this.orders){
-                    if (this.orders[order].status !== 'done' && this.orders[order].status !== 'canceled'){
+                for (let order in this.orders) {
+                    if (this.orders[order].status !== 'done' && this.orders[order].status !== 'canceled') {
                         ordersInQueue += 1;
                     }
                 }
                 this.placeInQueue = ordersInQueue + 1; // +1 to get customer's place, not number of orders in front
+            },
+            exitClear: function () {
+                this.$store.commit('clearCheckoutOrder');
+                this.$store.commit('clearTotal');
             }
         }
     };
@@ -210,7 +218,7 @@
         background-color: #efff9a;
         border: solid black 3px;
         width: 70%;
-        hight:70%;
+        hight: 70%;
         margin: auto;
         /*margin-right: 5vw;
         margin-left: 5vw;
@@ -225,7 +233,7 @@
         border-radius: 50%;
         border: solid black 2px;
         /*position: absolute;*/
-        float:right;
+        float: right;
         /*top: 0px;
         right: 0px;*/
     }

@@ -72,13 +72,6 @@ Data.prototype.addOrder = function (order) {
     this.orders[orderId].eatHere = order.eatHere;
     this.orders[orderId].time = timeStamp;
 
-
- /* getNow: function () { //this function gets the time for when the order is made,
-    const today = new Date(); // trying to figure out how to send it to kitchen
-    const timeStamp = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    console.log(timeStamp);
-    this.$store.commit('setTime', timeStamp);
-  }*/
     /**var transactions = this.data[transactionsDataName],
      //find out the currently highest transaction id
      transId =  transactions[transactions.length - 1].transaction_id,

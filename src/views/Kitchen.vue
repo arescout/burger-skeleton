@@ -20,7 +20,6 @@
                     :lang="lang"
                     :key="key">
             </OrderItemToPrepare>
-            <!--{{this.timeStamp}}-->
             <OrderItem
                     li class="orderItem"
                     v-for="(order, key) in orders"
@@ -121,11 +120,7 @@
                 }
                 return po;
             },
-/*            timeStamp: function () {
-                return this.$store.state.timeStamp;
-            }*/
         },
-
         methods: {
             markDone: function (orderid) {
                 if (this.orders[orderid].status === 'not-started') {
