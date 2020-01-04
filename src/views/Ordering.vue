@@ -81,10 +81,8 @@
                                 <button v-on:click="hideBurger(key)">^</button>
                                 <b>{{uiLabels.burgNr}} {{key + 1}}</b>
                                 <button class="delBurg" v-on:click="deleteBurger(checkoutOrder.burgers, key)">X</button>
-                                <!--
-                                Above to the left is an attempt to hide the content of each burger, but I don't know how to
+                                <!--Above to the left is an attempt to hide the content of each burger, but I don't know how to
                                 separate the burgers from each other-->
-
                                 <!-- Key + 1 so it doesn't say "burger 0" on customers page -->
                                 <span v-show="!hideBurg" v-for="(item, key2) in burger" :key="key2">
                                 <br/>{{ item.ing["ingredient_" + lang]}}: {{ item.count }} {{uiLabels.unit}}
@@ -148,7 +146,7 @@
                 activeCat: 0,
                 isActive: false,
                 numbOfBurgers: 0,
-                currentOrder: {
+                currentOrder: { // Tas bort?
                     burgers: [], eatHereCurrent: false
                 },
                 aggregatedOrders: {
@@ -252,10 +250,8 @@
 
                 if (this.eatHere) {
                     this.$store.commit('setEatHere', false);
-                    this.currentOrder.eatHereCurrent=eatHere
                 } else {
                     this.$store.commit('setEatHere', true);
-                    this.currentOrder.eatHereCurrent=eatHere
                 }
 
             },
@@ -301,7 +297,7 @@
                 this.currentPrice -= +item.selling_price;
             },
 
-            addToOrder: function () {
+            addToOrder: function () {// ta bort
                 // Add the burger to an order array
                 if (this.chosenIngredients.length === 0) {
                     return;
@@ -334,6 +330,7 @@
                 // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
                 let thisBurger = this.groupIngredients(this.chosenIngredients);
                 thisBurger.price = this.currentPrice;
+                thisBurger.eatHereBurg=this.eatHere;
                 this.$store.commit('addToCheckoutOrder', thisBurger);
                 this.$store.commit('addToTotal', this.currentPrice);
 
