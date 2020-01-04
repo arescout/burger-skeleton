@@ -56,5 +56,7 @@
   "seName" : "Swedish name",
   "enName" : "English name",
   "sellingPrice" : "Selling price",
-  "initSaldo" : "Initital saldo"
+  "initSaldo" : "Initital saldo",
+  "yourOrdNr" : "Your order number is:",
+  "yourPlace" : "Your place the queue is:"
 }

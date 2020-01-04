@@ -56,5 +56,7 @@
   "seName" : "Svenskt namn",
   "enName" : "Engelskt namn",
   "sellingPrice" : "Försäljningspris",
-  "initSaldo" : "Ursprungligt saldo"
+  "initSaldo" : "Ursprungligt saldo",
+  "yourOrdNr" : "Ditt beställningsnummer är:",
+  "yourPlace" : "Din plats i kön är:"
 }

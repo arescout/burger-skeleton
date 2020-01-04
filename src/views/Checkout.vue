@@ -17,7 +17,9 @@
             </div>
             <div class="orderItem">
                 <div class="checkOutTable">
-                    <h1>{{uiLabels.yourOrder}} </h1>
+                    <h1 v-show="!confirmedPayment">{{uiLabels.yourOrder}} </h1>
+                    <h1 v-show="confirmedPayment">{{uiLabels.yourOrdNr}} {{orderNumber}}</h1>
+                    <h2 v-show="confirmedPayment">{{uiLabels.yourPlace}} {{placeInQueue}}</h2>
                     <div class="finalOrder">
                         <div v-for="(burger, key) in checkoutOrder.burgers" :key="key">
                             <b>{{uiLabels.burgNr}} {{key + 1}}</b>
@@ -61,6 +63,7 @@
             return {
                 confirmedPayment: false,
                 orderNumber: "",
+                placeInQueue: 0
             }
         },
 
@@ -82,11 +85,13 @@
             },
 
             placeOrder: function () {
-                //this.withdrawIngredients();
                 this.confirmedPayment = true;
                 this.$store.state.socket.emit('order', this.checkoutOrder, this.eatHere);
                 this.$store.commit('clearCheckoutOrder');
                 this.$store.commit('clearTotal');
+                this.orderNumber = Object.keys(this.orders).length + 1; // Get length of orders object to set order number
+                                                                        // +1 because this.orders isn't updated quick enough
+                this.getPlaceInQueue();
             },
             changeEatHere: function () {
                 if (this.eatHere) {
@@ -95,6 +100,15 @@
                     this.$store.commit('setEatHere', true);
                 }
             },
+            getPlaceInQueue: function () {
+                let ordersInQueue = 0;
+                for (let order in this.orders){
+                    if (this.orders[order].status !== 'done' && this.orders[order].status !== 'canceled'){
+                        ordersInQueue += 1;
+                    }
+                }
+                this.placeInQueue = ordersInQueue + 1; // +1 to get customer's place, not number of orders in front
+            }
         }
     };
 
