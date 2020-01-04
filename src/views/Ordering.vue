@@ -162,7 +162,7 @@
             checkoutOrder: function () {
                 return this.$store.state.checkoutOrder
             },
-            giveTime: function () {
+            giveTime: function () {         //tas bort?
                 return this.$store.state.giveTime
             },
             orderReady: function () {
@@ -343,12 +343,12 @@
                 }
             },
 
-            getNow: function () { //this function gets the time for when the order is made,
+    getNow: function () { //this function gets the time for when the order is made,
                 const today = new Date(); // trying to figure out how to send it to kitchen
                 const timeStamp = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
                 console.log(timeStamp);
                 this.$store.commit('setTime', timeStamp);
-            }
+            }//ta bort henry? även ändra ovan 
         }
     }
 </script>
