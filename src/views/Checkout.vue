@@ -82,22 +82,11 @@
             },
 
             placeOrder: function () {
-                this.withdrawIngredients();
+                //this.withdrawIngredients();
                 this.confirmedPayment = true;
                 this.$store.state.socket.emit('order', this.checkoutOrder, this.eatHere);
                 this.$store.commit('clearCheckoutOrder');
                 this.$store.commit('clearTotal');
-            },
-            withdrawIngredients: function () {
-                for (let burger in this.checkoutOrder.burgers ){
-                    for (let ingr in this.checkoutOrder.burgers[burger]){
-                        if (ingr !== 'price'){
-                        let thisIngredient = this.checkoutOrder.burgers[burger][ingr];
-                        console.log(thisIngredient.ing);
-                        this.$store.state.socket.emit('updateStock', {ingredient: thisIngredient.ing}, -thisIngredient.count);
-                        }
-                    }
-                }
             },
             changeEatHere: function () {
                 if (this.eatHere) {

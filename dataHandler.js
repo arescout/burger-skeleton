@@ -78,7 +78,8 @@ Data.prototype.addOrder = function (order) {
   this.orders[orderId].orderId = orderId;
   this.orders[orderId].status = "not-started";
   this.orders[orderId].eatHere= whereEat;
-  //console.log(this.orders);
+
+
   /**var transactions = this.data[transactionsDataName],
     //find out the currently highest transaction id
     transId =  transactions[transactions.length - 1].transaction_id,
@@ -91,6 +92,23 @@ Data.prototype.addOrder = function (order) {
       change: - 1});
   } **/
     return orderId;
+};
+
+// Takes and entire order as input and changes the ingredient stock with its ingredients
+// Also takes into consideration whether order is added or canceled
+Data.prototype.changeStockWithOrder = function (order, canceled){
+  let canceledFactor = 1;
+  if (canceled) {
+    canceledFactor = -1;
+  }
+  for (let burger in order.burgers ){
+    for (let ingr in order.burgers[burger]){
+      if (ingr !== 'price'){
+        let thisIngredient = order.burgers[burger][ingr];
+        this.changeStock({ingredient: thisIngredient.ing}, (-thisIngredient.count * canceledFactor));
+      }
+    }
+  }
 };
 
 Data.prototype.changeStock = function (item, saldo) {
@@ -134,6 +152,10 @@ Data.prototype.markOrderStarted = function (orderId) {
 
 Data.prototype.markOrderNotStarted = function (orderId) {
   this.orders[orderId].status = "not-started";
+};
+
+Data.prototype.markOrderCanceled = function (orderId) {
+  this.orders[orderId].status = "canceled";
 };
 
 module.exports = Data;
