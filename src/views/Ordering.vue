@@ -346,9 +346,9 @@
     getNow: function () { //this function gets the time for when the order is made,
                 const today = new Date(); // trying to figure out how to send it to kitchen
                 const timeStamp = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-                console.log(timeStamp);
+                //console.log(timeStamp);
                 this.$store.commit('setTime', timeStamp);
-            }//ta bort henry? även ändra ovan 
+            }//ta bort henry? även ändra ovan där den anropas
         }
     }
 </script>

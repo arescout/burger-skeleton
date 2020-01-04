@@ -63,10 +63,14 @@ Data.prototype.getWhereToEat = function () {
 }
 Data.prototype.addOrder = function (order) {
     let orderId = this.getOrderNumber();
+    let  today = new Date(); // trying to figure out how to send it to kitchen
+    let timeStamp = today.toLocaleTimeString();
+    console.log(timeStamp);
     this.orders[orderId] = order;
     this.orders[orderId].orderId = orderId;
     this.orders[orderId].status = "not-started";
     this.orders[orderId].eatHere = order.eatHere;
+    this.orders[orderId].time = timeStamp;
 
 
  /* getNow: function () { //this function gets the time for when the order is made,

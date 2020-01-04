@@ -20,7 +20,7 @@
                     :lang="lang"
                     :key="key">
             </OrderItemToPrepare>
-            {{this.timeStamp}}
+            <!--{{this.timeStamp}}-->
             <OrderItem
                     li class="orderItem"
                     v-for="(order, key) in orders"
@@ -121,9 +121,9 @@
                 }
                 return po;
             },
-            timeStamp: function () {
+/*            timeStamp: function () {
                 return this.$store.state.timeStamp;
-            }
+            }*/
         },
 
         methods: {
