@@ -61,9 +61,9 @@
   "yourPlace" : "Your place the queue is:",
   "howToHeadline" : "How To Order",
   "howToStep" : "Step",
-  "howToStepOne" : "Create burger by choosing ingredients (maximum one bread & two patties).",
+  "howToStepOne" : "Choosing ingredients & create burger (least one bread & maximum two patties).",
   "howToStepTwo" : "Add burger to order.",
-  "howToStepThree" : "Repeat step 1-2 OR proceed to payment by checkout.",
+  "howToStepThree" : "Repeat step 1-2 OR proceed to payment.",
   "howToStepFour" : "Pay & collect order.",
   "description": "We believe in choice, here you can customize personal burgers just for you. You select ingredients with the plus button, and when you have selected and burger you are happy with, press add to order button. Then you can continue to choose more burgers if you want. Note that a burger must contain a loaf of bread and a maximum of two steaks."
 }
