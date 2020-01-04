@@ -52,8 +52,6 @@
                 <button class ="nextButton" v-show="currentCategory < 7" v-on:click="nextTab(currentCategory)">&#9658;</button>
             </div>
 
-
-
             <!-- Order information -->
             <div class="orderContainer">
                 <div class="orderWrapper">
@@ -64,7 +62,7 @@
                         <div>
                             <div v-for="item in this.groupIngredients(chosenIngredients)">
                                 <span v-show="item.ing.category==7"> Dipp</span> {{item.count}} x {{item.ing['ingredient_' + lang]}} {{item.stock}}
-                                <button class="plusButton" v-show="item.ing.category == 4 && breadChosen==false|| item.ing.category == 1 && doublePatty==false"
+                                <button class="plusButton" v-show="(item.ing.category == 4 && breadChosen==false) || (item.ing.category ==1 && doublePatty==false) || item.ing.category ==2 || item.ing.category ==3 || item.ing.category ==5 || item.ing.category ==6 || item.ing.category ==7 "
                                         v-on:click="addToBurger(item.ing)">+
                                 </button>
                                 <button class="minusButton" v-on:click="removeFromBurger(item.ing)">-</button>
@@ -94,16 +92,6 @@
                             </div>
                             <!--<br><button class = "placeOrderButton" v-if = "chosenIngredients.length > 0" v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>-->
                             <h4>{{uiLabels.tally}}: {{totalPrice}}:-</h4>
-                            <!-- Why is this OrderItem added here?? / Oskar  -->
-                            <!--<OrderItem
-                                    v-for="(order, key3) in this.orders"
-                                    v-if="order.status !== 'done'"
-                                    :order-id="key3"
-                                    :order="order"
-                                    :ui-labels="uiLabels"
-                                    :lang="lang"
-                                    :key="key3">
-                            </OrderItem> -->
                         </div>
                         <button class="orderButton" v-show="!this.noOrder" v-on:click="getNow">
                             <!-- no order if no burger is added to the tab-->
@@ -161,7 +149,7 @@
                 isActive: false,
                 numbOfBurgers: 0,
                 currentOrder: {
-                    burgers: []
+                    burgers: [], eatHereCurrent: false
                 },
                 aggregatedOrders: {
                     burgers: []
@@ -251,6 +239,7 @@
             },
         },
         methods: {
+
             ingredientCount: function (item) {
                 let counter = 0;
                 for (let i = 0; i < this.chosenIngredients.length; i += 1) {
@@ -260,11 +249,15 @@
                 return counter;
             },
             changeEatHere: function () {
+
                 if (this.eatHere) {
                     this.$store.commit('setEatHere', false);
+                    this.currentOrder.eatHereCurrent=eatHere
                 } else {
                     this.$store.commit('setEatHere', true);
+                    this.currentOrder.eatHereCurrent=eatHere
                 }
+
             },
             addToBurger: function (item) {
                 this.chosenIngredients.push(item);
