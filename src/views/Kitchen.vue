@@ -7,20 +7,21 @@
             <button class="buttonLeft" v-on:click="switchLang()">{{uiLabels.language}}</button>
             <button v-show="currentSection === 2" v-on:click="clearOrders">Clear</button>
         </div>
-        <ul class="ordersContainer wrap">
+        <ul class="orderContainer wrap">
             <OrderItemToPrepare
-                    li class="ordersItem"
+                    li class="orderItem"
                     v-for="(order, key) in orders"
-                    v-if="order.status !== 'done' && order.status !== 'hide' && currentSection===1"
+                    v-if="order.status !== 'done' && order.status !== 'canceled' && order.status !== 'hide' && currentSection===1"
                     v-on:done="markDone(key)"
+                    v-on:cancel="cancelOrder(key)"
                     :orderId="key"
                     :order="order"
                     :ui-labels="uiLabels"
                     :lang="lang"
                     :key="key">
-            </OrderItemToPrepare>{{this.timeStamp}}
+            </OrderItemToPrepare>
             <OrderItem
-                    li class="ordersItem"
+                    li class="orderItem"
                     v-for="(order, key) in orders"
                     v-if="order.status === 'done' && currentSection===2"
                     :order-id="key"
@@ -30,14 +31,16 @@
                     :key="key">
             </OrderItem>
         </ul>
-        <div v-if="currentSection===3" >
+        <!-- SECTION FOR SHOWING AND ADDING INGREDIENTS -->
+        <div v-if="currentSection===3">
             {{uiLabels.updateInstr}}
             <input type="number" v-model.number="change" placeholder="0">
             <div
-                v-for="(item,key) in ingredients"
-                :key="key">
-            {{item.ingredient_id}}: {{item["ingredient_" + lang]}} -> {{uiLabels.inStock}} -- {{item.stock}} {{uiLabels.unit}} ~~
-            <button v-on:click="changeStock(item)">{{uiLabels.update}}</button>
+                    v-for="(item,key) in ingredients"
+                    :key="key">
+                {{item.ingredient_id}}: {{item["ingredient_" + lang]}} -> {{uiLabels.inStock}} -- {{item.stock}}
+                {{uiLabels.unit}} ~~
+                <button v-on:click="changeStock(item)">{{uiLabels.update}}</button>
             </div>
         </div>
         <div v-show="currentSection===3">
@@ -47,7 +50,7 @@
                 <option disabled value="">Category</option>
                 <option value=1>{{uiLabels.protein}}</option>
                 <option value="2">{{uiLabels.toppings}}</option>
-                <option value="3" >{{uiLabels.sauce}}</option>
+                <option value="3">{{uiLabels.sauce}}</option>
                 <option value="4">{{uiLabels.bread}}</option>
                 <option value="5">{{uiLabels.sides}}</option>
                 <option value="6">{{uiLabels.drinks}}</option>
@@ -55,14 +58,18 @@
             </select>
             <select v-model.number="newIngredient.milk_free">
                 <option value="1">{{uiLabels.noLactose}}</option>
-                <option value="0">{{uiLabels.lactose}}</option></select>
+                <option value="0">{{uiLabels.lactose}}</option>
+            </select>
             <select v-model.number="newIngredient.gluten_free">
                 <option value="1">{{uiLabels.noGluten}}</option>
-                <option value="0">{{uiLabels.gluten}}</option></select>
-            <select v-model.number="newIngredient.vegan" >
+                <option value="0">{{uiLabels.gluten}}</option>
+            </select>
+            <select v-model.number="newIngredient.vegan">
                 <option value="1">{{uiLabels.vegan}}</option>
-                <option value="0">{{uiLabels.noVegan}}</option></select>
-            <input type="number"  v-model.number="newIngredient.selling_price" placeholder="Selling price">
+                <option value="0">{{uiLabels.noVegan}}</option>
+            </select>
+            <input type="number" v-model.number="newIngredient.selling_price" placeholder="Selling price">
+            <input type="number" v-model.number="initSaldo" :placeholder="uiLabels.initSaldo">
             <button v-on:click="addNewIngredient">{{uiLabels.addIngr}}</button>
         </div>
     </div>
@@ -81,20 +88,24 @@
         },
 
         mixins: [sharedVueStuff, UtilityFunctions], // include stuff that is used in both
-                                  //the ordering system and the kitchen
+        //the ordering system and the kitchen
         data: function () {
             return {
                 currentSection: 1,
-                price:0,
+                price: 0,
                 change: 0,
-                newIngredient: { ingredient_id: 1,
-                            ingredient_sv: "",
-                            ingredient_en: "",
-                            category: 1,
-                            milk_free: 0,
-                            gluten_free: 0,
-                            vegan: 0,
-                            selling_price: 0}
+                newIngredient: {
+                    ingredient_id: 1,
+                    ingredient_sv: "",
+                    ingredient_en: "",
+                    category: 1,
+                    milk_free: 0,
+                    gluten_free: 0,
+                    vegan: 0,
+                    selling_price: 0,
+                    stock: 0,
+                    },
+                initSaldo: 0
             }
         },
 
@@ -102,30 +113,29 @@
             // Function for recieving order from checkout and adding to placedOrder via server
             placedOrders: function () {
                 let po = {};
-                for(let item in this.orders){
+                for (let item in this.orders) {
                     po[item] = this.orders[item];
                 }
                 return po;
             },
-            timeStamp: function() {
-                return this.$store.state.timeStamp;
-            }
         },
-
         methods: {
             markDone: function (orderid) {
-                if (this.orders[orderid].status === 'not-started'){
+                if (this.orders[orderid].status === 'not-started') {
                     this.$store.state.socket.emit("orderStarted", orderid);
-                } else if (this.orders[orderid].status  === 'started'){
+                } else if (this.orders[orderid].status === 'started') {
                     this.$store.state.socket.emit("orderDone", orderid);
                 }
+            },
+            cancelOrder: function (orderid) {
+                this.$store.state.socket.emit("cancelOrder", this.orders[orderid], orderid);
             },
             setSection: function (newSec) {
                 this.currentSection = newSec;
             },
             clearOrders: function () {
-                for (let item in this.orders){
-                    if (this.orders[item].status==='done'){
+                for (let item in this.orders) {
+                    if (this.orders[item].status === 'done') {
                         this.$store.state.socket.emit("clearOrder", item);
                     }
                 }
@@ -136,7 +146,7 @@
             },
             addNewIngredient: function () {
                 this.newIngredient.ingredient_id= this.ingredients.length +1;
-                this.$store.state.socket.emit("addIngredient", this.newIngredient);
+                this.$store.state.socket.emit("addIngredient", this.newIngredient, this.initSaldo); // Add ingredient to stock
             }
         }
     }
@@ -176,13 +186,26 @@
         margin-left: auto;
     }
 
+    @media only screen and (max-width: 768px) {
+        .menuTabs {
+            background: #2860c3;
+            display: flex;
+            flex-flow: column wrap;
+            width: 100%;
+        }
+        .buttonLeft {
+            justify-content: flex-start;
+            margin-left: 0;
+        }
+    }
+
     /*ORDER SECTION*/
     .wrap {
         -webkit-flex-wrap: wrap;
         flex-wrap: wrap;
     }
 
-    .ordersContainer {
+    .orderContainer {
         padding: 5px;
         margin: 0;
         list-style: none;
@@ -195,13 +218,13 @@
         display: flex;
     }
 
-    .ordersItem {
-        border: solid black 3px;
-        border-radius: 3px;
-        padding: 0.5em;
-        margin: 5px;
+    .orderItem {
+        border: solid lightgrey 1px;
+        background: whitesmoke;
+        margin: 0.5rem;
         width: 10em;
         height: 100%;
+        box-shadow: 0 0.25rem 0.5rem 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
 
     /*GENERAL*/

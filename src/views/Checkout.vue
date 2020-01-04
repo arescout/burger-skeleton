@@ -1,5 +1,8 @@
 <template>
     <div id="checkout">
+        <button class="headerButton" v-on:click="exitClear">
+            <router-link to="/">{{uiLabels.startpage}}</router-link>
+        </button>
         <button class="routerButton" v-on:click="switchLang()">
             <img src=https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width=20px>{{uiLabels.language}}
         </button>
@@ -17,7 +20,9 @@
             </div>
             <div class="orderItem">
                 <div class="checkOutTable">
-                    <h1>{{uiLabels.yourOrder}} </h1>
+                    <h1 v-show="!confirmedPayment">{{uiLabels.yourOrder}} </h1>
+                    <h1 v-show="confirmedPayment">{{uiLabels.yourOrdNr}} {{orderNumber}}</h1>
+                    <h2 v-show="confirmedPayment">{{uiLabels.yourPlace}} {{placeInQueue}}</h2>
                     <div class="finalOrder">
                         <div v-for="(burger, key) in checkoutOrder.burgers" :key="key">
                             <b>{{uiLabels.burgNr}} {{key + 1}}</b>
@@ -26,16 +31,17 @@
                                 <br/>{{ item.ing["ingredient_" + lang]}}: {{ item.count }} {{uiLabels.unit}} {{item.stock}}
                             </span>
                         </div>
-                    <br><br>
-                    <b>{{uiLabels.tally}}: {{this.totalPrice}}</b>:-<br>
-                    <button class="paymentButton"
-                            v-on:click="placeOrder">{{uiLabels.payButton}}</button>
-                    <div class="paymentBox" v-show="confirmedPayment">
-                        <button class="xButton"  v-on:click="confirmedPayment=false">X</button>
-                        {{uiLabels.cardTerminal}}
+                        <br><br>
+                        <b>{{uiLabels.tally}}: {{this.totalPrice}}</b>:-<br>
+                        <button class="paymentButton"
+                                v-on:click="placeOrder">{{uiLabels.payButton}}
+                        </button>
+                        <div class="paymentBox" v-show="confirmedPayment">
+                            <button class="xButton" v-on:click="confirmedPayment=false">X</button>
+                            {{uiLabels.cardTerminal}}
+                        </div>
                     </div>
                 </div>
-            </div>
             </div>
         </div>
     </div>
@@ -61,6 +67,7 @@
             return {
                 confirmedPayment: false,
                 orderNumber: "",
+                placeInQueue: 0
             }
         },
 
@@ -68,7 +75,7 @@
             checkoutOrder: function () {
                 return this.$store.state.checkoutOrder;
             },
-            totalPrice : function () {
+            totalPrice: function () {
                 return this.$store.state.totalPrice;
             },
             eatHere: function () {
@@ -82,22 +89,13 @@
             },
 
             placeOrder: function () {
-                this.withdrawIngredients();
                 this.confirmedPayment = true;
                 this.$store.state.socket.emit('order', this.checkoutOrder, this.eatHere);
                 this.$store.commit('clearCheckoutOrder');
                 this.$store.commit('clearTotal');
-            },
-            withdrawIngredients: function () {
-                for (let burger in this.checkoutOrder.burgers ){
-                    for (let ingr in this.checkoutOrder.burgers[burger]){
-                        if (ingr !== 'price'){
-                        let thisIngredient = this.checkoutOrder.burgers[burger][ingr];
-                        console.log(thisIngredient.ing);
-                        this.$store.state.socket.emit('updateStock', {ingredient: thisIngredient.ing}, -thisIngredient.count);
-                        }
-                    }
-                }
+                this.orderNumber = Object.keys(this.orders).length + 1; // Get length of orders object to set order number
+                                                                        // +1 because this.orders isn't updated quick enough
+                this.getPlaceInQueue();
             },
             changeEatHere: function () {
                 if (this.eatHere) {
@@ -106,6 +104,19 @@
                     this.$store.commit('setEatHere', true);
                 }
             },
+            getPlaceInQueue: function () {
+                let ordersInQueue = 0;
+                for (let order in this.orders) {
+                    if (this.orders[order].status !== 'done' && this.orders[order].status !== 'canceled') {
+                        ordersInQueue += 1;
+                    }
+                }
+                this.placeInQueue = ordersInQueue + 1; // +1 to get customer's place, not number of orders in front
+            },
+            exitClear: function () {
+                this.$store.commit('clearCheckoutOrder');
+                this.$store.commit('clearTotal');
+            }
         }
     };
 
@@ -207,7 +218,7 @@
         background-color: #efff9a;
         border: solid black 3px;
         width: 70%;
-        hight:70%;
+        hight: 70%;
         margin: auto;
         /*margin-right: 5vw;
         margin-left: 5vw;
@@ -222,7 +233,7 @@
         border-radius: 50%;
         border: solid black 2px;
         /*position: absolute;*/
-        float:right;
+        float: right;
         /*top: 0px;
         right: 0px;*/
     }

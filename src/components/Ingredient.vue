@@ -18,13 +18,14 @@
                             </div>
                         </div>
                         <div v-else>-->
-                            <button class="plusButton" id="inc" v-show = "!this.$parent.breadChosen || this.$parent.currentCategory !== 4" v-on:click="incrementCounter($event)">
-                                + <!-- only one bread can be selected -->
-                            </button>
-                            {{ itemCount }}
-                            <button class="minusButton" id="dec" v-if="itemCount > 0" v-on:click="decrementCounter($event)">
-                                -
-                            </button>
+                        <button class="plusButton" id="inc" v-show="showPlusOrNot()"
+                                v-on:click="incrementCounter($event)">
+                            + <!-- only one bread can be selected -->
+                        </button>
+                        {{ itemCount }}
+                        <button class="minusButton" id="dec" v-if="itemCount > 0" v-on:click="decrementCounter($event)">
+                            -
+                        </button>
                         <!--</div>-->
                     </div>
                     <div class="allergicBox">
@@ -55,23 +56,29 @@
         },
         data: function () {
             return {
-                patties: 0,
-                doublePatty: false,
+                patties: 0, //Ta bort eller allt här henry?
                 burgerAndBread: false,
                 chosen: false
             };
         },
 
-        created: function(){
+        created: function () {
             this.checkCounter();    // Check if ingredient already is chosen
         },
         methods: {
+            showPlusOrNot: function () {
+                if (this.$parent.breadChosen && this.$parent.currentCategory == 4)
+                    return false;
+                else if (this.$parent.doublePatty && this.$parent.currentCategory == 1)
+                    return false;
+                else return true
+            },
             incrementCounter: function (ev) {
 
                 if (ev.target.id === "inc") {
                     this.$emit('increment');
                 }
-                if (ev.target.id === "breadInc") {
+                if (ev.target.id === "breadInc") {   //Henry används denna ens
                     this.$emit('increment');
                     this.chosen = true;
 
@@ -83,23 +90,6 @@
                 } else {
                     this.item.currentOrderCounter = 1;
                 }
-
-
-                // sending 'increment' message to parent component or view so that it
-                // can catch it with v-on:increment in the component declaration
-
-                //this.$emit('counter', this.counter)  //nytt
-                //if (this.item.category === 4) { //if a bread i selected plus button now disappears
-                //  this.breadChosen = true;
-                //}
-                /*if (this.item.category === 1) {
-              this.patties += 1;
-              this.burgerChosen = true;
-            }
-            if (this.patties === 2) {
-              this.doublePatty = true;
-            }*/
-
             },
 
             decrementCounter: function (ev) {
@@ -109,19 +99,8 @@
                     this.$emit('decrease');
                 }
                 if (this.item.category === 4) { //if selected bread is unselected, the plus button reappears
-                  this.$parent.breadChosen = false;
+                    this.$parent.breadChosen = false;
                 }
-
-                /*if (this.item.category === 1) {
-              this.patties -= 1;
-            }
-            if (this.patties < 2) {
-              this.doublePatty = false;
-            }*/
-            },
-            resetCounter: function () {
-                this.counter = 0;
-                this.item.currentOrderCounter = 0;
             },
             // Function to check and show the number of ingredient already chosen
             checkCounter: function () {
@@ -168,7 +147,8 @@
     .buttonBox {
         order: 1;
     }
-    .plusButton, .minusButton :hover{
+
+    .plusButton, .minusButton :hover {
         font-size: 180%;
     }
 
@@ -191,12 +171,14 @@
         font-size: 1.5em;
         outline: none;
     }
+
     .chosenBread {
         background-color: whitesmoke;
         border: #347cff solid 3px;
         height: auto;
         width: auto;
     }
+
     .breadButton {
         opacity: 50%;
         width: 100px;
