@@ -1,36 +1,39 @@
 <template id="template">
     <div id="ordering">
-        <button class="routerButton" v-on:click="switchLang()">
-            <img src=https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width=20px>{{uiLabels.language}}
-        </button>
-        <button>
-            <router-link to="/" class="routerButton">{{uiLabels.startpage}}</router-link>
-        </button>
-        <button class="eatButton" v-on:click="changeEatHere()" v-if="this.eatHere">
-            {{uiLabels.eatHere}}
-        </button>
-        <button class="eatButton" v-on:click="changeEatHere()" v-if="!this.eatHere">
-            {{uiLabels.eatAway}}
-        </button>
-
-        <!-- Add buttons for navigating through categories -->
         <div class="wrapper">
-            <div class="header"><h1>{{ uiLabels.companyName }}</h1></div>
+            <div class="header">
+                <button class="headerButton">
+                    <router-link to="/">{{uiLabels.startpage}}</router-link>
+                </button>
+                <div class="headerLabel">
+                    {{uiLabels.companyName}}
+                </div>
+                <button class="headerButton" v-on:click="switchLang()">
+                    {{uiLabels.language}}
+                </button>
+            </div>
             <div class="categoryTabs">
                 <button v-on:click="setCategory(4)"
-                        v-bind:class="[this.currentCategory === 4 ? 'catAct' : 'catInact']">{{uiLabels.bread}}</button>
+                        v-bind:class="[this.currentCategory === 4 ? 'catAct' : 'catInact']">{{uiLabels.bread}}
+                </button>
                 <button v-on:click="setCategory(1)"
-                        v-bind:class="[this.currentCategory === 1 ? 'catAct' : 'catInact']">{{uiLabels.protein}}</button>
+                        v-bind:class="[this.currentCategory === 1 ? 'catAct' : 'catInact']">{{uiLabels.protein}}
+                </button>
                 <button v-on:click="setCategory(2)"
-                        v-bind:class="[this.currentCategory === 2 ? 'catAct' : 'catInact']">{{uiLabels.toppings}}</button>
+                        v-bind:class="[this.currentCategory === 2 ? 'catAct' : 'catInact']">{{uiLabels.toppings}}
+                </button>
                 <button v-on:click="setCategory(3)"
-                        v-bind:class="[this.currentCategory === 3 ? 'catAct' : 'catInact']">{{uiLabels.sauce}}</button>
+                        v-bind:class="[this.currentCategory === 3 ? 'catAct' : 'catInact']">{{uiLabels.sauce}}
+                </button>
                 <button v-on:click="setCategory(5)"
-                        v-bind:class="[this.currentCategory === 5 ? 'catAct' : 'catInact']">{{uiLabels.sides}}</button>
+                        v-bind:class="[this.currentCategory === 5 ? 'catAct' : 'catInact']">{{uiLabels.sides}}
+                </button>
                 <button v-on:click="setCategory(6)"
-                        v-bind:class="[this.currentCategory === 6 ? 'catAct' : 'catInact']">{{uiLabels.drinks}}</button>
+                        v-bind:class="[this.currentCategory === 6 ? 'catAct' : 'catInact']">{{uiLabels.drinks}}
+                </button>
                 <button v-on:click="setCategory(7)"
-                        v-bind:class="[this.currentCategory === 7 ? 'catAct' : 'catInact']">{{uiLabels.dip}}</button>
+                        v-bind:class="[this.currentCategory === 7 ? 'catAct' : 'catInact']">{{uiLabels.dip}}
+                </button>
             </div>
 
             <!-- Add list of ingredients -->
@@ -48,8 +51,11 @@
                             :key="item.ingredient_id">
                     </Ingredient>
                 </div>
-                <button class = "prevButton" v-show="currentCategory !== 4" v-on:click="prevTab(currentCategory)">&#9668;</button>
-                <button class ="nextButton" v-show="currentCategory < 7" v-on:click="nextTab(currentCategory)">&#9658;</button>
+                <button class="prevButton" v-show="currentCategory !== 4" v-on:click="prevTab(currentCategory)">
+                    &#9668;
+                </button>
+                <button class="nextButton" v-show="currentCategory < 7" v-on:click="nextTab(currentCategory)">&#9658;
+                </button>
             </div>
 
             <!-- Order information -->
@@ -58,11 +64,13 @@
                     <div class="orderHeader">
                         {{ uiLabels.order }}
                     </div>
-                    <div class="orderSelectedWrapper">
+                    <div class="orderSelectedContainer">
                         <div>
                             <div v-for="item in this.groupIngredients(chosenIngredients)">
-                                <span v-show="item.ing.category==7"> Dipp</span> {{item.count}} x {{item.ing['ingredient_' + lang]}} {{item.stock}}
-                                <button class="plusButton" v-show="(item.ing.category == 4 && breadChosen==false) || (item.ing.category ==1 && doublePatty==false) || item.ing.category ==2 || item.ing.category ==3 || item.ing.category ==5 || item.ing.category ==6 || item.ing.category ==7 "
+                                <span v-show="item.ing.category==7"> Dipp</span> {{item.count}} x
+                                {{item.ing['ingredient_' + lang]}} {{item.stock}}
+                                <button class="plusButton"
+                                        v-show="(item.ing.category == 4 && breadChosen==false) || (item.ing.category ==1 && doublePatty==false) || item.ing.category ==2 || item.ing.category ==3 || item.ing.category ==5 || item.ing.category ==6 || item.ing.category ==7 "
                                         v-on:click="addToBurger(item.ing)">+
                                 </button>
                                 <button class="minusButton" v-on:click="removeFromBurger(item.ing)">-</button>
@@ -75,12 +83,23 @@
                         </button>
                     </div>
                     <div class="orderSummaryContainer">
-                        <b>{{uiLabels.yourOrder}}:</b>
+                        <div>
+                            <button class="eatButton" v-on:click="changeEatHere()" v-if="this.eatHere">
+                                {{uiLabels.eatHere}}
+                            </button>
+                            <button class="eatButton" v-on:click="changeEatHere()" v-if="!this.eatHere">
+                                {{uiLabels.eatAway}}
+                            </button>
+                        </div>
+                        <div>
+                            <b>{{uiLabels.yourOrder}}:</b>
+                        </div>
                         <div>
                             <div class="readyBurger" v-for="(burger, key) in checkoutOrder.burgers" :key="key">
                                 <button v-on:click="hideBurger(key)">^</button>
                                 <b>{{uiLabels.burgNr}} {{key + 1}}</b>
-                                <button class="delBurg" v-on:click="deleteBurger(checkoutOrder.burgers, key)">X</button>
+                                <button class="deleteBurger" v-on:click="deleteBurger(checkoutOrder.burgers, key)">X
+                                </button>
                                 <!--Above to the left is an attempt to hide the content of each burger, but I don't know how to
                                 separate the burgers from each other-->
                                 <!-- Key + 1 so it doesn't say "burger 0" on customers page -->
@@ -89,7 +108,9 @@
                             </span>
                             </div>
                             <!--<br><button class = "placeOrderButton" v-if = "chosenIngredients.length > 0" v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>-->
-                            <h4>{{uiLabels.tally}}: {{totalPrice}}:-</h4>
+                            <div class="orderSummaryPrice">
+                                {{uiLabels.tally}}: {{totalPrice}}:-
+                            </div>
                         </div>
                         <button class="orderButton" v-show="!this.noOrder" v-on:click="getNow">
                             <!-- no order if no burger is added to the tab-->
@@ -172,9 +193,6 @@
                         this.sideChosen = false;
                         this.drinkChosen = false;
                     }
-/*                    if (this.chosenIngredients[i].category === 1 && this.pattyChosen == true){
-                        this.doublePatty = true;
-                    }*/
                     if (this.chosenIngredients[i].category === 1) {
                         this.pattyChosen = true;
                         this.sideChosen = false;
@@ -187,16 +205,13 @@
                         this.drinkChosen = true;
                     }
                 }
-                if (this.pattyChosen == this.breadChosen && this.sideChosen )
-                    {  //order can only be made if burger and bread or drink or side is chosen
+                if (this.pattyChosen == this.breadChosen && this.sideChosen) {  //order can only be made if burger and bread or drink or side is chosen
                     return true;// kanske göra en elsif så man inte kan beställa bröd och dricka.
                 }
-                if (this.pattyChosen == this.breadChosen && this.drinkChosen)
-                {  //order can only be made if burger and bread or drink or side is chosen
+                if (this.pattyChosen == this.breadChosen && this.drinkChosen) {  //order can only be made if burger and bread or drink or side is chosen
                     return true;
                 }
-                if (this.pattyChosen && this.breadChosen)
-                {  //order can only be made if burger and bread or drink or side is chosen
+                if (this.pattyChosen && this.breadChosen) {  //order can only be made if burger and bread or drink or side is chosen
                     return true;
                 }
 
@@ -233,8 +248,8 @@
                 if (item.category === 1) {
                     this.patties += 1;
                 }
-                if (this.patties==2){
-                    this.doublePatty=true;
+                if (this.patties == 2) {
+                    this.doublePatty = true;
                 }
 
                 //console.log(this.chosenIngredients);
@@ -252,7 +267,7 @@
                     if (this.patties === 0) {
                         this.pattyChosen = false;
                     }
-                    if (this.patties <2) {
+                    if (this.patties < 2) {
                         this.doublePatty = false;
                     }
                 }
@@ -290,34 +305,29 @@
                 this.currentOrder = [];
                 this.category = 1;
             },
-            nextTab: function (cat){
-                if (cat < 3 || 6 > cat > 4){
+            nextTab: function (cat) {
+                if (cat < 3 || 6 > cat > 4) {
                     let newCat = cat + 1;
                     this.setCategory(newCat);
-                }
-                else if (cat === 5){
+                } else if (cat === 5) {
                     let newCat = 6;
                     this.setCategory(newCat);
-                }
-                else if (cat === 4) {
+                } else if (cat === 4) {
                     let newCat = 1;
                     this.setCategory(newCat);
-                }
-                else if (cat === 3){
+                } else if (cat === 3) {
                     let newCat = cat + 2;
                     this.setCategory(newCat);
-                }
-                else if (cat === 6){
+                } else if (cat === 6) {
                     let newCat = 3;
                     this.setCategory(newCat);
                 }
             },
-            prevTab: function(cat) {
-                if (cat === 1){
+            prevTab: function (cat) {
+                if (cat === 1) {
                     let newCat = 4;
                     this.setCategory(newCat);
-                }
-                else if (1 < cat < 3 || 6 > cat > 4){
+                } else if (1 < cat < 3 || 6 > cat > 4) {
                     let newCat = cat - 1;
                     this.setCategory(newCat);
                 }
@@ -366,6 +376,9 @@
         --secondary-dark-color: saddlebrown;
         --secondary-text-color: black;
         --border-color: black;
+        --minus-button-color: rgba(255, 28, 31, 0.36);
+        --plus-button-color: rgba(124, 255, 96, 0.36);
+        --delete-button-color: red;
     }
 
     /*GENERAL*/
@@ -380,10 +393,6 @@
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
-        background-color: hsl(2, 57%, 40%);
-        background-image: repeating-linear-gradient(transparent, transparent 50px, rgba(0, 0, 0, .4) 50px, rgba(0, 0, 0, .4) 53px, transparent 53px, transparent 63px, rgba(0, 0, 0, .4) 63px, rgba(0, 0, 0, .4) 66px, transparent 66px, transparent 116px, rgba(0, 0, 0, .5) 116px, rgba(0, 0, 0, .5) 166px, rgba(255, 255, 255, .2) 166px, rgba(255, 255, 255, .2) 169px, rgba(0, 0, 0, .5) 169px, rgba(0, 0, 0, .5) 179px, rgba(255, 255, 255, .2) 179px, rgba(255, 255, 255, .2) 182px, rgba(0, 0, 0, .5) 182px, rgba(0, 0, 0, .5) 232px, transparent 232px),
-        repeating-linear-gradient(270deg, transparent, transparent 50px, rgba(0, 0, 0, .4) 50px, rgba(0, 0, 0, .4) 53px, transparent 53px, transparent 63px, rgba(0, 0, 0, .4) 63px, rgba(0, 0, 0, .4) 66px, transparent 66px, transparent 116px, rgba(0, 0, 0, .5) 116px, rgba(0, 0, 0, .5) 166px, rgba(255, 255, 255, .2) 166px, rgba(255, 255, 255, .2) 169px, rgba(0, 0, 0, .5) 169px, rgba(0, 0, 0, .5) 179px, rgba(255, 255, 255, .2) 179px, rgba(255, 255, 255, .2) 182px, rgba(0, 0, 0, .5) 182px, rgba(0, 0, 0, .5) 232px, transparent 232px),
-        repeating-linear-gradient(125deg, transparent, transparent 2px, rgba(0, 0, 0, .2) 2px, rgba(0, 0, 0, .2) 3px, transparent 3px, transparent 5px, rgba(0, 0, 0, .2) 5px);
         position: absolute;
         width: 100%;
         height: 100%;
@@ -396,7 +405,7 @@
     .routerButton {
         text-decoration: none;
         text-transform: uppercase;
-        color: black;
+        color: var(--primary-text-color);
     }
 
     /*MAIN*/
@@ -404,7 +413,7 @@
     .wrapper {
         display: grid;
         margin: 0.25rem;
-        grid-template-areas: "header order" "nav order" "content order";
+        grid-template-areas: "header header" "nav order" "content order";
         grid-template-columns: 0.625fr 0.375fr;
         grid-template-rows: auto auto 1fr;
         grid-gap: 0.25rem;
@@ -429,9 +438,27 @@
         grid-area: header;
         background: var(--primary-color);
         border: 3px var(--border-color) solid;
-        border-radius: 10px;
+        border-radius: 0.5rem;
         text-align: center;
         text-transform: uppercase;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        font-size: 2rem;
+    }
+
+    .headerButton {
+        text-decoration: none;
+        text-transform: uppercase;
+        color: var(--primary-text-color);
+        background-color: var(--secondary-color);
+        font-size: 1rem;
+        font-weight: bold;
+        padding: 0.5rem 1rem;
+    }
+
+    .headerLabel {
+        font-weight: bold;
     }
 
     /*MENU*/
@@ -457,10 +484,12 @@
         padding: 1rem 0.6rem 1rem 0.6rem;
         outline: none;
     }
-    .catInact{
+
+    .catInact {
         background-color: var(--secondary-color);
     }
-    .catAct {
+
+    .catAct  {
         background-color: var(--secondary-dark-color);
     }
     /*.categoryTabs button:focus {
@@ -478,7 +507,7 @@
     .ingredient {
         background-color: var(--primary-light-color);
         border: 3px var(--primary-dark-color) solid;
-        border-radius: 10px;
+        border-radius: 0.5rem;
         color: var(--primary-text-color);
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
@@ -502,7 +531,7 @@
         background-color: var(--primary-color);
         border: 3px var(--border-color) solid;
         padding: 0.25rem;
-        border-radius: 10px;
+        border-radius: 0.5rem;
         height: 30rem;
         overflow: scroll;
     }
@@ -516,13 +545,13 @@
         color: white;
         font-size: 1.5em;
         outline: none;
-        box-shadow: 	0 0 0 2px #000,
+        box-shadow: 0 0 0 2px #000,
         0 0 0 2px #999,
         0 0 0 6px white,
         0 0 0 7px black,
         0 0 0 2px black,
         0 0 0 3px black,
-        0 2px 2px 2px rgba(0,0,0,0.5);;
+        0 2px 2px 2px rgba(0, 0, 0, 0.5);;
     }
     .prevButton {
         float: left;
@@ -531,14 +560,15 @@
         color: white;
         font-size: 1.5em;
         outline: none;
-        box-shadow: 	0 0 0 2px #000,
+        box-shadow: 0 0 0 2px #000,
         0 0 0 2px #999,
         0 0 0 6px white,
         0 0 0 7px black,
         0 0 0 2px black,
         0 0 0 3px black,
-        0 2px 2px 2px rgba(0,0,0,0.5);;
+        0 2px 2px 2px rgba(0, 0, 0, 0.5);;
     }
+
     /*ORDER*/
 
     .orderContainer {
@@ -546,15 +576,6 @@
         width: 100%;
         height: 100%;
     }
-
-    /*.orderWrapper {*/
-    /*    display: flex;*/
-    /*    align-items: center;*/
-    /*    flex-direction: column;*/
-    /*    background-color: var(--primary-color);*/
-    /*    border: 3px var(--border-color) solid;*/
-    /*    border-radius: 10px;*/
-    /*}*/
 
     .orderWrapper {
         display: grid;
@@ -565,14 +586,14 @@
         grid-template-rows: auto auto auto;
         background-color: var(--primary-color);
         border: 3px var(--border-color) solid;
-        border-radius: 10px;
+        border-radius: 0.5rem;
     }
 
     .orderHeader {
         grid-area: orderHeader;
         background-color: var(--primary-light-color);
         border: 3px var(--border-color) solid;
-        border-radius: 10px;
+        border-radius: 0.5rem;
         text-transform: uppercase;
         text-align: center;
         font-weight: bold;
@@ -581,57 +602,75 @@
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
 
-    .orderSelectedWrapper {
+    .orderSelectedContainer {
         grid-area: orderSelected;
         display: flex;
         align-items: center;
         flex-direction: column;
         background: var(--primary-light-color);
         border: 3px var(--border-color) solid;
-        border-radius: 5px;
+        border-radius: 0.5rem;
         padding: 0.25rem;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .eatButton {
+        border: 3px var(--border-color) solid;
+        background-color: var(--secondary-color);
+        border-radius: 0.75rem;
+        text-transform: uppercase;
+        text-align: center;
+        font-style: oblique;
+        font-weight: bold;
+        padding: 0.25rem 0.5rem;
     }
 
     .orderSummaryContainer {
         grid-area: orderSummary;
         display: flex;
         align-items: center;
+        justify-content: space-between;
         flex-direction: column;
         background: var(--primary-light-color);
         border: 3px var(--border-color) solid;
-        border-radius: 5px;
+        border-radius: 0.5rem;
         padding: 0.25rem;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
 
     .orderSummaryContainer b {
-        border-bottom: black solid 3px;
+        border-bottom: 3px var(--border-color) solid;
     }
 
     .orderSummaryContainer span {
-        color: black;
+        color: var(--primary-text-color);
+    }
+
+    .orderSummaryPrice {
+        font-weight: bold;
+        margin: 0.25rem;
+        text-align: center;
     }
 
     .readyBurger {
-        border: black solid 3px;
-        border-radius: 10px;
+        border: 3px var(--border-color) solid;
+        border-radius: 0.5rem;
         padding: 0.2rem;
         margin-top: 0.5rem;
         margin-bottom: 0.5rem;
         background-color: var(--primary-light-color);
     }
 
-    .delBurg {
+    .deleteBurger {
         border-radius: 50%;
         background-image: linear-gradient(to bottom right, #a10000, #ff2e2e);
-        background-color: red;
-        border: solid black 1px;
+        background-color: var(--delete-button-color);
+        border: 1px var(--border-color) solid;
     }
 
     .minusButton {
         order: 1;
-        background-color: rgba(255, 28, 31, 0.36);
+        background-color: var(--minus-button-color);
         -webkit-transition-duration: 0.4s; /* transition to color */
         transition-duration: 0.4s;
         border-radius: 50%;
@@ -640,7 +679,7 @@
 
     .plusButton {
         order: 1;
-        background-color: rgba(124, 255, 96, 0.36);
+        background-color: var(--plus-button-color);
         border-radius: 50%;
         -webkit-transition-duration: 0.4s; /* transition to color */
         transition-duration: 0.4s;
@@ -650,7 +689,7 @@
     .orderButton {
         border: 3px var(--border-color) solid;
         background-color: var(--secondary-light-color);
-        border-radius: 15px;
+        border-radius: 0.75rem;
         text-transform: uppercase;
         text-align: center;
         font-style: oblique;
@@ -661,21 +700,20 @@
 
     .allergyContainer {
         grid-area: allergies;
-
     }
 
     .allergyBox {
         background-color: var(--primary-light-color);
         border: 3px var(--border-color) solid;
-        border-radius: 10px;
+        border-radius: 0.5rem;
         padding: 1rem;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
 
     .allergyBox p {
         display: inline-block;
-        border: black solid 1px;
-        color: black;
+        border: 1px var(--border-color) solid;
+        color: var(--primary-text-color);
         margin-left: 2px;
         padding-left: 5px;
         padding-right: 5px;
