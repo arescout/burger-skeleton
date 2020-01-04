@@ -42,7 +42,8 @@ io.on('connection', function (socket) {
         ingredients: data.getIngredients() });
 
     // When someone orders something
-    socket.on('order', function (order) {
+    socket.on('order', function (order, eatHere) {
+        order.eatHere=eatHere;
         var orderIdAndName = data.addOrder(order);
         data.changeStockWithOrder(order, false);
         // send updated info to all connected clients, note the use of io instead of socket
