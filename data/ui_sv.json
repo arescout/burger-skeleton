@@ -26,9 +26,9 @@
   "sides" : "Tillbehör",
   "dip": "Dipsås",
   "tally" : "Totalt pris",
-  "proceedToCO" : "Fortsätt till utcheckning",
-  "backToOrd" : "Gå tillbaks till ordern",
-  "startpage" : "Till startsidan",
+  "proceedToCO" : "Fortsätt till kassan",
+  "backToOrd" : "Gå tillbaka till din order",
+  "startpage" : "Avsluta",
   "unit" : "stk",
   "welcomeTextBox" : "Vi är en restaurang som ägnar sig åt att tillhandahålla exakt den burger du vill ha. Här på Indie Burgers älskar vi att skapa den bästa individuella hamburgaren just för dig.",
   "welcomeShort": "Välkommen till Indie Burgers",
@@ -56,5 +56,6 @@
   "seName" : "Svenskt namn",
   "enName" : "Engelskt namn",
   "sellingPrice" : "Försäljningspris",
-  "initSaldo" : "Ursprungligt saldo"
+  "initSaldo" : "Ursprungligt saldo",
+  "description": "Vi tror på individuella människor som vill ha möjligheten att välja, att göra personliga burgare just för dig.\nDu väljer ingredienser med plus knappen och när du gjort en burgare du är nöjd med tryck på \"lägg till i beställning\" knappen. Sedan kan du fortsätta med att göra en till burgare om du önskar. Annars gå till checkout för betalning. \nVi har krav på att en burgare maximalt får innehålla ett bröd och två biffar. Mvh Indie Burgers "
 }
