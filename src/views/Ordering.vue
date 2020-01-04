@@ -127,6 +127,9 @@
                         </div>
                     </div>
                 </div>
+                <div class="orderHelpContainer">
+                    {{uiLabels.description}}
+                </div>
             </div>
         </div>
 
@@ -581,6 +584,14 @@
         grid-template-areas: "orderHeader orderHeader" "orderSelected allergies" "orderSummary allergies";
         grid-template-columns: auto auto;
         grid-template-rows: auto auto auto;
+        background-color: var(--primary-color);
+        border: 3px var(--border-color) solid;
+        border-radius: 0.5rem;
+    }
+
+    .orderHelpContainer {
+        margin-top: 0.25rem;
+        padding: 0.25rem;
         background-color: var(--primary-color);
         border: 3px var(--border-color) solid;
         border-radius: 0.5rem;
