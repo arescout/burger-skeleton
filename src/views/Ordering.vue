@@ -128,7 +128,33 @@
                     </div>
                 </div>
                 <div class="orderHelpContainer">
-                    {{uiLabels.description}}
+                    <div class="orderHelpHeadline">
+                        {{uiLabels.howToHeadline}}
+                    </div>
+                    <div>
+                        <b>{{uiLabels.howToStep}} 1.</b>
+                    </div>
+                    <div>
+                        {{uiLabels.howToStepOne}}
+                    </div>
+                    <div>
+                        <b>{{uiLabels.howToStep}} 2.</b>
+                    </div>
+                    <div>
+                        {{uiLabels.howToStepTwo}}
+                    </div>
+                    <div>
+                        <b>{{uiLabels.howToStep}} 3.</b>
+                    </div>
+                    <div>
+                        {{uiLabels.howToStepThree}}
+                    </div>
+                    <div>
+                        <b>{{uiLabels.howToStep}} 4.</b>
+                    </div>
+                    <div>
+                        {{uiLabels.howToStepFour}}
+                    </div>
                 </div>
             </div>
         </div>
@@ -590,11 +616,20 @@
     }
 
     .orderHelpContainer {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
         margin-top: 0.25rem;
         padding: 0.25rem;
         background-color: var(--primary-color);
         border: 3px var(--border-color) solid;
         border-radius: 0.5rem;
+        text-align: center;
+    }
+
+    .orderHelpHeadline {
+        font-size: 1.25rem;
+        font-weight: bold;
     }
 
     .orderHeader {
