@@ -2,7 +2,7 @@
     <div id="startPage">
         <div class="startPageWrapper">
             <button class="routerButton" v-on:click="switchLang()">
-                <img id="langPic" v-if="flag_sw" src=https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width="20px">{{uiLabels.language}}
+                <img id="langPic" v-if="flag_sw" src=https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width="20px">
                 <img id="langPic" v-if="flag_en" src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" width="20px">{{uiLabels.language}}
 
             </button>
