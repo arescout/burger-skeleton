@@ -365,7 +365,7 @@
                     this.setCategory(newCat);
                 }
                 else if (cat === 6){
-                    let newCat = 3;
+                    let newCat = 7;
                     this.setCategory(newCat);
                 }
             },
