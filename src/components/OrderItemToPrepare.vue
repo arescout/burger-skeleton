@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="head">
+        <div class="head" :class="[ notStarted ? 'head' : 'headStarted' ]">
             <h3>{{uiLabels.orderNr}}: #{{orderId}}</h3><br>
             @<b>{{order.time}}</b>, {{order.status}} <span v-show="order.eatHere">{{uiLabels.eatHere}}</span>
             <span v-show="!order.eatHere"> {{uiLabels.eatAway}} </span>
@@ -33,10 +33,16 @@
             orderId: String,
             lang: String
         },
+        data: function () {
+            return {
+                notStarted: true,
+            }
+        },
         methods: {
             orderDone: function () {
-    // sending 'done' message to parent component or view so that it can catch it with v-on:done in the component declaration
+                // sending 'done' message to parent component or view so that it can catch it with v-on:done in the component declaration
                 this.$emit('done');
+                this.notStarted = !this.notStarted;
             },
             cancelOrder: function () {
                 this.$emit('cancel');
@@ -54,6 +60,12 @@
     .head {
         padding: 1rem;
         background-color: mediumseagreen;
+        font-size: 1.5rem;
+    }
+
+    .headStarted {
+        padding: 1rem;
+        background-color: yellow;
         font-size: 1.5rem;
     }
 
