@@ -91,7 +91,9 @@
                                 {{uiLabels.eatAway}}
                             </button>
                         </div>
-                        <b>{{uiLabels.yourOrder}}:</b>
+                        <div>
+                            <b>{{uiLabels.yourOrder}}:</b>
+                        </div>
                         <div>
                             <div class="readyBurger" v-for="(burger, key) in checkoutOrder.burgers" :key="key">
                                 <button v-on:click="hideBurger(key)">^</button>
@@ -109,7 +111,9 @@
                             </span>
                             </div>
                             <!--<br><button class = "placeOrderButton" v-if = "chosenIngredients.length > 0" v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>-->
-                            <h4>{{uiLabels.tally}}: {{totalPrice}}:-</h4>
+                            <div class="orderSummaryPrice">
+                                {{uiLabels.tally}}: {{totalPrice}}:-
+                            </div>
                         </div>
                         <button class="orderButton" v-show="!this.noOrder" v-on:click="getNow">
                             <!-- no order if no burger is added to the tab-->
@@ -629,12 +633,14 @@
         text-align: center;
         font-style: oblique;
         font-weight: bold;
+        padding: 0.25rem 0.5rem;
     }
 
     .orderSummaryContainer {
         grid-area: orderSummary;
         display: flex;
         align-items: center;
+        justify-content: space-between;
         flex-direction: column;
         background: var(--primary-light-color);
         border: 3px var(--border-color) solid;
@@ -649,6 +655,12 @@
 
     .orderSummaryContainer span {
         color: var(--primary-text-color);
+    }
+
+    .orderSummaryPrice {
+        font-weight: bold;
+        margin: 0.25rem;
+        text-align: center;
     }
 
     .readyBurger {
