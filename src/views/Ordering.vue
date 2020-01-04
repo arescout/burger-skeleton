@@ -135,10 +135,8 @@
                 breadChosen: false,
                 pattyChosen: false,
                 doublePatty: false,
-                //orderReady: false,
                 sideChosen: false,
                 drinkChosen: false,
-                //noOrder: false,
                 noShow: false,
                 hideBurg: false,
                 patties: 0,
@@ -146,12 +144,6 @@
                 activeCat: 0,
                 isActive: false,
                 numbOfBurgers: 0,
-                currentOrder: { // Tas bort?
-                    burgers: [], eatHereCurrent: false
-                },
-                aggregatedOrders: {
-                    burgers: []
-                },
             }
         },
         created: function () {
@@ -215,26 +207,6 @@
                     return noOrder = true;
                 }
             },
-            //Nytt Taken from burger-skeleton/severalBurgers/src/views/Kitchen.vue and changed ingredients to our array chosenIngredients
-            countAllIngredients: function () {
-                let ingredientTuples = [];
-                for (let i = 0; i < this.chosenIngredients.length; i += 1) {
-                    ingredientTuples[i] = {};
-                    ingredientTuples[i].name = this.chosenIngredients[i]['ingredient_' + this.lang];
-                    ingredientTuples[i].count = this.countNumberOfIngredients(this.chosenIngredients[i].ingredient_id);
-                }
-                //Create an array difIngredients where
-                // Array.from creates a new shallow-copied array
-                // set is being used to remove duplicates/store unique values
-                let difIngredients = Array.from(new Set(ingredientTuples.map(arrayName => arrayName.name))).map(name => {
-                    return {
-                        name: name,
-                        count: ingredientTuples.find(arrayName => arrayName.name === name).count
-                    };
-                });
-
-                return difIngredients;
-            },
         },
         methods: {
 
@@ -297,35 +269,6 @@
                 this.currentPrice -= +item.selling_price;
             },
 
-            addToOrder: function () {// ta bort
-                // Add the burger to an order array
-                if (this.chosenIngredients.length === 0) {
-                    return;
-                }
-
-                this.currentOrder.burgers.push({
-                    ingredients: this.chosenIngredients.splice(0),
-                    price: this.currentPrice
-                });
-
-                this.aggregatedOrders.burgers.push({
-                    ingredients: this.countPlacedIngredients(this.currentOrder.burgers)
-                });
-                this.$store.commit('addToCheckoutOrder', this.groupIngredients(this.chosenIngredients));
-                this.$store.commit('addToTotal', this.currentPrice);
-
-                //set all counters to 0. Notice the use of $refs
-                for (let i = 0; i < this.$refs.ingredient.length; i += 1) {
-                    this.$refs.ingredient[i].resetCounter();
-                }
-                this.chosenIngredients = [];
-                this.currentPrice = 0;
-                this.noOrder = false;  //reset counters
-                this.orderReady = false;
-                this.breadChosen = false;
-                this.pattyChosen = false;
-
-            },
             placeOrder: function () {
                 // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
                 let thisBurger = this.groupIngredients(this.chosenIngredients);
@@ -334,10 +277,9 @@
                 this.$store.commit('addToCheckoutOrder', thisBurger);
                 this.$store.commit('addToTotal', this.currentPrice);
 
+                // Reset all relevant data
                 this.chosenIngredients = [];
                 this.currentPrice = 0;
-                //this.noOrder = false;  //reset counters
-                //this.orderReady = false;
                 this.breadChosen = false;
                 this.pattyChosen = false;
                 this.drinkChosen = false;
@@ -384,41 +326,6 @@
             setCategory: function (newCat) {
                 this.currentCategory = newCat;
             },
-
-            countNumberOfIngredients: function (id) {
-                //Nytt Taken from burger-skeleton/severalBurgers/src/views/Kitchen.vue
-                let counter = 0;
-                for (let ingredIndex in this.chosenIngredients) {
-                    //Now we have an array of ingredients in an order which is checked with the id that being sent from countAllIngredients in the call
-                    if (this.chosenIngredients[ingredIndex].ingredient_id === id) {
-                        counter += 1;
-                    }
-                }
-                return counter;
-            },
-
-            // Function for counting number of same ingredients in ingredient list
-            countPlacedIngredients: function (ingredientList) {
-                // Create new array for collecting the unique ingredients
-                let ingredientTuples = [];
-
-                let indexCount = 0;
-
-                // Go through input list
-                for (let index = 0; index < ingredientList[this.numbOfBurgers].ingredients.length; index++) {
-                    // Check if ingredientTuples has an instance of this ingredient
-                    if (!ingredientTuples.includes(ingredientList[this.numbOfBurgers].ingredients[index])) {
-                        ingredientTuples[indexCount] = ingredientList[this.numbOfBurgers].ingredients[index];
-                        ingredientTuples[indexCount].count = 1;
-                        indexCount += 1;
-                    } else {
-                        ingredientTuples[ingredientTuples.indexOf(ingredientList[this.numbOfBurgers].ingredients[index])].count += 1;
-                    }
-                }
-                this.numbOfBurgers += 1;
-                return ingredientTuples;
-            },
-
             hideBurger: function (key) {
                 this.hideBurg = !this.hideBurg;
             },
