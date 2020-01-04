@@ -73,11 +73,11 @@ Data.prototype.getWhereToEat= function(){
 
 Data.prototype.addOrder = function (order) {
   let orderId = this.getOrderNumber();
-  let whereEat=this.getWhereToEat();
+
   this.orders[orderId] = order;
   this.orders[orderId].orderId = orderId;
   this.orders[orderId].status = "not-started";
-  this.orders[orderId].eatHere= whereEat;
+  this.orders[orderId].eatHere= order.eatHere;
 
 
   /**var transactions = this.data[transactionsDataName],
