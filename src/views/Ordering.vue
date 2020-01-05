@@ -504,7 +504,7 @@
         background-color: var(--secondary-color);
     }
 
-    .catAct  {
+    .catAct {
         background-color: var(--secondary-dark-color);
     }
 

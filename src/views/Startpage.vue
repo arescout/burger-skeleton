@@ -26,9 +26,8 @@
     export default {
         name: 'StartingPage',
         components: {},
-        mixins: [sharedVueStuff], // include stuff that is used in both
-                                  // the ordering system and the kitchen
-        data: function () { //Not that data is a function!
+        mixins: [sharedVueStuff],
+        data: function () {
             return {}
         },
         computed: {
@@ -47,7 +46,6 @@
             },
             whereToEatFuncAway: function () {
                 this.$store.commit('setEatHere', false);
-
             }
         }
     }
