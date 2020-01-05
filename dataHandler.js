@@ -71,7 +71,7 @@ Data.prototype.addOrder = function (order) {
     this.orders[orderId].status = "not-started";
     this.orders[orderId].eatHere = order.eatHere;
     this.orders[orderId].time = timeStamp;
-    
+
     return orderId;
 };
 
