@@ -59,5 +59,11 @@
   "initSaldo" : "Initital saldo",
   "yourOrdNr" : "Your order number is:",
   "yourPlace" : "Your place the queue is:",
-  "description": "We believe in individual people who want the opportunity to choose, to make personalized burgers.\nYou choose ingredients with the plus-button and when you have made a burger you are happy with use the \"add to order\" button. Then you can continue making one more burger if you wish. Otherwise go to checkout for payment.\nWe have a requirement that a burger may contain a maximum of one bread and two steaks/patties. Best regards Indie Burgers"
+  "howToHeadline" : "How To Order",
+  "howToStep" : "Step",
+  "howToStepOne" : "Choosing ingredients & create burger (least one bread & maximum two patties).",
+  "howToStepTwo" : "Add burger to order.",
+  "howToStepThree" : "Repeat step 1-2 OR proceed to payment.",
+  "howToStepFour" : "Pay & collect order.",
+  "description": "We believe in choice, here you can customize personal burgers just for you. You select ingredients with the plus button, and when you have selected and burger you are happy with, press add to order button. Then you can continue to choose more burgers if you want. Note that a burger must contain a loaf of bread and a maximum of two steaks."
 }

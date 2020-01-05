@@ -1,17 +1,11 @@
 <template>
     <div id="checkout">
-        <button class="routerButton" v-on:click="switchLang()">
-            <img id="langPic" v-if='flag_sw' src=https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width=20px>
-            <img id="langPic" v-if="flag_en" src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" width="20px">{{uiLabels.language}}
-
-        </button>
-        <button class="eatButton" v-on:click="changeEatHere()" v-if="this.eatHere">
-            {{uiLabels.eatHere}}
-        </button>
-        <button class="eatButton" v-on:click="changeEatHere()" v-if="!this.eatHere">
-            {{uiLabels.eatAway}}
-        </button>
         <div class="itemsWrapper">
+            <div class="languageItem">
+                <button class="languageButton" v-on:click="switchLang()">
+                    {{uiLabels.language }}
+                </button>
+            </div>
             <div class="buttonItem">
                 <button class="backButton">
                     <router-link to="/ordering" class="routerButton">{{uiLabels.backToOrd}}</router-link>
@@ -30,16 +24,17 @@
                                 <br/>{{ item.ing["ingredient_" + lang]}}: {{ item.count }} {{uiLabels.unit}} {{item.stock}}
                             </span>
                         </div>
-                    <br><br>
-                    <b>{{uiLabels.tally}}: {{this.totalPrice}}</b>:-<br>
-                    <button class="paymentButton"
-                            v-on:click="placeOrder">{{uiLabels.payButton}}</button>
-                    <div class="paymentBox" v-show="confirmedPayment">
-                        <button class="xButton"  v-on:click="confirmedPayment=false">X</button>
-                        {{uiLabels.cardTerminal}}
+                        <br><br>
+                        <b>{{uiLabels.tally}}: {{this.totalPrice}}</b>:-<br>
+                        <button class="paymentButton"
+                                v-on:click="placeOrder">{{uiLabels.payButton}}
+                        </button>
+                        <div class="paymentBox" v-show="confirmedPayment">
+                            <button class="xButton" v-on:click="confirmedPayment=false">X</button>
+                            {{uiLabels.cardTerminal}}
+                        </div>
                     </div>
                 </div>
-            </div>
             </div>
         </div>
     </div>
@@ -61,7 +56,7 @@
 
         mixins: [sharedVueStuff],
 
-        data: function () { //Not that data is a function!
+        data: function () {
             return {
                 confirmedPayment: false,
                 orderNumber: "",
@@ -73,7 +68,7 @@
             checkoutOrder: function () {
                 return this.$store.state.checkoutOrder;
             },
-            totalPrice : function () {
+            totalPrice: function () {
                 return this.$store.state.totalPrice;
             },
             eatHere: function () {
@@ -104,12 +99,16 @@
             },
             getPlaceInQueue: function () {
                 let ordersInQueue = 0;
-                for (let order in this.orders){
-                    if (this.orders[order].status !== 'done' && this.orders[order].status !== 'canceled'){
+                for (let order in this.orders) {
+                    if (this.orders[order].status !== 'done' && this.orders[order].status !== 'canceled') {
                         ordersInQueue += 1;
                     }
                 }
                 this.placeInQueue = ordersInQueue + 1; // +1 to get customer's place, not number of orders in front
+            },
+            exitClear: function () {
+                this.$store.commit('clearCheckoutOrder');
+                this.$store.commit('clearTotal');
             }
         }
     };
@@ -139,6 +138,8 @@
         left: 0;
     }
 
+    /*MAIN*/
+
     .itemsWrapper {
         display: flex;
         flex-direction: column;
@@ -149,8 +150,17 @@
     }
 
     .buttonItem {
-        flex-basis: 20%;
+        flex-basis: 10%;
         padding: 0.5rem;
+        order: 1;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-around;
+    }
+
+    .languageItem {
+        flex-basis: 10%;
+        /*padding: 0.5rem;*/
         order: 1;
         display: flex;
         align-items: flex-end;
@@ -166,42 +176,11 @@
         justify-content: space-around;
     }
 
-    .backButton {
-        background-color: rgba(255, 199, 74, 0.36);
-        border-radius: 10px;
-        border: solid black 3px;
-        font-size: 1rem;
-        text-transform: uppercase;
-        font-style: oblique;
-        font-weight: bold;
-    }
-
-    .paymentButton {
-        /*margin-top: 10em;*/
-        text-align: center;
-        border-radius: 10px;
-        background-color: #ffc74a;
-        border: solid black 3px;
-        text-transform: uppercase;
-        font-style: oblique;
-        font-weight: bold;
-        margin: 0.25rem;
-    }
-
     .checkOutTable {
         background-color: bisque;
         text-align: center;
         border: solid black 5px;
         width: 70%;
-
-        /*margin-left: 20em;*/
-        /*margin-right: 20em;*/
-        /*padding-bottom: 5em;*/
-    }
-
-    .routerButton {
-        text-decoration: none;
-        color: black;
     }
 
     .finalOrder {
@@ -212,33 +191,56 @@
         background-color: #efff9a;
         border: solid black 3px;
         width: 70%;
-        hight:70%;
+        height: 70%;
         margin: auto;
-        /*margin-right: 5vw;
-        margin-left: 5vw;
-        padding: 5vw;
-        position: relative;*/
         text-align: center;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    /*BUTTONS*/
+
+    .languageButton {
+        text-decoration: none;
+        text-transform: uppercase;
+        color: black;
+        font-size: 1rem;
+        font-weight: bold;
+        border-radius: 3rem;
+        border: 0.2em var(--border-color) solid;
+        background-color: var(--primary-light-color);
+        padding: 0.5rem 1rem;
+    }
+
+    .paymentButton {
+        text-align: center;
+        border-radius: 10px;
+        background-color: #ffc74a;
+        border: solid black 3px;
+        text-transform: uppercase;
+        font-style: oblique;
+        font-weight: bold;
+        margin: 0.25rem;
+    }
+
+    .backButton {
+        background-color: rgba(255, 199, 74, 0.36);
+        border-radius: 10px;
+        border: solid black 3px;
+        font-size: 1rem;
+        text-transform: uppercase;
+        font-style: oblique;
+        font-weight: bold;
     }
 
     .paymentBox button {
         background-color: #ff0000;
         border-radius: 50%;
         border: solid black 2px;
-        /*position: absolute;*/
-        float:right;
-        /*top: 0px;
-        right: 0px;*/
+        float: right;
     }
 
     .routerButton {
-        position: absolute;
-        top: 10px;
-        left: 20px;
-        padding: 0;
-        margin: 0;
-        background: transparent;
-        border: transparent;
+        text-decoration: none;
+        color: black;
     }
 </style>

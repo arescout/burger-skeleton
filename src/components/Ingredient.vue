@@ -18,13 +18,14 @@
                             </div>
                         </div>
                         <div v-else>-->
-                            <button class="plusButton" id="inc" v-show = "showPlusOrNot()" v-on:click="incrementCounter($event)">
-                                + <!-- only one bread can be selected -->
-                            </button>
-                            {{ itemCount }}
-                            <button class="minusButton" id="dec" v-if="itemCount > 0" v-on:click="decrementCounter($event)">
-                                -
-                            </button>
+                        <button class="plusButton" id="inc" v-show="showPlusOrNot()"
+                                v-on:click="incrementCounter($event)">
+                            + <!-- only one bread can be selected -->
+                        </button>
+                        {{ itemCount }}
+                        <button class="minusButton" id="dec" v-if="itemCount > 0" v-on:click="decrementCounter($event)">
+                            -
+                        </button>
                         <!--</div>-->
                     </div>
                     <div class="allergicBox">
@@ -61,14 +62,14 @@
             };
         },
 
-        created: function(){
+        created: function () {
             this.checkCounter();    // Check if ingredient already is chosen
         },
         methods: {
-            showPlusOrNot: function() {
+            showPlusOrNot: function () {
                 if (this.$parent.breadChosen && this.$parent.currentCategory == 4)
-                    return false ;
-                else if (this.$parent.doublePatty && this.$parent.currentCategory == 1 )
+                    return false;
+                else if (this.$parent.doublePatty && this.$parent.currentCategory == 1)
                     return false;
                 else return true
             },
@@ -89,23 +90,6 @@
                 } else {
                     this.item.currentOrderCounter = 1;
                 }
-
-
-                // sending 'increment' message to parent component or view so that it
-                // can catch it with v-on:increment in the component declaration
-
-                //this.$emit('counter', this.counter)  //nytt
-                //if (this.item.category === 4) { //if a bread i selected plus button now disappears
-                //  this.breadChosen = true;
-                //}
-                /*if (this.item.category === 1) {
-              this.patties += 1;
-              this.burgerChosen = true;
-            }
-            if (this.patties === 2) {
-              this.doublePatty = true;
-            }*/
-
             },
 
             decrementCounter: function (ev) {
@@ -115,19 +99,8 @@
                     this.$emit('decrease');
                 }
                 if (this.item.category === 4) { //if selected bread is unselected, the plus button reappears
-                  this.$parent.breadChosen = false;
+                    this.$parent.breadChosen = false;
                 }
-
-                /*if (this.item.category === 1) {
-              this.patties -= 1;
-            }
-            if (this.patties < 2) {
-              this.doublePatty = false;
-            }*/
-            },
-            resetCounter: function () {
-                this.counter = 0;
-                this.item.currentOrderCounter = 0;
             },
             // Function to check and show the number of ingredient already chosen
             checkCounter: function () {
@@ -149,6 +122,8 @@
 </script>
 <style scoped>
 
+    /*MAIN*/
+
     .itemsWrapper {
         display: flex;
         flex-direction: column;
@@ -158,64 +133,11 @@
         height: 100%;
     }
 
-    .buttonItem {
-        flex-basis: 100%;
-        padding: 0.5rem;
-        order: 1;
-    }
-
-    .buttonWrapper {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        height: 100%;
-    }
-
-    .buttonBox {
-        order: 1;
-    }
-    .plusButton, .minusButton :hover{
-        font-size: 180%;
-    }
-
-    .plusButton {
-        order: 1;
-        background-color: rgba(124, 255, 96, 0.36);
-        border-radius: 50%;
-        -webkit-transition-duration: 0.4s; /* transition to color */
-        transition-duration: 0.4s;
-        font-size: 1.5em;
-        outline: none;
-    }
-
-    .minusButton {
-        order: 1;
-        background-color: rgba(255, 28, 31, 0.36);
-        -webkit-transition-duration: 0.4s; /* transition to color */
-        transition-duration: 0.4s;
-        border-radius: 50%;
-        font-size: 1.5em;
-        outline: none;
-    }
     .chosenBread {
         background-color: whitesmoke;
         border: #347cff solid 3px;
         height: auto;
         width: auto;
-    }
-    .breadButton {
-        opacity: 50%;
-        width: 100px;
-        height: 100px;
-        position: relative;
-        top: 0px;
-        right: 0px;
-    }
-
-    .ingredient button:hover {
-        background-color: rgba(255, 223, 26, 0.36);
-        color: black;
-        font-size: 1.7em;
     }
 
     .allergicBox {
@@ -258,5 +180,61 @@
         border-radius: 50%;
     }
 
+    /*BUTTONS*/
 
+    .buttonItem {
+        flex-basis: 100%;
+        padding: 0.5rem;
+        order: 1;
+    }
+
+    .buttonWrapper {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+    }
+
+    .buttonBox {
+        order: 1;
+    }
+
+    .plusButton, .minusButton :hover {
+        font-size: 180%;
+    }
+
+    .plusButton {
+        order: 1;
+        background-color: rgba(124, 255, 96, 0.36);
+        border-radius: 50%;
+        -webkit-transition-duration: 0.4s; /* transition to color */
+        transition-duration: 0.4s;
+        font-size: 1.5em;
+        outline: none;
+    }
+
+    .minusButton {
+        order: 1;
+        background-color: rgba(255, 28, 31, 0.36);
+        -webkit-transition-duration: 0.4s; /* transition to color */
+        transition-duration: 0.4s;
+        border-radius: 50%;
+        font-size: 1.5em;
+        outline: none;
+    }
+
+    .ingredient button:hover {
+        background-color: rgba(255, 223, 26, 0.36);
+        color: black;
+        font-size: 1.7em;
+    }
+
+    .breadButton {
+        opacity: 50%;
+        width: 100px;
+        height: 100px;
+        position: relative;
+        top: 0px;
+        right: 0px;
+    }
 </style>

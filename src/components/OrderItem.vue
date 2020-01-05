@@ -2,7 +2,9 @@
     <div>
         <div class="head">
             <h3>{{uiLabels.orderNr}}: #{{orderId}}</h3><br>
-            @ <b>13:37</b>, {{order.status}} {{order.eatHereBurg}}
+            @<b>{{order.time}}</b>, {{order.status}} <span v-show="order.eatHere">{{uiLabels.eatHere}}</span>
+            <span v-show="!order.eatHere"> {{uiLabels.eatAway}} </span>
+
         </div>
         <div class="body" v-for="(burger,key2) in order.burgers" :key2="key2">
             <b>{{uiLabels.burgNr}}: #{{key2 + 1}}</b>

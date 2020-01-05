@@ -59,5 +59,11 @@
   "initSaldo" : "Ursprungligt saldo",
   "yourOrdNr" : "Ditt beställningsnummer är:",
   "yourPlace" : "Din plats i kön är:",
-  "description": "Vi tror på individuella människor som vill ha möjligheten att välja, att göra personliga burgare just för dig.\nDu väljer ingredienser med plus knappen och när du gjort en burgare du är nöjd med tryck på \"lägg till i beställning\" knappen. Sedan kan du fortsätta med att göra en till burgare om du önskar. Annars gå till checkout för betalning. \nVi har krav på att en burgare maximalt får innehålla ett bröd och två biffar. Mvh Indie Burgers "
+  "howToHeadline" : "Beställningsguide",
+  "howToStep" : "Steg",
+  "howToStepOne" : "Välj ingredienser & skapa burgare (minst ett bröd & maximalt två biffar).",
+  "howToStepTwo" : "Lägg till burgare till beställningen.",
+  "howToStepThree" : "Repetera steg 1-2 ELLER fortsätt till betalning.",
+  "howToStepFour" : "Betala & hämta beställningen.",
+  "description": "Vi tror på valmöjlighet, därför kan du här anpassa personliga burgare just för dig. Du väljer ingredienser med plus-knappen, och när du valt en burgare som du är nöjd med, tryck på \"lägg till i beställning\" knappen. Sedan kan du fortsätta med att välja fler burgare om du så önskar. Notera att en burgare måste innehålla ett bröd och maximalt två biffar."
 }

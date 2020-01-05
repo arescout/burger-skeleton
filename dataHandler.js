@@ -10,6 +10,7 @@ function Data() {
     this.orders = {};
     this.currentOrderNumber = 0;
 }
+
 Data.prototype.getUILabels = function (lang) {
     var ui = require("./data/ui_" + (lang || defaultLanguage) + ".json");
     return ui;
@@ -58,34 +59,20 @@ Data.prototype.getOrderNumber = function () {
     this.currentOrderNumber += 1;
     return this.currentOrderNumber;
 }
-Data.prototype.getWhereToEat = function () {
+Data.prototype.getWhereToEat = function () {   //ta bort?
     return this.eatHere;
 }
 Data.prototype.addOrder = function (order) {
     let orderId = this.getOrderNumber();
+    let today = new Date(); // trying to figure out how to send it to kitchen
+    let timeStamp = today.toLocaleTimeString();
+    console.log(timeStamp);
     this.orders[orderId] = order;
     this.orders[orderId].orderId = orderId;
     this.orders[orderId].status = "not-started";
     this.orders[orderId].eatHere = order.eatHere;
+    this.orders[orderId].time = timeStamp;
 
-
- /* getNow: function () { //this function gets the time for when the order is made,
-    const today = new Date(); // trying to figure out how to send it to kitchen
-    const timeStamp = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    console.log(timeStamp);
-    this.$store.commit('setTime', timeStamp);
-  }*/
-    /**var transactions = this.data[transactionsDataName],
-     //find out the currently highest transaction id
-     transId =  transactions[transactions.length - 1].transaction_id,
-     i = order.order.ingredients,
-     k;
-     for (k = 0; k < i.length; k += 1) {
-    transId += 1;
-    transactions.push({transaction_id: transId,
-      ingredient_id: i[k].ingredient_id,
-      change: - 1});
-  } **/
     return orderId;
 };
 
