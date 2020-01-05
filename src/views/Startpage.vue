@@ -1,8 +1,10 @@
 <template>
     <div id="startPage">
         <div class="startPageWrapper">
-            <button class="languageButton" v-on:click="switchLang()">
-                {{uiLabels.language }}
+            <button class="routerButton" v-on:click="switchLang()">
+                <img id="langPic" v-if="flag_sw" src=https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width="20px">
+                <img id="langPic" v-if="flag_en" src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" width="20px">{{uiLabels.language}}
+
             </button>
             <div class="welcomeText">{{uiLabels.welcomeShort}}</div>
             <div class="welcomeSection">
@@ -153,21 +155,12 @@
         padding: 0.5rem;
     }
 
-    .languageButton {
-        text-decoration: none;
-        text-transform: uppercase;
-        color: black;
-        font-size: 1rem;
-        font-weight: bold;
-        border-radius: 3rem;
-        border: 0.2em var(--border-color) solid;
-        background-color: var(--primary-light-color);
-        padding: 0.5rem 1rem;
-    }
+    .routerButton{
+        position: absolute;
+        right: 50px;
+        top: 50px;
+        background: transparent;
+        border-color: transparent;
 
-    .routerButton {
-        text-decoration: none;
-        text-transform: uppercase;
-        color: var(--border-color);
     }
 </style>
