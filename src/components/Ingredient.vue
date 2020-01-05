@@ -12,21 +12,13 @@
             <div class="buttonItem">
                 <div class="buttonWrapper">
                     <div class="buttonBox">
-                        <!--<div v-if="this.$parent.currentCategory === 4">
-                            <div class = "chosenBread">
-                                <button class = "breadButton" id="breadInc" v-on:click="incrementCounter($event)"></button>
-                            </div>
-                        </div>
-                        <div v-else>-->
-                        <button class="plusButton" id="inc" v-show="showPlusOrNot()"
-                                v-on:click="incrementCounter($event)">
-                            + <!-- only one bread can be selected -->
+                        <button class="plusButton" id="inc" v-show="showPlusOrNot()"  v-on:click="incrementCounter($event)">
+                            +
                         </button>
                         {{ itemCount }}
                         <button class="minusButton" id="dec" v-if="itemCount > 0" v-on:click="decrementCounter($event)">
                             -
                         </button>
-                        <!--</div>-->
                     </div>
                     <div class="allergicBox">
                         <div class="lactose" v-if="!item.milk_free">L</div>
@@ -56,9 +48,6 @@
         },
         data: function () {
             return {
-                patties: 0, //Ta bort eller allt här henry?
-                burgerAndBread: false,
-                chosen: false
             };
         },
 
@@ -78,11 +67,6 @@
                 if (ev.target.id === "inc") {
                     this.$emit('increment');
                 }
-                if (ev.target.id === "breadInc") {   //Henry används denna ens
-                    this.$emit('increment');
-                    this.chosen = true;
-
-                }
                 // See if order already is on the chosen ingredients list
                 // If so, increase currentOrderCounter. If not, create currentOrderCounter
                 if (this.item.currentOrderCounter >= 1) {
@@ -98,9 +82,6 @@
                 if (ev.target.id === "dec") {
                     this.$emit('decrease');
                 }
-                if (this.item.category === 4) { //if selected bread is unselected, the plus button reappears
-                    this.$parent.breadChosen = false;
-                }
             },
             // Function to check and show the number of ingredient already chosen
             checkCounter: function () {
@@ -112,7 +93,7 @@
                     for (let i = 0; i < this.$parent.chosenIngredients.length; i++) {
                         if (this.$parent.chosenIngredients[i].ingredient_id === this.item.ingredient_id) {
                             // Set counter to the amount that is already chosen
-                            this.counter = this.$parent.chosenIngredients[i].currentOrderCounter;
+                            this.counter = this.$parent.chosenIngredients[i].currentOrderCounter; // Vad gör denna
                         }
                     }
                 }
@@ -131,13 +112,6 @@
         align-content: stretch;
         width: 100%;
         height: 100%;
-    }
-
-    .chosenBread {
-        background-color: whitesmoke;
-        border: #347cff solid 3px;
-        height: auto;
-        width: auto;
     }
 
     .allergicBox {
@@ -181,7 +155,9 @@
     }
 
     /*BUTTONS*/
-
+    button:hover{
+        cursor: pointer;
+    }
     .buttonItem {
         flex-basis: 100%;
         padding: 0.5rem;
@@ -227,14 +203,5 @@
         background-color: rgba(255, 223, 26, 0.36);
         color: black;
         font-size: 1.7em;
-    }
-
-    .breadButton {
-        opacity: 50%;
-        width: 100px;
-        height: 100px;
-        position: relative;
-        top: 0px;
-        right: 0px;
     }
 </style>

@@ -28,9 +28,8 @@
     export default {
         name: 'StartingPage',
         components: {},
-        mixins: [sharedVueStuff], // include stuff that is used in both
-                                  // the ordering system and the kitchen
-        data: function () { //Not that data is a function!
+        mixins: [sharedVueStuff],
+        data: function () {
             return {}
         },
         computed: {
@@ -49,7 +48,6 @@
             },
             whereToEatFuncAway: function () {
                 this.$store.commit('setEatHere', false);
-
             }
         }
     }
@@ -120,11 +118,13 @@
     }
 
     /*BUTTONS*/
+    button:hover{
+        cursor: pointer;
+    }
 
     .whereToEat button:hover {
         background-color: var(--primary-dark-color);
         color: var(--secondary-text-color);
-        cursor: pointer;
     }
 
     .eatHereButton {
