@@ -81,13 +81,23 @@
                         </button>
                     </div>
                     <div class="orderSummaryContainer">
-                        <div>
-                            <button class="eatButton" v-on:click="changeEatHere()" v-if="this.eatHere">
+                        <div class="eatWhereContainer">
+                            <div class="eatWhereTextLeft">
                                 {{uiLabels.eatHere}}
-                            </button>
-                            <button class="eatButton" v-on:click="changeEatHere()" v-if="!this.eatHere">
+                            </div>
+                            <toggle-button @change="changeEatHere()"
+                                           class="eatWhereToggleButton"
+                                           :value="!this.eatHere"
+                                           :sync="true"
+                                           :css-colors="true"
+                                           :color="{checked: 'chocolate', unchecked: 'saddlebrown'}"
+                                           :switch-color="{checked: 'black', unchecked: 'black'}"
+                                           :width="52"
+                                           :height="26"
+                                           :font-size="12"/>
+                            <div class="eatWhereTextRight">
                                 {{uiLabels.eatAway}}
-                            </button>
+                            </div>
                         </div>
                         <div>
                             <b>{{uiLabels.yourOrder}}:</b>
@@ -161,6 +171,7 @@
     import OrderItem from '@/components/OrderItem.vue'
     import sharedVueStuff from '@/mixins/sharedVueStuff.js'
     import UtilityFunctions from '@/mixins/UtilityFunctions.js'
+    import {ToggleButton} from 'vue-js-toggle-button'
 
 
     export default {
@@ -168,6 +179,7 @@
         components: {
             Ingredient,
             OrderItem,
+            'ToggleButton': ToggleButton,
         },
         mixins: [sharedVueStuff, UtilityFunctions], // Include stuff that is used in both the ordering system and the kitchen
         data: function () {
@@ -644,15 +656,35 @@
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
 
-    .eatButton {
-        border: 3px var(--border-color) solid;
-        background-color: var(--secondary-color);
-        border-radius: 0.75rem;
-        text-transform: uppercase;
-        text-align: center;
-        font-style: oblique;
+    .eatWhereContainer {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .eatWhereTextLeft {
         font-weight: bold;
-        padding: 0.25rem 0.5rem;
+        text-transform: uppercase;
+        text-align: right;
+        font-size: 0.7rem;
+        width: 4.5rem;
+        flex-grow: 1;
+        margin: 0.25rem;
+    }
+    .eatWhereTextRight {
+        font-weight: bold;
+        text-transform: uppercase;
+        text-align: left;
+        font-size: 0.7rem;
+        width: 4.5rem;
+        flex-grow: 1;
+        margin: 0.25rem;
+    }
+    .eatWhereToggleButton {
+        border: 3px var(--border-color) solid;
+        border-radius: 1rem;
+        background-color: chocolate;
+        flex-grow: 1;
     }
 
     .orderSummaryContainer {
