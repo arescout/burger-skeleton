@@ -345,7 +345,7 @@
                     let newCat = cat + 2;
                     this.setCategory(newCat);
                 } else if (cat === 6) {
-                    let newCat = 3;
+                    let newCat = 7;
                     this.setCategory(newCat);
                 }
             },
@@ -408,6 +408,9 @@
 
     html {
         scroll-behavior: smooth;
+    }
+    button {
+        outline: none;
     }
 
     #ordering {
@@ -501,7 +504,7 @@
         text-align: center;
         text-transform: uppercase;
         font-weight: bold;
-        flex: 0 1 calc(16.66667%);
+        flex: 0 1 calc(16.66666666667%);
         flex-grow: 1;
         order: 1;
         padding: 1rem 0.6rem 1rem 0.6rem;
@@ -696,6 +699,7 @@
     }
 
     .readyBurger {
+        text-align: center;
         border: 3px var(--border-color) solid;
         border-radius: 0.5rem;
         padding: 0.2rem;
