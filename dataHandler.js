@@ -33,6 +33,7 @@ Data.prototype.getIngredients = function () {
         return obj;
     });
 };
+
 /* Function to load initial data from CSV files into the object */
 Data.prototype.initializeTable = function (table) {
     csv({checkType: true})
@@ -42,13 +43,14 @@ Data.prototype.initializeTable = function (table) {
             this.data[table] = jsonObj;
         });
 };
+
 Data.prototype.initializeData = function () {
     console.log("Starting to build data tables");
     // Load initial ingredients. If you want to add columns, do it in the CSV file.
     this.initializeTable(ingredientsDataName);
     // Load initial stock. Make alterations in the CSV file.
     this.initializeTable(transactionsDataName);
-}
+};
 /*
   Adds an order to to the queue and makes an withdrawal from the
   stock. If you have time, you should think a bit about whether
@@ -58,15 +60,13 @@ Data.prototype.initializeData = function () {
 Data.prototype.getOrderNumber = function () {
     this.currentOrderNumber += 1;
     return this.currentOrderNumber;
-}
-Data.prototype.getWhereToEat = function () {   //ta bort?
-    return this.eatHere;
-}
+};
+
 Data.prototype.addOrder = function (order) {
     let orderId = this.getOrderNumber();
     let today = new Date(); // trying to figure out how to send it to kitchen
     let timeStamp = today.toLocaleTimeString();
-    console.log(timeStamp);
+
     this.orders[orderId] = order;
     this.orders[orderId].orderId = orderId;
     this.orders[orderId].status = "not-started";
@@ -83,14 +83,11 @@ Data.prototype.changeStockWithOrder = function (order, canceled) {
     if (canceled) {
         canceledFactor = -1;
     }
-    for (let burger in order.burgers) {
-        for (let ingr in order.burgers[burger]) {
-            if (ingr !== 'price') {
-                let thisIngredient = order.burgers[burger][ingr];
-                this.changeStock({ingredient: thisIngredient.ing}, (-thisIngredient.count * canceledFactor));
-            }
-        }
-    }
+    order.burgers.forEach(function (obj) {
+        obj.forEach(function (thisIngredient) {
+            this.changeStock({ingredient: thisIngredient.ing}, (-thisIngredient.count * canceledFactor));
+        }.bind(this));
+    }.bind(this));
 };
 
 Data.prototype.changeStock = function (item, saldo) {

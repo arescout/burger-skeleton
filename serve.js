@@ -60,12 +60,8 @@ io.on('connection', function (socket) {
     socket.on('switchLang', function (lang) {
         socket.emit('switchLang', data.getUILabels(lang));
     });
-    // when order is marked as done, send updated queue to all connected clients
-    socket.on('orderDone', function (orderId) {
-        data.markOrderDone(orderId);
-        io.emit('currentQueue', {orders: data.getAllOrders()});
-    });
-    // When order is canceled in kitchen, add the item to stock again
+
+    // When order is canceled in kitchen, add the ingredients to stock again
     socket.on('cancelOrder', function (item, orderid) {
         data.changeStockWithOrder(item, true);
         data.markOrderCanceled(orderid);
@@ -73,6 +69,12 @@ io.on('connection', function (socket) {
             orders: data.getAllOrders(),
             ingredients: data.getIngredients(),
         });
+    });
+
+    // when order is marked as done, send updated queue to all connected clients
+    socket.on('orderDone', function (orderId) {
+        data.markOrderDone(orderId);
+        io.emit('currentQueue', {orders: data.getAllOrders()});
     });
 
     socket.on('clearOrder', function (item) {
@@ -94,16 +96,18 @@ io.on('connection', function (socket) {
         data.changeStock(item, saldo);
         io.emit('currentQueue', {ingredients: data.getIngredients()});
     });
+
+    socket.on('addIngredient', function (ingredient, initSaldo) {
+        data.newIngredient(ingredient, initSaldo);
+        io.emit('currentQueue', {ingredients: data.getIngredients()});
+    });
+
     socket.on('fetchData', function () {
         socket.emit('initialize', {
             orders: data.getAllOrders(),
             uiLabels: data.getUILabels(),
             ingredients: data.getIngredients()
         })
-    });
-    socket.on('addIngredient', function (ingredient, initSaldo) {
-        data.newIngredient(ingredient, initSaldo);
-        io.emit('currentQueue', {ingredients: data.getIngredients()});
     });
 });
 
