@@ -95,7 +95,8 @@
                         <div>
                             <div class="readyBurger" v-for="(burger, key) in checkoutOrder.burgers" :key="key">
                                 <button v-on:click="hideBurger(key)">^</button>
-                                <b>{{uiLabels.burgNr}} {{key + 1}}</b> <!-- Key + 1 so it doesn't say "burger 0" on customers page -->
+                                <b>{{uiLabels.burgNr}} {{key + 1}}</b>
+                                <!-- Key + 1 so it doesn't say "burger 0" on customers page -->
                                 <button class="deleteBurger" v-on:click="deleteBurger(checkoutOrder.burgers, key)">X
                                 </button>
                                 <span v-show="!hideBurg" v-for="(item, key2) in burger" :key="key2">
@@ -315,6 +316,7 @@
                 this.patties = 0;
                 this.sideChosen = false;
                 this.drinkChosen = false;
+                this.doublePatty = false;
                 this.category = 1;
             },
             nextTab: function (cat) {
@@ -396,9 +398,11 @@
     button {
         outline: none;
     }
-    button:hover{
+
+    button:hover {
         cursor: pointer;
     }
+
     #ordering {
         font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
         background-size: cover;
