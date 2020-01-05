@@ -1,18 +1,11 @@
 <template>
     <div id="checkout">
-        <button class="headerButton" v-on:click="exitClear">
-            <router-link to="/">{{uiLabels.startpage}}</router-link>
-        </button>
-        <button class="routerButton" v-on:click="switchLang()">
-            <img src=https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width=20px>{{uiLabels.language}}
-        </button>
-        <button class="eatButton" v-on:click="changeEatHere()" v-if="this.eatHere">
-            {{uiLabels.eatHere}}
-        </button>
-        <button class="eatButton" v-on:click="changeEatHere()" v-if="!this.eatHere">
-            {{uiLabels.eatAway}}
-        </button>
         <div class="itemsWrapper">
+            <div class="languageItem">
+                <button class="languageButton" v-on:click="switchLang()">
+                    {{uiLabels.language }}
+                </button>
+            </div>
             <div class="buttonItem">
                 <button class="backButton">
                     <router-link to="/ordering" class="routerButton">{{uiLabels.backToOrd}}</router-link>
@@ -63,7 +56,7 @@
 
         mixins: [sharedVueStuff],
 
-        data: function () { //Not that data is a function!
+        data: function () {
             return {
                 confirmedPayment: false,
                 orderNumber: "",
@@ -145,6 +138,8 @@
         left: 0;
     }
 
+    /*MAIN*/
+
     .itemsWrapper {
         display: flex;
         flex-direction: column;
@@ -155,8 +150,17 @@
     }
 
     .buttonItem {
-        flex-basis: 20%;
+        flex-basis: 10%;
         padding: 0.5rem;
+        order: 1;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-around;
+    }
+
+    .languageItem {
+        flex-basis: 10%;
+        /*padding: 0.5rem;*/
         order: 1;
         display: flex;
         align-items: flex-end;
@@ -172,42 +176,11 @@
         justify-content: space-around;
     }
 
-    .backButton {
-        background-color: rgba(255, 199, 74, 0.36);
-        border-radius: 10px;
-        border: solid black 3px;
-        font-size: 1rem;
-        text-transform: uppercase;
-        font-style: oblique;
-        font-weight: bold;
-    }
-
-    .paymentButton {
-        /*margin-top: 10em;*/
-        text-align: center;
-        border-radius: 10px;
-        background-color: #ffc74a;
-        border: solid black 3px;
-        text-transform: uppercase;
-        font-style: oblique;
-        font-weight: bold;
-        margin: 0.25rem;
-    }
-
     .checkOutTable {
         background-color: bisque;
         text-align: center;
         border: solid black 5px;
         width: 70%;
-
-        /*margin-left: 20em;*/
-        /*margin-right: 20em;*/
-        /*padding-bottom: 5em;*/
-    }
-
-    .routerButton {
-        text-decoration: none;
-        color: black;
     }
 
     .finalOrder {
@@ -218,23 +191,56 @@
         background-color: #efff9a;
         border: solid black 3px;
         width: 70%;
-        hight: 70%;
+        height: 70%;
         margin: auto;
-        /*margin-right: 5vw;
-        margin-left: 5vw;
-        padding: 5vw;
-        position: relative;*/
         text-align: center;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    /*BUTTONS*/
+
+    .languageButton {
+        text-decoration: none;
+        text-transform: uppercase;
+        color: black;
+        font-size: 1rem;
+        font-weight: bold;
+        border-radius: 3rem;
+        border: 0.2em var(--border-color) solid;
+        background-color: var(--primary-light-color);
+        padding: 0.5rem 1rem;
+    }
+
+    .paymentButton {
+        text-align: center;
+        border-radius: 10px;
+        background-color: #ffc74a;
+        border: solid black 3px;
+        text-transform: uppercase;
+        font-style: oblique;
+        font-weight: bold;
+        margin: 0.25rem;
+    }
+
+    .backButton {
+        background-color: rgba(255, 199, 74, 0.36);
+        border-radius: 10px;
+        border: solid black 3px;
+        font-size: 1rem;
+        text-transform: uppercase;
+        font-style: oblique;
+        font-weight: bold;
     }
 
     .paymentBox button {
         background-color: #ff0000;
         border-radius: 50%;
         border: solid black 2px;
-        /*position: absolute;*/
         float: right;
-        /*top: 0px;
-        right: 0px;*/
+    }
+
+    .routerButton {
+        text-decoration: none;
+        color: black;
     }
 </style>

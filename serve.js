@@ -19,7 +19,7 @@ const devMiddleware = require('webpack-dev-middleware'); // eslint-disable-line
 app.use(devMiddleware(compiler, {
     noInfo: false,
     publicPath: webpackConfig.output.publicPath,
-    headers: { "Access-Control-Allow-Origin": "*" },
+    headers: {"Access-Control-Allow-Origin": "*"},
     stats: {colors: true}
 }));
 
@@ -37,18 +37,21 @@ data.initializeData();
 
 io.on('connection', function (socket) {
     // Send list of orders and text labels when a client connects
-    socket.emit('initialize', { orders: data.getAllOrders(),
+    socket.emit('initialize', {
+        orders: data.getAllOrders(),
         uiLabels: data.getUILabels(),
-        ingredients: data.getIngredients() });
+        ingredients: data.getIngredients()
+    });
 
     // When someone orders something
     socket.on('order', function (order, eatHere) {
-        order.eatHere=eatHere;
+        order.eatHere = eatHere;
         var orderIdAndName = data.addOrder(order);
         data.changeStockWithOrder(order, false);
         // send updated info to all connected clients, note the use of io instead of socket
         socket.emit('orderNumber', orderIdAndName);
-        io.emit('currentQueue', { orders: data.getAllOrders(),
+        io.emit('currentQueue', {
+            orders: data.getAllOrders(),
             ingredients: data.getIngredients(),
         });
     });
@@ -60,13 +63,14 @@ io.on('connection', function (socket) {
     // when order is marked as done, send updated queue to all connected clients
     socket.on('orderDone', function (orderId) {
         data.markOrderDone(orderId);
-        io.emit('currentQueue', {orders: data.getAllOrders() });
+        io.emit('currentQueue', {orders: data.getAllOrders()});
     });
     // When order is canceled in kitchen, add the item to stock again
     socket.on('cancelOrder', function (item, orderid) {
         data.changeStockWithOrder(item, true);
         data.markOrderCanceled(orderid);
-        io.emit('currentQueue', {orders: data.getAllOrders(),
+        io.emit('currentQueue', {
+            orders: data.getAllOrders(),
             ingredients: data.getIngredients(),
         });
     });
@@ -78,22 +82,24 @@ io.on('connection', function (socket) {
 
     socket.on('orderStarted', function (orderId) {
         data.markOrderStarted(orderId);
-        io.emit('currentQueue', {orders: data.getAllOrders() });
+        io.emit('currentQueue', {orders: data.getAllOrders()});
     });
 
     socket.on('orderNotStarted', function (orderId) {
         data.markOrderNotStarted(orderId);
-        io.emit('currentQueue', {orders: data.getAllOrders() });
+        io.emit('currentQueue', {orders: data.getAllOrders()});
     });
 
     socket.on('updateStock', function (item, saldo) {
         data.changeStock(item, saldo);
-        io.emit('currentQueue', {ingredients: data.getIngredients() });
+        io.emit('currentQueue', {ingredients: data.getIngredients()});
     });
-    socket.on('fetchData', function() {
-        socket.emit('initialize', { orders: data.getAllOrders(),
+    socket.on('fetchData', function () {
+        socket.emit('initialize', {
+            orders: data.getAllOrders(),
             uiLabels: data.getUILabels(),
-            ingredients: data.getIngredients() })
+            ingredients: data.getIngredients()
+        })
     });
     socket.on('addIngredient', function (ingredient, initSaldo) {
         data.newIngredient(ingredient, initSaldo);
@@ -102,8 +108,7 @@ io.on('connection', function (socket) {
 });
 
 
-
 const port = 8080;
-http.listen(port, function() {
+http.listen(port, function () {
     console.log("Developer server running on http://localhost:" + port);
 });
