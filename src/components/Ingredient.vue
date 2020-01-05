@@ -181,7 +181,9 @@
     }
 
     /*BUTTONS*/
-
+    button:hover{
+        cursor: pointer;
+    }
     .buttonItem {
         flex-basis: 100%;
         padding: 0.5rem;
