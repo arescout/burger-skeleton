@@ -65,6 +65,5 @@
   "howToStepTwo" : "Lägg till burgare till beställningen.",
   "howToStepThree" : "Repetera steg 1-2 ELLER fortsätt till betalning.",
   "howToStepFour" : "Betala & hämta beställningen.",
-  "paymentAlert" : "Följ instruktionerna i kortterminalen",
   "description": "Vi tror på valmöjlighet, därför kan du här anpassa personliga burgare just för dig. Du väljer ingredienser med plus-knappen, och när du valt en burgare som du är nöjd med, tryck på \"lägg till i beställning\" knappen. Sedan kan du fortsätta med att välja fler burgare om du så önskar. Notera att en burgare måste innehålla ett bröd och maximalt två biffar."
 }

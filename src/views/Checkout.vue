@@ -1,18 +1,11 @@
 <template>
     <div id="checkout">
-        <button class="headerButton" v-on:click="exitClear">
-            <router-link to="/">{{uiLabels.startpage}}</router-link>
-        </button>
-        <button class="routerButton" v-on:click="switchLang()">
-            <img src=https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg width=20px>{{uiLabels.language}}
-        </button>
-        <button class="eatButton" v-on:click="changeEatHere()" v-if="this.eatHere">
-            {{uiLabels.eatHere}}
-        </button>
-        <button class="eatButton" v-on:click="changeEatHere()" v-if="!this.eatHere">
-            {{uiLabels.eatAway}}
-        </button>
         <div class="itemsWrapper">
+            <div class="languageItem">
+                <button class="languageButton" v-on:click="switchLang()">
+                    {{uiLabels.language }}
+                </button>
+            </div>
             <div class="buttonItem">
                 <button class="backButton">
                     <router-link to="/ordering" class="routerButton">{{uiLabels.backToOrd}}</router-link>
@@ -85,7 +78,7 @@
 
         methods: {
             alertFunction: function () {
-                alert("Follow the instructions in the card terminal") // FÅ IN {{uiLabels.paymentAlert}} HÄR
+                alert("Follow the instructions in the card terminal")
             },
 
             placeOrder: function () {
@@ -157,8 +150,17 @@
     }
 
     .buttonItem {
-        flex-basis: 20%;
+        flex-basis: 10%;
         padding: 0.5rem;
+        order: 1;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-around;
+    }
+
+    .languageItem {
+        flex-basis: 10%;
+        /*padding: 0.5rem;*/
         order: 1;
         display: flex;
         align-items: flex-end;
@@ -196,6 +198,18 @@
     }
 
     /*BUTTONS*/
+
+    .languageButton {
+        text-decoration: none;
+        text-transform: uppercase;
+        color: black;
+        font-size: 1rem;
+        font-weight: bold;
+        border-radius: 3rem;
+        border: 0.2em var(--border-color) solid;
+        background-color: var(--primary-light-color);
+        padding: 0.5rem 1rem;
+    }
 
     .paymentButton {
         text-align: center;
