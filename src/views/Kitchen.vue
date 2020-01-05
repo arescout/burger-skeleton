@@ -3,7 +3,7 @@
         <div class="menuTabs">
             <button class="buttonRight" v-on:click="setSection(1)">{{uiLabels.ordersInQueue}}</button>
             <button class="buttonRight" v-on:click="setSection(2)">{{uiLabels.ordersFinished}}</button>
-            <button class="buttonIngr" v-on:click="setSection(3)">{{uiLabels.ingredients    }}</button>
+            <button class="buttonIngr" v-on:click="setSection(3)">{{uiLabels.ingredients }}</button>
             <button class="buttonLeft" v-on:click="switchLang()">{{uiLabels.language}}</button>
             <button v-show="currentSection === 2" v-on:click="clearOrders">Clear</button>
         </div>
@@ -69,6 +69,8 @@
                 <option value="0">{{uiLabels.noVegan}}</option>
             </select>
             <input type="number" v-model.number="newIngredient.selling_price" placeholder="Selling price">
+            <option value="0">{{uiLabels.noVegan}}</option>
+            <input type="number" v-model.number="newIngredient.selling_price" :placeholder="uiLabels.sellingPrice">
             <input type="number" v-model.number="initSaldo" :placeholder="uiLabels.initSaldo">
             <button v-on:click="addNewIngredient">{{uiLabels.addIngr}}</button>
         </div>
@@ -104,13 +106,13 @@
                     vegan: 0,
                     selling_price: 0,
                     stock: 0,
-                    },
+                },
                 initSaldo: 0
             }
         },
 
         computed: {
-            // Function for recieving order from checkout and adding to placedOrder via server
+            // Function for receiving order from checkout and adding to placedOrder via server
             placedOrders: function () {
                 let po = {};
                 for (let item in this.orders) {
@@ -145,13 +147,23 @@
                 this.change = 0;
             },
             addNewIngredient: function () {
+                this.newIngredient.ingredient_id = this.ingredients.length + 1;
+                this.$store.state.socket.emit("addIngredient", this.newIngredient);
+                this.newIngredient.ingredient_id = this.ingredients.length + 1;
                 this.newIngredient.ingredient_id= this.ingredients.length +1;
                 this.$store.state.socket.emit("addIngredient", this.newIngredient, this.initSaldo); // Add ingredient to stock
+                let ingrId = this.newIngredient.ingredient_id - 2;
             }
         }
     }
 </script>
 <style scoped>
+    /*GENERAL*/
+    #orders {
+        font-size: 24pt;
+        font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    }
+
     /*MAIN MENU*/
     .menuTabs {
         background: #2860c3;
@@ -186,6 +198,8 @@
         margin-left: auto;
     }
 
+    /*MOBILE VIEW*/
+
     @media only screen and (max-width: 768px) {
         .menuTabs {
             background: #2860c3;
@@ -193,6 +207,7 @@
             flex-flow: column wrap;
             width: 100%;
         }
+
         .buttonLeft {
             justify-content: flex-start;
             margin-left: 0;
@@ -225,11 +240,5 @@
         width: 10em;
         height: 100%;
         box-shadow: 0 0.25rem 0.5rem 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    }
-
-    /*GENERAL*/
-    #orders {
-        font-size: 24pt;
-        font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
     }
 </style>
