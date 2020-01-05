@@ -118,11 +118,13 @@
     }
 
     /*BUTTONS*/
+    button:hover{
+        cursor: pointer;
+    }
 
     .whereToEat button:hover {
         background-color: var(--primary-dark-color);
         color: var(--secondary-text-color);
-        cursor: pointer;
     }
 
     .eatHereButton {

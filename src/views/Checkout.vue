@@ -148,7 +148,9 @@
         width: 100%;
         height: 100%;
     }
-
+    button:hover{
+        cursor: pointer;
+    }
     .buttonItem {
         flex-basis: 10%;
         padding: 0.5rem;

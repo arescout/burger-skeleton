@@ -73,7 +73,6 @@
                                         v-on:click="addToBurger(item.ing)">+
                                 </button>
                                 <button class="minusButton" v-on:click="removeFromBurger(item.ing)">-</button>
-                                <!--tried to make a functional decrease button in the ordering tab-->
                             </div>
                             <b>{{uiLabels.currentPriceLabel}}: {{this.currentPrice}}:-</b>
                         </div>
@@ -96,17 +95,13 @@
                         <div>
                             <div class="readyBurger" v-for="(burger, key) in checkoutOrder.burgers" :key="key">
                                 <button v-on:click="hideBurger(key)">^</button>
-                                <b>{{uiLabels.burgNr}} {{key + 1}}</b>
+                                <b>{{uiLabels.burgNr}} {{key + 1}}</b> <!-- Key + 1 so it doesn't say "burger 0" on customers page -->
                                 <button class="deleteBurger" v-on:click="deleteBurger(checkoutOrder.burgers, key)">X
                                 </button>
-                                <!--Above to the left is an attempt to hide the content of each burger, but I don't know how to
-                                separate the burgers from each other-->
-                                <!-- Key + 1 so it doesn't say "burger 0" on customers page -->
                                 <span v-show="!hideBurg" v-for="(item, key2) in burger" :key="key2">
                                 <br/>{{ item.ing["ingredient_" + lang]}}: {{ item.count }} {{uiLabels.unit}}
                             </span>
                             </div>
-                            <!--<br><button class = "placeOrderButton" v-if = "chosenIngredients.length > 0" v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>-->
                             <div class="orderSummaryPrice">
                                 {{uiLabels.tally}}: {{totalPrice}}:-
                             </div>
@@ -173,15 +168,14 @@
             Ingredient,
             OrderItem,
         },
-        mixins: [sharedVueStuff, UtilityFunctions], // include stuff that is used in both
-        // the ordering system and the kitchen
-        data: function () { //Not that data is a function!
+        mixins: [sharedVueStuff, UtilityFunctions], // Include stuff that is used in both the ordering system and the kitchen
+        data: function () {
             return {
                 chosenIngredients: [],
                 currentPrice: 0,
                 orderNumber: "",
                 count: 0,
-                breadChosen: false,
+                breadChosen: false,     //These are restrictions of what you can order
                 pattyChosen: false,
                 doublePatty: false,
                 sideChosen: false,
@@ -231,25 +225,24 @@
                     }
                 }
                 if (this.pattyChosen == this.breadChosen && this.sideChosen) {  //order can only be made if burger and bread or drink or side is chosen
-                    return true;// kanske göra en elsif så man inte kan beställa bröd och dricka.
-                }
-                if (this.pattyChosen == this.breadChosen && this.drinkChosen) {  //order can only be made if burger and bread or drink or side is chosen
                     return true;
                 }
-                if (this.pattyChosen && this.breadChosen) {  //order can only be made if burger and bread or drink or side is chosen
+                if (this.pattyChosen == this.breadChosen && this.drinkChosen) {
+                    return true;
+                }
+                if (this.pattyChosen && this.breadChosen) {
                     return true;
                 }
 
             },
             noOrder: function () {
-                let noOrder;
                 if (this.totalPrice === 0) {
-                    return noOrder = true;
+                    return true;
                 }
             },
         },
-        methods: {
 
+        methods: {
             ingredientCount: function (item) {
                 let counter = 0;
                 for (let i = 0; i < this.chosenIngredients.length; i += 1) {
@@ -259,13 +252,11 @@
                 return counter;
             },
             changeEatHere: function () {
-
                 if (this.eatHere) {
                     this.$store.commit('setEatHere', false);
                 } else {
                     this.$store.commit('setEatHere', true);
                 }
-
             },
             addToBurger: function (item) {
                 this.chosenIngredients.push(item);
@@ -276,8 +267,6 @@
                 if (this.patties == 2) {
                     this.doublePatty = true;
                 }
-
-                //console.log(this.chosenIngredients);
             },
             removeFromBurger: function (item) {
                 let removeIndex = 0;
@@ -316,7 +305,6 @@
                 thisBurger.eatHereBurg = this.eatHere;
                 this.$store.commit('addToCheckoutOrder', thisBurger);
                 this.$store.commit('addToTotal', this.currentPrice);
-
                 // Reset all relevant data
                 this.chosenIngredients = [];
                 this.currentPrice = 0;
@@ -327,7 +315,6 @@
                 this.patties = 0;
                 this.sideChosen = false;
                 this.drinkChosen = false;
-                this.currentOrder = [];
                 this.category = 1;
             },
             nextTab: function (cat) {
@@ -357,7 +344,7 @@
                     this.setCategory(newCat);
                 }
             },
-            // Function for changing category. Called on at buttons in <Ingredient
+            // Function for changing category. Called on at buttons in Ingredient
             setCategory: function (newCat) {
                 this.currentCategory = newCat;
             },
@@ -366,9 +353,6 @@
             },
 
             deleteBurger: function (burgers, key) { //this function deletes the burger from the order container
-                //console.log(burgers);
-                //console.log(key);
-                // No need for the for-loop, burgers[key] will find the right object
                 for (let i = 0; i < burgers.length; i++) {
                     if (i === key) {
                         let thisPrice = burgers[i].price;
@@ -408,10 +392,13 @@
     html {
         scroll-behavior: smooth;
     }
+
     button {
         outline: none;
     }
-
+    button:hover{
+        cursor: pointer;
+    }
     #ordering {
         font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
         background-size: cover;
@@ -498,7 +485,6 @@
     }
 
     .categoryTabs button {
-        /*background-color: var(--secondary-color);*/
         border: 2px var(--border-color) solid;
         text-align: center;
         text-transform: uppercase;
@@ -517,11 +503,6 @@
     .catAct  {
         background-color: var(--secondary-dark-color);
     }
-
-    /*.categoryTabs button:focus {
-        background-color: var(--secondary-dark-color);
-        color: var(--secondary-text-color);
-    }*/
 
     .categoryTabs button:hover {
         background-color: var(--secondary-dark-color);
