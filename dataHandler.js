@@ -59,7 +59,7 @@ Data.prototype.getOrderNumber = function () {
     this.currentOrderNumber += 1;
     return this.currentOrderNumber;
 }
-Data.prototype.getWhereToEat = function () {
+Data.prototype.getWhereToEat = function () {   //ta bort?
     return this.eatHere;
 }
 Data.prototype.addOrder = function (order) {
