@@ -81,13 +81,31 @@
                         </button>
                     </div>
                     <div class="orderSummaryContainer">
-                        <div>
-                            <button class="eatButton" v-on:click="changeEatHere()" v-if="this.eatHere">
+<!--                        <div>-->
+<!--                            <button class="eatButton" v-on:click="changeEatHere()" v-if="this.eatHere">-->
+<!--                                {{uiLabels.eatHere}}-->
+<!--                            </button>-->
+<!--                            <button class="eatButton" v-on:click="changeEatHere()" v-if="!this.eatHere">-->
+<!--                                {{uiLabels.eatAway}}-->
+<!--                            </button>-->
+<!--                        </div>-->
+                        <div class="eatWhereContainer">
+                            <div class="eatWhereTextLeft">
                                 {{uiLabels.eatHere}}
-                            </button>
-                            <button class="eatButton" v-on:click="changeEatHere()" v-if="!this.eatHere">
+                            </div>
+                            <toggle-button @change="changeEatHere()"
+                                           class="eatWhereToggleButton"
+                                           :value="!this.eatHere"
+                                           :sync="true"
+                                           :css-colors="true"
+                                           :color="{checked: 'chocolate', unchecked: 'saddlebrown'}"
+                                           :switch-color="{checked: 'black', unchecked: 'black'}"
+                                           :width="52"
+                                           :height="26"
+                                           :font-size="12"/>
+                            <div class="eatWhereTextRight">
                                 {{uiLabels.eatAway}}
-                            </button>
+                            </div>
                         </div>
                         <div>
                             <b>{{uiLabels.yourOrder}}:</b>
@@ -161,6 +179,7 @@
     import OrderItem from '@/components/OrderItem.vue'
     import sharedVueStuff from '@/mixins/sharedVueStuff.js'
     import UtilityFunctions from '@/mixins/UtilityFunctions.js'
+    import {ToggleButton} from 'vue-js-toggle-button'
 
 
     export default {
@@ -168,6 +187,7 @@
         components: {
             Ingredient,
             OrderItem,
+            'ToggleButton': ToggleButton,
         },
         mixins: [sharedVueStuff, UtilityFunctions], // Include stuff that is used in both the ordering system and the kitchen
         data: function () {
@@ -414,6 +434,7 @@
         height: 100%;
         top: 0;
         left: 0;
+        color: black;
     }
 
     /*LANGUAGE AND BACK BUTTON*/
@@ -653,6 +674,40 @@
         font-style: oblique;
         font-weight: bold;
         padding: 0.25rem 0.5rem;
+    }
+
+    .eatWhereContainer {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .eatWhereTextLeft {
+        font-weight: bold;
+        text-transform: uppercase;
+        text-align: right;
+        font-size: 0.7rem;
+        width: 4.5rem;
+        flex-grow: 1;
+        margin: 0.25rem;
+    }
+
+    .eatWhereTextRight {
+        font-weight: bold;
+        text-transform: uppercase;
+        text-align: left;
+        font-size: 0.7rem;
+        width: 4.5rem;
+        flex-grow: 1;
+        margin: 0.25rem;
+    }
+
+    .eatWhereToggleButton {
+        border: 3px var(--border-color) solid;
+        border-radius: 1rem;
+        background-color: chocolate;
+        flex-grow: 1;
     }
 
     .orderSummaryContainer {
