@@ -122,6 +122,8 @@
 </script>
 <style scoped>
 
+    /*MAIN*/
+
     .itemsWrapper {
         display: flex;
         flex-direction: column;
@@ -131,67 +133,11 @@
         height: 100%;
     }
 
-    .buttonItem {
-        flex-basis: 100%;
-        padding: 0.5rem;
-        order: 1;
-    }
-
-    .buttonWrapper {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        height: 100%;
-    }
-
-    .buttonBox {
-        order: 1;
-    }
-
-    .plusButton, .minusButton :hover {
-        font-size: 180%;
-    }
-
-    .plusButton {
-        order: 1;
-        background-color: rgba(124, 255, 96, 0.36);
-        border-radius: 50%;
-        -webkit-transition-duration: 0.4s; /* transition to color */
-        transition-duration: 0.4s;
-        font-size: 1.5em;
-        outline: none;
-    }
-
-    .minusButton {
-        order: 1;
-        background-color: rgba(255, 28, 31, 0.36);
-        -webkit-transition-duration: 0.4s; /* transition to color */
-        transition-duration: 0.4s;
-        border-radius: 50%;
-        font-size: 1.5em;
-        outline: none;
-    }
-
     .chosenBread {
         background-color: whitesmoke;
         border: #347cff solid 3px;
         height: auto;
         width: auto;
-    }
-
-    .breadButton {
-        opacity: 50%;
-        width: 100px;
-        height: 100px;
-        position: relative;
-        top: 0px;
-        right: 0px;
-    }
-
-    .ingredient button:hover {
-        background-color: rgba(255, 223, 26, 0.36);
-        color: black;
-        font-size: 1.7em;
     }
 
     .allergicBox {
@@ -234,5 +180,61 @@
         border-radius: 50%;
     }
 
+    /*BUTTONS*/
 
+    .buttonItem {
+        flex-basis: 100%;
+        padding: 0.5rem;
+        order: 1;
+    }
+
+    .buttonWrapper {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+    }
+
+    .buttonBox {
+        order: 1;
+    }
+
+    .plusButton, .minusButton :hover {
+        font-size: 180%;
+    }
+
+    .plusButton {
+        order: 1;
+        background-color: rgba(124, 255, 96, 0.36);
+        border-radius: 50%;
+        -webkit-transition-duration: 0.4s; /* transition to color */
+        transition-duration: 0.4s;
+        font-size: 1.5em;
+        outline: none;
+    }
+
+    .minusButton {
+        order: 1;
+        background-color: rgba(255, 28, 31, 0.36);
+        -webkit-transition-duration: 0.4s; /* transition to color */
+        transition-duration: 0.4s;
+        border-radius: 50%;
+        font-size: 1.5em;
+        outline: none;
+    }
+
+    .ingredient button:hover {
+        background-color: rgba(255, 223, 26, 0.36);
+        color: black;
+        font-size: 1.7em;
+    }
+
+    .breadButton {
+        opacity: 50%;
+        width: 100px;
+        height: 100px;
+        position: relative;
+        top: 0px;
+        right: 0px;
+    }
 </style>

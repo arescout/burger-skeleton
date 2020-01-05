@@ -63,7 +63,7 @@
 
         mixins: [sharedVueStuff],
 
-        data: function () { //Not that data is a function!
+        data: function () {
             return {
                 confirmedPayment: false,
                 orderNumber: "",
@@ -85,7 +85,7 @@
 
         methods: {
             alertFunction: function () {
-                alert("Follow the instructions in the card terminal")
+                alert("Follow the instructions in the card terminal") // FÅ IN {{uiLabels.paymentAlert}} HÄR
             },
 
             placeOrder: function () {
@@ -145,6 +145,8 @@
         left: 0;
     }
 
+    /*MAIN*/
+
     .itemsWrapper {
         display: flex;
         flex-direction: column;
@@ -172,42 +174,11 @@
         justify-content: space-around;
     }
 
-    .backButton {
-        background-color: rgba(255, 199, 74, 0.36);
-        border-radius: 10px;
-        border: solid black 3px;
-        font-size: 1rem;
-        text-transform: uppercase;
-        font-style: oblique;
-        font-weight: bold;
-    }
-
-    .paymentButton {
-        /*margin-top: 10em;*/
-        text-align: center;
-        border-radius: 10px;
-        background-color: #ffc74a;
-        border: solid black 3px;
-        text-transform: uppercase;
-        font-style: oblique;
-        font-weight: bold;
-        margin: 0.25rem;
-    }
-
     .checkOutTable {
         background-color: bisque;
         text-align: center;
         border: solid black 5px;
         width: 70%;
-
-        /*margin-left: 20em;*/
-        /*margin-right: 20em;*/
-        /*padding-bottom: 5em;*/
-    }
-
-    .routerButton {
-        text-decoration: none;
-        color: black;
     }
 
     .finalOrder {
@@ -218,23 +189,44 @@
         background-color: #efff9a;
         border: solid black 3px;
         width: 70%;
-        hight: 70%;
+        height: 70%;
         margin: auto;
-        /*margin-right: 5vw;
-        margin-left: 5vw;
-        padding: 5vw;
-        position: relative;*/
         text-align: center;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    /*BUTTONS*/
+
+    .paymentButton {
+        text-align: center;
+        border-radius: 10px;
+        background-color: #ffc74a;
+        border: solid black 3px;
+        text-transform: uppercase;
+        font-style: oblique;
+        font-weight: bold;
+        margin: 0.25rem;
+    }
+
+    .backButton {
+        background-color: rgba(255, 199, 74, 0.36);
+        border-radius: 10px;
+        border: solid black 3px;
+        font-size: 1rem;
+        text-transform: uppercase;
+        font-style: oblique;
+        font-weight: bold;
     }
 
     .paymentBox button {
         background-color: #ff0000;
         border-radius: 50%;
         border: solid black 2px;
-        /*position: absolute;*/
         float: right;
-        /*top: 0px;
-        right: 0px;*/
+    }
+
+    .routerButton {
+        text-decoration: none;
+        color: black;
     }
 </style>

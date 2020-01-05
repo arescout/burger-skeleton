@@ -57,18 +57,6 @@
 <style scoped>
     /*GENERAL*/
 
-    /*:root {*/
-    /*    --primary-color: #FFE4C4;*/
-    /*    --primary-light-color: #FAEBD7;*/
-    /*    --primary-dark-color: #ffc74a;*/
-    /*    --primary-text-color: black;*/
-    /*    --secondary-color: chocolate;*/
-    /*    --secondary-light-color: #FFFF00;*/
-    /*    --secondary-dark-color: saddlebrown;*/
-    /*    --secondary-text-color: black;*/
-    /*    --border-color: black;*/
-    /*}*/
-
     #startPage {
         top: 0;
         left: 0;

@@ -10,6 +10,7 @@ function Data() {
     this.orders = {};
     this.currentOrderNumber = 0;
 }
+
 Data.prototype.getUILabels = function (lang) {
     var ui = require("./data/ui_" + (lang || defaultLanguage) + ".json");
     return ui;
@@ -63,7 +64,7 @@ Data.prototype.getWhereToEat = function () {
 }
 Data.prototype.addOrder = function (order) {
     let orderId = this.getOrderNumber();
-    let  today = new Date(); // trying to figure out how to send it to kitchen
+    let today = new Date(); // trying to figure out how to send it to kitchen
     let timeStamp = today.toLocaleTimeString();
     console.log(timeStamp);
     this.orders[orderId] = order;
