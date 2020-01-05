@@ -150,6 +150,7 @@
                 this.newIngredient.ingredient_id = this.ingredients.length + 1;
                 this.$store.state.socket.emit("addIngredient", this.newIngredient);
                 this.newIngredient.ingredient_id = this.ingredients.length + 1;
+                this.newIngredient.ingredient_id= this.ingredients.length +1;
                 this.$store.state.socket.emit("addIngredient", this.newIngredient, this.initSaldo); // Add ingredient to stock
                 let ingrId = this.newIngredient.ingredient_id - 2;
             }
