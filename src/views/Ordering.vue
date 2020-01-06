@@ -81,14 +81,6 @@
                         </button>
                     </div>
                     <div class="orderSummaryContainer">
-<!--                        <div>-->
-<!--                            <button class="eatButton" v-on:click="changeEatHere()" v-if="this.eatHere">-->
-<!--                                {{uiLabels.eatHere}}-->
-<!--                            </button>-->
-<!--                            <button class="eatButton" v-on:click="changeEatHere()" v-if="!this.eatHere">-->
-<!--                                {{uiLabels.eatAway}}-->
-<!--                            </button>-->
-<!--                        </div>-->
                         <div class="eatWhereContainer">
                             <div class="eatWhereTextLeft">
                                 {{uiLabels.eatHere}}

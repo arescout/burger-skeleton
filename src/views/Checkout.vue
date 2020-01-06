@@ -10,6 +10,9 @@
                 <button class="backButton">
                     <router-link to="/ordering" class="routerButton">{{uiLabels.backToOrd}}</router-link>
                 </button>
+                <button class="backButton" v-on:click="exitClear">
+                    <router-link to="/">{{uiLabels.startpage}}</router-link>
+                </button>
             </div>
             <div class="orderItem">
                 <div class="checkOutTable">
@@ -231,6 +234,7 @@
         text-transform: uppercase;
         font-style: oblique;
         font-weight: bold;
+        text-align: center;
     }
 
     .paymentBox button {
