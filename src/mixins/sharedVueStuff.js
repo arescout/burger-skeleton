@@ -8,11 +8,7 @@ var sharedVueStuff = {
             orders: {},
             uiLabels: {},
             ingredients: {},
-            lang: "en",
-            flag_sv: true,
-            flag_en: false,
-            lang_en: true,
-            lang_sv: false
+            lang: "en"
         }
     },
     created: function () {
@@ -37,23 +33,16 @@ var sharedVueStuff = {
 
     },
     methods: {
-    switchLang: function () {
-        if (this.lang === "en" && this.flag_en===false) {
-            this.lang = "sv";
-            this.flag_en = true;
-            this.flag_sv = false;
-            this.lang_sv = true;
-            this.lang_en = false;
-        } else {
-            this.lang = "en";
-            this.flag_sv = true;
-            this.flag_en = false;
-            this.lang_en = true;
-            this.lang_sv = false;
-        }
-        this.$store.state.socket.emit('switchLang', this.lang);
+        switchLang: function () {
+            if (this.lang === "en") {
+                this.lang = "sv";
+            } else {
+                this.lang = "en";
+            }
+            this.$store.state.socket.emit('switchLang', this.lang);
+        },
+
     }
-}
 };
 
 export default sharedVueStuff;

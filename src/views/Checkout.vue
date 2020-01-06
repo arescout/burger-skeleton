@@ -3,7 +3,6 @@
         <div class="itemsWrapper">
             <div class="languageItem">
                 <button class="languageButton" v-on:click="switchLang()">
-                    <img src=""
                     {{uiLabels.language }}
                 </button>
             </div>

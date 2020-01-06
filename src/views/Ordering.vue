@@ -9,9 +9,7 @@
                     {{uiLabels.companyName}}
                 </div>
                 <button class="headerButton" v-on:click="switchLang()">
-                    <img src v-if='flag_en' src="https://cdn.countryflags.com/thumbs/united-kingdom/flag-round-250.png" width="30px" height="20px">
-                    <img src v-if='flag_sv' src="https://cdn.countryflags.com/thumbs/sweden/flag-button-round-250.png" width="30px" height="20px">{{uiLabels.language}}
-
+                    {{uiLabels.language}}
                 </button>
             </div>
             <div class="categoryTabs">
